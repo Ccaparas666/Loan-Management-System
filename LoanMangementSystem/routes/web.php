@@ -24,6 +24,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
 Route::get('/borrower', [borrowerInfoController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('borrower');
@@ -40,13 +42,17 @@ Route::delete('/borrower/delete/{brno}', [borrowerInfoController::class, 'destro
    ->middleware(['auth', 'verified'])
    ->name('borrower-delete');
 
-Route::get('/students/edit/{brno}', [borrowerInfoController::class, 'edit'])
+Route::get('/borrower/edit/{brno}', [borrowerInfoController::class, 'edit'])
 ->middleware(['auth', 'verified'])
 ->name('borrower-edit');
 
-Route::patch('/students/update/{brno}', [borrowerInfoController::class, 'update'])
+Route::patch('/borrower/update/{brno}', [borrowerInfoController::class, 'update'])
    ->middleware(['auth', 'verified'])
    ->name('borrower-update');
+
+
+// search
+Route::get("search",[PostController::class,'search']);
 
 
 

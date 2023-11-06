@@ -1,8 +1,12 @@
 <x-app-layout>
-    
-<div class="p-4 sm:ml-64 mx-auto bg-slate-100 dark:bg-slate-900">
-   <div class="p-4 rounded-lg dark:border-gray-700 mt-14">   
-   <div class="max-w-auto mx-auto sm:px-6 lg:px-8">
+<div class="p-4 sm:ml-64">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Borrower Information') }}
+        </h2>
+    </x-slot>
+    <div class="py-12 flex justify-center items-center">
+        <div class="max-w-auto mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex justify-center">
@@ -21,12 +25,12 @@
                                             stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                     </svg>
                                 </div>
-                                <input type="text" name="search" id="table-search"
+                                <input type="text" id="table-search"
                                     class="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Search for items">
                             </div>
                         </div>
-                        <table id="example" class="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
+                        <table class="w-full  text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
@@ -123,21 +127,54 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                           
                         </table>
-                        
-                        
-                        {{ $borrowerinfo->onEachSide(5)->links() }}
-                        
-                       
                     </div>
+                    <!-- /////////////////////// -->
+                    <!-- <h6 class="mt-4 text-2xl font-bold">{{ __('List of Borrowers') }}</h6><br>
+                <table class="table-auto border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('ID No.') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Full Name') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Contact Number') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Email') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Address') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Age') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Gender') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('View') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Edit') }}</th>
+                            <th class="border border-gray-500 px-4 py-2">{{ __('Delete') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($borrowerinfo as $borinfo)
+<tr>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->bno }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borFname }}  {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borContact }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borEmail }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borAddress }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borAge }}</td>
+                                <td class="border border-gray-500 px-4 py-2">{{ $borinfo->borGender }}</td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                    <a class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded mr-2" >{{ __('View') }}</a>
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                <a class="bg-violet-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">{{ __('Edit') }}</a>
+                                </td>
+                                <td class="border border-gray-500 px-4 py-2">
+                                <form method="POST" action = "{{ route('borrower-delete', ['brno' => $borinfo->bno]) }}" onclick="return confirm('Are you sure you want to delete this record?')">@csrf
+                                    @method('delete')
+                                <button class=" bg-red-200 hover:bg-red-300 text-white font-bold py-2 px-4 rounded mr-2" type="submit" >{{ __('Delete') }}</button>
+                                </form>
+                                </td>
+                            </tr>
+@endforeach
+                    </tbody>
+                </table> -->
                 </div>
             </div>
         </div>
-   </div>
-</div>
-
-
-
+    </div>
+    </div>
 </x-app-layout>
-

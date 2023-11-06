@@ -12,9 +12,10 @@ class borrowerInfoController extends Controller
      */
     public function index()
     {
-        $borrowerinfo = borrowerinfo::all();
+        $borrowerinfo = borrowerinfo::paginate(7);
         return view ('borrower.index', compact('borrowerinfo'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -101,8 +102,8 @@ class borrowerInfoController extends Controller
      */
     public function destroy(string $id)
     {
-        $studentinfo = borrowerinfo::where('bno', $id);
-        $studentinfo->delete();
+        $borrowerinfo = borrowerinfo::where('bno', $id);
+        $borrowerinfo->delete();
         return redirect()->route('borrower');
     }
 }
