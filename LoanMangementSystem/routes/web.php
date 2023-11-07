@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\borrowerInfoController;
+use App\Http\Controllers\loanInfoController;
 
 
 /*
@@ -54,7 +55,19 @@ Route::patch('/borrower/update/{brno}', [borrowerInfoController::class, 'update'
 // search
 Route::get("search",[PostController::class,'search']);
 
+// LOAN
 
+Route::get('/Loan', [loanInfoController::class, 'index'])
+->middleware(['auth', 'verified'])
+->name('Loan');
+
+Route::get('/Loan/create', function () {
+    return view('Loan.create');
+})->middleware(['auth', 'verified'])->name('add-Loan');
+
+Route::post('/Loan/create', [borrowerInfoController::class, 'store'])
+->middleware(['auth', 'verified'])
+->name('Loan-store');
 
 
 Route::middleware('auth')->group(function () {
