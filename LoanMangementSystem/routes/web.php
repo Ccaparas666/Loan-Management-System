@@ -52,8 +52,11 @@ Route::patch('/borrower/update/{brno}', [borrowerInfoController::class, 'update'
    ->name('borrower-update');
 
 
+
+
 // search
-Route::get("search",[PostController::class,'search']);
+route::get('/search',[borrowerInfoController::class, 'search']);
+
 
 // LOAN
 

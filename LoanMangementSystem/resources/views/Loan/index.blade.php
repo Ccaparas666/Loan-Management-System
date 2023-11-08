@@ -66,7 +66,7 @@
                         @foreach ($loanInfo as $loan)
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $loan->lid }}</td>
-                                <td class="px-6 py-4">{{$loan->borFname}}, {{$loan->borMname}} {{$loan->borLname}} {{$loan->borSuffix}}</td>
+                                <td class="px-6 py-4">{{$loan->borFname}}, {{$loan->borMname}} {{$loan->borLname}} {{$loan->borSuffix}} {{$loan->bno}}</td>
                                 <td class="px-6 py-4">{{$loan->borContact}}</td>
                                 <td class="px-6 py-4">test <br> test2 <br> test3 <br></td>
                                 <td class="px-6 py-4"></td>

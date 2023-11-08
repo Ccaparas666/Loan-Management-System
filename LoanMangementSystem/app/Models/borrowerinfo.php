@@ -11,8 +11,8 @@ class borrowerinfo extends Model
 
     protected $table = 'borrowerinfo';
 
-    protected $fillable =[
-        
+    protected $fillable = [
+
         'borFname',
         'borMname',
         'borLname',
