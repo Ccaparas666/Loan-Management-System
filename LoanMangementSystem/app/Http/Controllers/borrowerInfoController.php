@@ -10,10 +10,17 @@ class borrowerInfoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $borrowerinfo = borrowerinfo::paginate(7);
+
+        
+
+
+        $borrowerinfo = borrowerinfo::all();
         return view('borrower.index', compact('borrowerinfo'));
+
+
+        
     }
 
 

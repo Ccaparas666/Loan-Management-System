@@ -1,8 +1,16 @@
 <x-app-layout>
-<div class="p-4 sm:ml-64">
-   <div class="p-4 rounded-lg dark:border-gray-700 mt-14">   
-   <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-4 sm:ml-64" id="hide">
+    <div class="p-4  mt-14">    
+        <div>
+            <div class="py-12">
+                <div>
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <h4 class="text-2xl font-bold dark:text-white">ADD BORROWER`S INFORMATION</h4>
+                        </div>
+                    </div>
+                </div>
+            </div> 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h6>Errors Encountered:</h6>
@@ -150,15 +158,13 @@
                             </div>
                         </div> -->
                         <br> <button type="submit"
-                            class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-500">Add</button><br>
+                            class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-500">Add Borrower</button><br>
 
-                        <a class="mt-4 float-left bg-blue-200 text-black font-bold py-2 px-4 mb-5 rounded"> Back
                         </a><br />
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>   
-   </div>
+            </div>       
+        </div>      
+    </div>
 </div>
 </x-app-layout>

@@ -1,12 +1,16 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Borrower Information') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+<div class="p-4 sm:ml-64" id="hide">
+    <div class="p-4  mt-14">    
+        <div>
+            <div class="py-12">
+                <div>
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <h4 class="text-2xl font-bold dark:text-white">UPDATE BORROWER`S INFORMATION</h4>
+                        </div>
+                    </div>
+                </div>
+            </div> 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h6 class="text-lg font-bold">Errors Encountered</h6><br /><br />
@@ -82,7 +86,7 @@
                                      required>
                             </div>
                         </div>
-                        <div class="grid gap-6 mb-6 md:grid-cols-4">
+                        <div class="grid gap-6 mb-6 md:grid-cols-3">
                             <div class="col-span-2">
                                 <label for="Address"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
@@ -90,7 +94,7 @@
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required>
                             </div>
-                            <div class="col-span-2 w-96">
+                            <div class="col-span-1">
                                 <label for="contact"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
                                 <input type="text" name="xcontact" value="{{ $borinfo->borContact }}"
@@ -99,13 +103,16 @@
                             </div>
                         </div>
                         <div class="flex justify-start mt-4">
-                            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-500"> Edit Save</button>
+                            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-500"> Edit Save</button>
 
                         </div>
                     </form>
                     @endforeach
                 </div>
-            </div>
-        </div>
+            </div>        
+        </div>      
     </div>
+</div>
+
+
 </x-app-layout>
