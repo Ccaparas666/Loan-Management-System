@@ -1,7 +1,7 @@
 <x-app-layout>
 
 <div class="p-4 sm:ml-64" id="hide">
-        <div class="p-4  mt-14">    
+        <div class="p-4  mt-5">    
             <div>
             <div class="py-12">
         <div >

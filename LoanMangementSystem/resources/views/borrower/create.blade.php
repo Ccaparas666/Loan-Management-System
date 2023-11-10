@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="p-4 sm:ml-64" id="hide">
-    <div class="p-4  mt-14">    
+    <div class="p-4  mt-5">    
         <div>
             <div class="py-12">
                 <div>
@@ -86,21 +86,26 @@
                                     class=" w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                      required>
                             </div>
+
                         </div>
                         <div class="grid gap-6 mb-6 md:grid-cols-3">
-                            <div class="">
+                            <div>
                                 <label for="Address"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                                 <input type="text" name="xaddress" value="{{ old('xaddress') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required>
                             </div>
-                            <div class="">
+                            <div>
                                 <label for="contact"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
                                 <input type="text" name="xcontact" value="{{ old('xcontact') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
+                            </div>
+                            <div>
+                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                <input type="date" name="xbirthDate"  class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
                         </div>
 
