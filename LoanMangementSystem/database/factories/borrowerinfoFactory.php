@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\borrowerinfo>
  */
@@ -14,6 +15,7 @@ class borrowerinfoFactory extends Factory
      *
      * @return array<string, mixed>
      */
+  
     public function definition(): array
     {
        
@@ -26,8 +28,9 @@ class borrowerinfoFactory extends Factory
             'borCOntact' => fake()->phoneNumber(),
             'borEmail' => fake()->unique()->safeEmail(),
             'borAddress' => fake()->address(),
-            'borAge' => fake()->randomNumber(),
-            'borGender' => fake()->word(['male', 'female']),
+            'borAge' => fake()->randomNumber(2),
+            'borGender' => fake()->randomElement(array ('male', 'female')),
+          
             
         ];
     }

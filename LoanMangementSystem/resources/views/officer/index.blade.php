@@ -7,7 +7,7 @@
         <div >
             <div class="bg-slate-400 dark:bg-slate-700 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">
                 <div class="p-6 text-black-900 dark:text-gray-100">
-                    {{ __("BORROWER`S INFORMATION") }}
+                    {{ __("LOAN OFFICER`S INFORMATION") }}
                 </div>
             </div>
         </div>
@@ -15,11 +15,11 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900 dark:text-gray-100 ">
                     <div class="flex flex-row-reverse ">
-                    <a href="{{ route('add-borrower') }}" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mb-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-500 dark:hover:bg-blue-500 group">
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                    <a href="{{ route('add-officer') }}" class="bg-green-700 dark:bg-green-700 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mb-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-500 dark:hover:bg-blue-500 group">
+                    <svg class="w-6 h-6 text-gray-800 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 8h6m-3 3V5m-6-.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
                     </svg>
-                        <span class="flex-1 ml-3 whitespace-nowrap">ADD BORROWERS</span>
+                        <span class="flex-1 ml-3 whitespace-nowrap">ADD OFFICER</span>
                     </a>
             
                     </div>
@@ -32,7 +32,7 @@
                                 <tr>
                                 
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('ID NO.') }}<a href=""></div>
+                                        <div class="flex items-center">{{ __('Officer ID') }}<a href=""></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Full Name') }}<a href="#"></div>
@@ -47,7 +47,7 @@
                                         <div class="flex items-center">{{ __('Address') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Age') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Date of Birth') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Gender') }}<a href="#"></div>
@@ -59,22 +59,22 @@
                                 </tr>
                             </thead>
                             <tbody id="Content">
-                                @foreach ($borrowerinfo as $borinfo)
+                                @foreach ($OfficerInfo as $OffInfo)
                                     <tr
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $borinfo->bno }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borFname }} {{ $borinfo->borMname }}
-                                            {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borContact }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borEmail }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borAddress }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borAge }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borGender }}</td>
+                                            {{ $OffInfo->offId }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offFname }} {{ $OffInfo->offMname }}
+                                            {{ $OffInfo->offLname }} {{ $OffInfo->offSuffix }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offContact }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offEmail }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offAddress }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offDob }}</td>
+                                        <td class="px-6 py-4">{{ $OffInfo->offGender }}</td>
                                         <td class="px-6 py-4 flex justify-center">
                                             <a
-                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href= "{{route('borrower-edit', ['brno' => $borinfo->bno]) }}">
+                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href= "{{route('officer-edit', ['ofno' => $OffInfo->ono]) }}">
                                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <svg>
                                               <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
@@ -87,7 +87,7 @@
                                         
                                         
                                             <form method="POST"
-                                                action = "{{ route('borrower-delete', ['brno' => $borinfo->bno]) }}"
+                                                action = "#"
                                                 onclick="return confirm('Are you sure you want to delete this record?')">
                                                 @csrf
                                                 @method('delete')
@@ -106,6 +106,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            
 
                            
                                         

@@ -84,4 +84,9 @@ class loanInfoController extends Controller
     {
         //
     }
+
+    public function getBorrowerInfo(){
+        $borrowerinfo = borrowerinfo::all();
+        return view('Loan.create', compact('borrowerinfo'));
+    }
 }

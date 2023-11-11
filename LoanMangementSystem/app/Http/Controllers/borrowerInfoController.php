@@ -12,15 +12,8 @@ class borrowerInfoController extends Controller
      */
     public function index(Request $request)
     {
-
-        
-
-
         $borrowerinfo = borrowerinfo::all();
-        return view('borrower.index', compact('borrowerinfo'));
-
-
-        
+        return view('borrower.index', compact('borrowerinfo'));    
     }
 
 
@@ -68,36 +61,6 @@ class borrowerInfoController extends Controller
 
     // Search function    -------- NOT DONE
 
-    public function search(Request $request)
-    {
-        $output = "";
-        $borrowerinfo = borrowerinfo::where('borFname', 'Like', '%' . $request->search . '%')->get();
-
-        foreach ($borrowerinfo as $borrower) {
-            $output .=
-                '<tr
-                                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td scope="row"class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"></td>
-                                <td class="px-6 py-4">' . $borrower->borFname . ' ' . $borrower->borMname . ' ' . $borrower->borLname . ' ' . $borrower->borSuffix . '</td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <td class="px-6 py-4"></td>
-                                <th class="mr-2"></th>
-                                <td class="px-6 py-4">
-                                    </td>
-                                <td class="px-6 py-4">
-                                    </td>
-                                <td class="px-6 py-4">
-                                    
-                                </td>
-
-                            </tr>';
-        }
-
-        return response($output);
-    }
 
     // Search function    -------- NOT DONE
 
