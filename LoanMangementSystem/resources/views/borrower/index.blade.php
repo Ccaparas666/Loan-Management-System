@@ -1,21 +1,20 @@
 <x-app-layout>
 
 <div class="p-4 sm:ml-64" id="hide">
-        <div class="p-4  mt-5">    
+        <div >    
             <div>
-            <div class="py-12">
-        <div >
-            <div class="bg-slate-400 dark:bg-slate-700 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">
+            <div class="py-10"></div>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-black-900 dark:text-gray-100 ">
+                <div >
+            <div class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">
                 <div class="p-6 text-black-900 dark:text-gray-100">
                     {{ __("BORROWER`S INFORMATION") }}
                 </div>
             </div>
         </div>
-    </div>
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-black-900 dark:text-gray-100 ">
                     <div class="flex flex-row-reverse ">
-                    <a href="{{ route('add-borrower') }}" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mb-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-500 dark:hover:bg-blue-500 group">
+                    <a href="{{ route('add-borrower') }}" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded my-4 flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-blue-500 dark:hover:bg-blue-500 group">
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 8h6m-3 3V5m-6-.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
                     </svg>
@@ -24,6 +23,7 @@
             
                     </div>
                     <br>
+                    
                     <!-- ////////////////////// -->
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         <table id="example" class="display nowrap text-sm text-left text-black-500 dark:text-gray-400" style="width:100%">

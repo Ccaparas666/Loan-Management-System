@@ -4,7 +4,7 @@
         <div>
             <div class="py-12">
                 <div>
-                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
                             <h4 class="text-2xl font-bold dark:text-white">ADD OFFICER INFORMATION</h4>
                         </div>
@@ -22,7 +22,7 @@
                         </ul>
                     @endif
                     <br /><br>
-                    <h3 class="bg-slate-200 dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Loan Officer Information</h3>
+                    <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Loan Officer Information</h3>
                     <br><br>
                     <form method="POST" action="{{ route('Officer-store') }}">
                         @csrf
@@ -96,7 +96,7 @@
 
                         </div>
                         <br>
-                        <h3 class="bg-slate-200 dark:bg-slate-900 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Officer Account Information</h3>
+                        <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Officer Account Information</h3>
                         <br>
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div class="">

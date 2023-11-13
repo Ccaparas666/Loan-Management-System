@@ -3,9 +3,8 @@
 <div class="p-4 sm:ml-64" id="hide">
         <div class="p-4  mt-5">    
             <div>
-            <div class="py-12">
-        <div >
-            <div class="bg-slate-400 dark:bg-slate-700 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">
+            <div class="py-12"><div>
+            <div class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">
                 <div class="p-6 text-black-900 dark:text-gray-100">
                     {{ __("LOAN OFFICER`S INFORMATION") }}
                 </div>
