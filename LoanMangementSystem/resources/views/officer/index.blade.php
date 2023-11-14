@@ -86,7 +86,7 @@
                                         
                                         
                                             <form method="POST"
-                                                action = "#"
+                                                action = "{{ route('officer-delete', ['ofno'=>$OffInfo->ono]) }} "
                                                 onclick="return confirm('Are you sure you want to delete this record?')">
                                                 @csrf
                                                 @method('delete')

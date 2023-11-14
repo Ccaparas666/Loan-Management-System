@@ -11,13 +11,57 @@ class loanInfoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
        
-
+        $borrowerinfo = borrowerinfo::all();
+        
+       
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        return view('Loan.index', compact('loanInfo'));
+        return view('Loan.index', compact('loanInfo','borrowerinfo'));
     }
+
+    public function createloan(Request $request)
+    {
+       
+        $borrowerinfo = borrowerinfo::all();
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+
+        
+        return view('Loan.index', compact('loanInfo','borrowerinfo'));
+        
+    }
+
+    public function test(Request $request)
+    {
+       
+        return $data = $request->input('searchs');
+        return view('Loan.rejected', compact('loanInfo'));
+    }
+    public function newloan()
+    {
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return view('Loan.newloan', compact('loanInfo'));
+    }
+
+    public function rejected()
+    {
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return view('Loan.rejected', compact('loanInfo'));
+    }
+
+    public function approved()
+    {
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return view('Loan.approved', compact('loanInfo'));
+    }
+
+    public function paid()
+    {
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return view('Loan.paid', compact('loanInfo'));
+    }
+
 
     /**
      * Show the form for creating a new resource.

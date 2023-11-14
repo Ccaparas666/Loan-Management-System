@@ -98,6 +98,8 @@ class officerInfoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $OfficerInfo = officerInfo::where('ono', $id);
+        $OfficerInfo->delete();
+        return redirect()->route('officer');
     }
 }

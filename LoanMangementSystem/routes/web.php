@@ -75,6 +75,10 @@ Route::get('/Officer/edit/{ofno}', [officerInfoController::class, 'edit'])
 Route::patch('/Officer/update/{ofno}', [officerInfoController::class, 'update'])
    ->middleware(['auth', 'verified'])
    ->name('officer-update');
+
+   Route::delete('/Officer/delete/{ofno}', [officerInfoController::class, 'destroy'])
+   ->middleware(['auth', 'verified'])
+   ->name('officer-delete');
 // LOAN
 
 Route::get('/Loan', [loanInfoController::class, 'index'])
@@ -92,7 +96,28 @@ Route::post('/Loan/create', [borrowerInfoController::class, 'store'])
 Route::get('/Loan/create', [loanInfoController::class, 'getBorrowerInfo'])
 ->middleware(['auth', 'verified'])
 ->name('add-Loan');
+/////////////////
 
+
+Route::get('/Loan/newloan', [loanInfoController::class, 'newloan'])
+->middleware(['auth', 'verified'])
+->name('new-loan');
+
+Route::get('/Loan/rejected', [loanInfoController::class, 'rejected'])
+->middleware(['auth', 'verified'])
+->name('rejected-loan');
+
+Route::get('/Loan/approved', [loanInfoController::class, 'approved'])
+->middleware(['auth', 'verified'])
+->name('approved-loan');
+
+Route::get('/Loan/paid', [loanInfoController::class, 'paid'])
+->middleware(['auth', 'verified'])
+->name('paid-loan');
+
+Route::get('/Loan/test', [loanInfoController::class, 'createloan'])
+->middleware(['auth', 'verified'])
+->name('borrower-fetch');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

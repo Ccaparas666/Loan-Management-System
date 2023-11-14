@@ -26,6 +26,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('bno')->references('bno')->on('borrowerinfo');
         });
+
     }
 
     /**
