@@ -13,31 +13,33 @@ class loanInfoController extends Controller
      */
     public function index(Request $request)
     {
-       
-        $borrowerinfo = borrowerinfo::all();
-        
-       
-        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        return view('Loan.index', compact('loanInfo','borrowerinfo'));
-    }
-
-    public function createloan(Request $request)
-    {
-       
+        $search = $request->search;
         $borrowerinfo = borrowerinfo::all();
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        
+        $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
+        return view('Loan.index', compact('loanInfo','borrowerinfo','data'));
+        search();
 
-        
-        return view('Loan.index', compact('loanInfo','borrowerinfo'));
-        
     }
 
-    public function test(Request $request)
+
+    public function search(Request $request)
     {
-       
-        return $data = $request->input('searchs');
-        return view('Loan.rejected', compact('loanInfo'));
+        $search = $request->search;
+        $borrowerinfo = borrowerinfo::all();
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+
+        $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
+        return view('Loan.index', compact('loanInfo','borrowerinfo','data'));
+        preventDefault();
+
+        
+
+        
     }
+
+
     public function newloan()
     {
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();

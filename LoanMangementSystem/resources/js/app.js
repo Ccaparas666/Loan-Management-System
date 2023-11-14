@@ -65,7 +65,6 @@ moonIcon.addEventListener("click", () => {
 themeCheck();
 
 
-
 $(document).on('click','.search_account',function(){
 	var account_no = $('.accnt_no').val();
 

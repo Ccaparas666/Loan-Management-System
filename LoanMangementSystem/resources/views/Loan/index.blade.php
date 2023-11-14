@@ -42,11 +42,54 @@
                                 </div>
 
                             </div>
+                            <div>
+                            <div class="input-group no-border">
+                                                                    <?php if(isset($account_no)){?>
+                                                                       <input type="text" value="<?php echo $account_no?>" class="form-control accnt_no" placeholder="Account no" autofocus required>
+                                                                    <?php }else{ ?>
+                                                                        <input type="text" value="" class="form-control accnt_no" placeholder="Account no" autofocus required>
+                                                                    <?php } ?>
+                                                                    <button type="submit" class="btn btn-primary btn-round btn-just-icon search_account">
+                                                                    <i class="material-icons">search</i>
+                                                                    <div class="ripple-container"></div>
+                                                                    </button>
+                                                                </div>
 
-                            <form action="{{route('borrower-fetch')}}" method="POST">
-                                        <div class="relative w-full">
-                                            <input type="text" id="location-search" name="search"
-                                                class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            <form action="{{ route('search') }}" method="GET">   
+                                    <label for="Birth Date"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower
+                                        Account No.</label>
+                                        
+                                    <div class="relative w-full">
+                                        <input type="search" name="search" id="location-search" name="search"
+                                            class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="Search For Borrower Account Number" required>
+                                        <button type="submit" value="search"
+                                            class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                            <svg class="w-4 h-4" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                            </svg>
+                                            <span class="sr-only">Search</span>
+                                    </button>
+                                    </div>
+
+
+                                    </div>
+                            
+                           
+                                <!-- <input type="search" name="search" placeholder="search example">
+                                <input type="submit" value="search"> -->
+
+
+
+                           </form>
+                                        <!-- <div class="relative w-full">
+                                            <input type="text" id="location-search" name="id" id = "id"
+                                                class="searchbox w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 placeholder="Search For Borrower Account Number" required>
                                             <button type="submit" 
                                                 class="search_account absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -59,9 +102,14 @@
                                                 </svg>
                                                 <span class="sr-only">Search</span>
                                             </button>
-                                        </div>
-                                        </form>
-                            <form method="GET" action="{{ route('borrower-store') }}">
+                                            <button type="sumbit" class="searchbtn" name="searchdata" id="searchdata" value="SEARCH"> SEARCH </button>
+                                        </div> -->
+
+
+
+                                    
+                                       
+                            <form method="GET" action="{{ route('borrower-store') }}" id="vedformid">
                                 @csrf
                                 <!-- /////////////////////// -->
 
@@ -110,10 +158,10 @@
                                             Account No.</label>
                                             
                                         <div class="relative w-full">
-                                            <input type="text" id="location-search" name="search"
+                                            <input type="search" name="search" id="location-search" name="search"
                                                 class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                 placeholder="Search For Borrower Account Number" required>
-                                            <a href="{{ route('borrower-fetch') }}"
+                                            <a href="{{ route('search') }}" method="GET"
                                                 class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 <svg class="w-4 h-4" aria-hidden="true"
                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -146,12 +194,14 @@
                                     </div>
 
                                 </div>
+                                @foreach ($borrowerinfo as $borinfo)  @endforeach  
+                                @foreach ($data as $borinfo)  @endforeach  
                                 <div
                                     class="shadow-lg shadow-gray-500/50 border-b text-xl my-6 py-6 text-black-900 dark:text-gray-100">
                                     <h1>BORROWER INFORMATION</h1>
                                 </div>
                                 <div class="grid gap-6 mb-6 md:grid-cols-4">
-                                @foreach ($borrowerinfo as $borinfo)  @endforeach  
+                               
                                     <div>
                                         <label for="Address"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
@@ -240,6 +290,30 @@
                 </div>
 
 
+<script>
+    
+$(document).ready(function () {
+    $('#searchdata').click(function (e){
+        e.preventDefault();
 
+        var id = $('input[name-id]').val();
+
+        $.ajax({
+            type:"POST",
+            url:"fetchintextbox.php",
+            data: {
+                "search_post_btn": 1,
+                "id": id,
+            },
+            dataType: "text",
+            success: function (response){
+                $("#vedformid").html(response);
+            }
+        });
+
+    });
+});
+
+</script>
 
 </x-app-layout>

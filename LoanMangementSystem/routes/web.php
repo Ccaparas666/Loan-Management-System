@@ -115,9 +115,10 @@ Route::get('/Loan/paid', [loanInfoController::class, 'paid'])
 ->middleware(['auth', 'verified'])
 ->name('paid-loan');
 
-Route::get('/Loan/test', [loanInfoController::class, 'createloan'])
+
+Route::get('/Loan/match', [loanInfoController::class, 'search'])
 ->middleware(['auth', 'verified'])
-->name('borrower-fetch');
+->name('search');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
