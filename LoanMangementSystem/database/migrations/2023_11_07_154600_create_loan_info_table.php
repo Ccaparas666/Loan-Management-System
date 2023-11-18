@@ -14,15 +14,16 @@ return new class extends Migration
         Schema::create('loanInfo', function (Blueprint $table) {
             $table->id('lid');
             $table->unsignedBigInteger('bno');
+            $table->string('loanNumber', 50);
             $table->integer('LoanTerm');    
             $table->decimal('LoanAmount', $precision = 8, $scale = 2);
             $table->decimal('InterestRate', $precision = 8, $scale = 2);
             $table->date('LoanApplication');
-            $table->date('LoanApproval');
-            $table->date('LoanDisbursement');
-            $table->string('loanstatus', 20);
-            $table->string('Colateral', 20);
-            $table->string('coMaker', 20);
+            $table->string('loanstatus')->default('Waiting For Approval');
+            $table->string('cmName');
+            $table->string('cmContact');
+            $table->string('cmEmail', 100);
+            $table->string('cmAddress', 100);
             $table->timestamps();
             $table->foreign('bno')->references('bno')->on('borrowerinfo');
         });

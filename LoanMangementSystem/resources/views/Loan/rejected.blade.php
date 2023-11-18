@@ -51,29 +51,21 @@
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                 
-                                    <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('ID NO.') }}<a href=""></div>
+                                <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('Loan No.') }}<a href=""></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Full Name') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Contact Number') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Reason') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Email') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Rejected by') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Address') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Status') }}<a href="#"></div>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Age') }}<a href="#"></div>
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Gender') }}<a href="#"></div>
-                                    </th>
-                                    
-                                 
                                     <th scope="col" class="px-6 py-3 flex justify-center">{{ __('ACTION') }}</th>
                                     
                                 </tr>

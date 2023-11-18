@@ -43,158 +43,138 @@
 
                             </div>
                             <div>
-                            <div class="input-group no-border">
-                                                                    <?php if(isset($account_no)){?>
-                                                                       <input type="text" value="<?php echo $account_no?>" class="form-control accnt_no" placeholder="Account no" autofocus required>
-                                                                    <?php }else{ ?>
-                                                                        <input type="text" value="" class="form-control accnt_no" placeholder="Account no" autofocus required>
-                                                                    <?php } ?>
-                                                                    <button type="submit" class="btn btn-primary btn-round btn-just-icon search_account">
-                                                                    <i class="material-icons">search</i>
-                                                                    <div class="ripple-container"></div>
-                                                                    </button>
-                                                                </div>
-
-                            <form action="{{ route('search') }}" method="GET">   
-                                    <label for="Birth Date"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower
-                                        Account No.</label>
-                                        
-                                    <div class="relative w-full">
-                                        <input type="search" name="search" id="location-search" name="search"
-                                            class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Search For Borrower Account Number" required>
-                                        <button type="submit" value="search"
-                                            class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                            <svg class="w-4 h-4" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 20 20">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                            </svg>
-                                            <span class="sr-only">Search</span>
-                                    </button>
-                                    </div>
-
-
-                                    </div>
-                            
-                           
-                                <!-- <input type="search" name="search" placeholder="search example">
-                                <input type="submit" value="search"> -->
-
-
-
-                           </form>
-                                        <!-- <div class="relative w-full">
-                                            <input type="text" id="location-search" name="id" id = "id"
-                                                class="searchbox w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Search For Borrower Account Number" required>
-                                            <button type="submit" 
-                                                class="search_account absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                <svg class="w-4 h-4" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 20 20">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                            <div class="container-xl px-4 mt-n4">
+                            @if (session()->has('success'))
+                            <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div class="ms-3 text-sm font-medium">
+                                    <h3 class="text-lg font-medium">Borrower Successfully Created</h3>
+                                </div>
+                                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                                    <span class="sr-only">Close</span>
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                </button>
+                            </div>
+                            @elseif (session()->has('found'))
+                            <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                                </svg>
+                                <span class="sr-only">Info</span>
+                                <div class="ms-3 text-sm font-medium">
+                                    <h3 class="text-lg font-medium">Borrower Match Found</h3>
+                                </div>
+                                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+                                    <span class="sr-only">Close</span>
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                </button>
+                            </div>
+                            @endif
+                    </div>
+                        <div class="input-group no-border mb-5">
+                            <form action="{{ route('search') }}" method="GET">  
+                                @if(isset($search))
+                                    <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower Account No.</label>    
+                                    <div class="relative w-full"> 
+                                        <input type="search" name="search" id="location-search" value="{{$search}}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                        <button type="submit" value="search" class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                                                 </svg>
                                                 <span class="sr-only">Search</span>
-                                            </button>
-                                            <button type="sumbit" class="searchbtn" name="searchdata" id="searchdata" value="SEARCH"> SEARCH </button>
-                                        </div> -->
-
+                                        </button>
+                                    </div>
+                                @else
+                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower Account No.</label>    
+                                    <div class="relative w-full"> 
+                                        <input type="search" name="search" id="location-search"  class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search For Borrower Account Number" required>
+                                        <button type="submit" value="search" class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                                </svg>
+                                                <span class="sr-only">Search</span>
+                                        </button>
+                                    </div>
+                                @endif 
+                                
+                            </form>
+                        </div>
+                            
+                                       
 
 
                                     
                                        
-                            <form method="GET" action="{{ route('borrower-store') }}" id="vedformid">
+                            <form method="POST" action="{{ route('Loan-store') }}" id="vedformid">
                                 @csrf
                                 <!-- /////////////////////// -->
 
-                                @method('patch')
+                               
 
                                 <div class="grid gap-6 mb-6 md:grid-cols-3">
                                     <div>
-                                        <label for="First Name"
+                                        <label for="Loan no."
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
                                             No.</label>
-                                        <input type="text" name="xfirstName" value="{{ old('xfirstName') }}"
+                                        <input type="text" name="xLoanNumber" value="{{$genId}}"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="loan123" disabled>
+                                            placeholder="{{$genId}}" disabled>
                                     </div>
                                     <div>
-                                        <label for="First Name"
+                                        <label for="Interest Rate"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Interest
                                             Rate</label>
-                                        <select id="default"
+                                        <select id="default" name="xInterest"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="">0.5%</option>
-                                            <option value="">01%</option>
-                                            <option value="">05%</option>
-                                            <option value="">10%</option>
+                                            <option value="1">0.5%</option>
+                                            <option value="1">01%</option>
+                                            <option value="5">05%</option>
+                                            <option value="10">10%</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label for="First Name"
+                                        <label for="Loan Term"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
                                             Term</label>
-                                        <select id="default"
+                                        <select id="default" name="xLoanTerm"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="">1 Month</option>
-                                            <option value="">2 Months</option>
-                                            <option value="">6 Months</option>
-                                            <option value="">12 Months</option>
+                                            <option value="1">1 Month</option>
+                                            <option value="2">2 Months</option>
+                                            <option value="6">6 Months</option>
+                                            <option value="12">12 Months</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="grid gap-6 mb-6 md:grid-cols-3">
+                                 
                                     <div>
-
-                                   
-                                        <label for="Birth Date"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower
-                                            Account No.</label>
-                                            
-                                        <div class="relative w-full">
-                                            <input type="search" name="search" id="location-search" name="search"
-                                                class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                placeholder="Search For Borrower Account Number" required>
-                                            <a href="{{ route('search') }}" method="GET"
-                                                class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                                <svg class="w-4 h-4" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 20 20">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2"
-                                                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                                                </svg>
-                                                <span class="sr-only">Search</span>
-</a>
-                                        </div>
-                                       
-
-                                    </div>
-                                    <div>
-                                        <label for="Age"
+                                        <label for="Loan Amount" 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
                                             Amount</label>
-                                        <input type="text" name="xage" value="{{ old('xage') }}"
+                                        <input type="text" name="xLoanAmount" value="{{ old('xLoan') }}"
                                             class=" w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
                                     </div>
 
                                     <div>
-                                        <label for="Birth Date"
+                                        <label for="LoanDate" 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                                        <input type="date" name="xbirthDate"
+                                        <input type="date" name="xLoanDate"
                                             class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required />
                                     </div>
 
                                 </div>
-                                @foreach ($borrowerinfo as $borinfo)  @endforeach  
+
                                 @foreach ($data as $borinfo)  @endforeach  
                                 <div
                                     class="shadow-lg shadow-gray-500/50 border-b text-xl my-6 py-6 text-black-900 dark:text-gray-100">
@@ -203,41 +183,45 @@
                                 <div class="grid gap-6 mb-6 md:grid-cols-4">
                                
                                     <div>
-                                        <label for="Address"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
-                                        <input type="text" name="xaddress" value="{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}"
-                                            class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            disabled>
+                                        <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
+                                            @if(isset($search))
+                                                <input type="text"  value="{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                            @else
+                                                <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                            @endif
+                                        
                                     </div>
                                     <div>
-                                        <label for="contact"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
-                                            Number</label>
-                                        <input type="text" name="xcontact" value="{{ $borinfo->borContact }}"
-                                            class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                             disabled>
+                                        <label for="contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
+                                        @if(isset($search))
+                                            <input type="text"  value="{{ $borinfo->borContact }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @else
+                                            <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @endif
                                     </div>
                                     <div>
-                                        <label for="contact"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                        <input type="text" name="xcontact" value="{{ $borinfo->borEmail }}"
-                                            class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            disabled>
+                                        <label for="contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                        @if(isset($search))
+                                            <input type="text"  value="{{ $borinfo->borEmail }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @else
+                                            <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @endif
                                     </div>
                                     <div>
-                                        <label for="Birth Date"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth
-                                            Date</label>
-                                        <input type="date" name="xbirthDate" value = ""
-                                            class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            disabled />
+                                        <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                        @if(isset($search))
+                                            <input type="date"  value = "" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled />
+                                        @else
+                                            <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @endif
                                     </div>
                                     <div class="col-span-4">
-                                        <label for="Address"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                        <input type="text" name="xaddress" value="{{ $borinfo->borAddress }}"
-                                            class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            disabled>
+                                        <label for="Address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                        @if(isset($search))
+                                            <input type="text"  value="{{ $borinfo->borAddress }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @else
+                                            <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                        @endif
                                     </div>
                                    
                                 </div>
@@ -249,31 +233,31 @@
                                 </div>
                                 <div class="grid gap-6 mb-6 md:grid-cols-4">
                                     <div>
-                                        <label for="Address"
+                                        <label for="C name"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
-                                        <input type="text" name="xaddress" value="{{ old('xaddress') }}"
+                                        <input type="text" name="xcFullname" value="{{ old('xaddress') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
                                     </div>
                                     <div>
-                                        <label for="contact"
+                                        <label for="c contact"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
                                             Number</label>
-                                        <input type="text" name="xcontact" value="{{ old('xcontact') }}"
+                                        <input type="text" name="xcContact" value="{{ old('xcontact') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="e.g 09123456789" required>
                                     </div>
                                     <div>
-                                        <label for="contact"
+                                        <label for="c email"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                        <input type="text" name="xcontact" value="{{ old('xcontact') }}"
+                                        <input type="text" name="xcEmail" value="{{ old('xcontact') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="e.g 09123456789" required>
                                     </div>
                                     <div class="">
-                                        <label for="Address"
+                                        <label for="c address"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                        <input type="text" name="xaddress" value="{{ old('xaddress') }}"
+                                        <input type="text" name="xcAddress" value="{{ old('xaddress') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
                                     </div>
@@ -290,7 +274,7 @@
                 </div>
 
 
-<script>
+<!-- <script>
     
 $(document).ready(function () {
     $('#searchdata').click(function (e){
@@ -314,6 +298,6 @@ $(document).ready(function () {
     });
 });
 
-</script>
+</script> -->
 
 </x-app-layout>

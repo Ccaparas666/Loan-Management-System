@@ -31,7 +31,7 @@ class officerInfoController extends Controller
      */
     public function store(Request $request)
     {
-        $genId = Helper::IDGenerator(new officerinfo, 'offId', 5, 'OFL');
+        $genId = Helper::OfficerIDgenerator(new officerinfo, 'offId', 5, 'OFL');
         $OfficerInfo = new officerInfo();
        
         $OfficerInfo->offId = $genId;

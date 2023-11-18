@@ -13,14 +13,15 @@ class loanInfo extends Model
     protected $fillable =[
         
         'bno',
+        'loanNumber',
         'LoanTerm',
         'LoanAmount',
         'InterestRate',
         'LoanApplication',
-        'LoanApproval',
-        'LoanDisbursement',
         'loanstatus',
-        'Colateral',
-        'coMaker',
+        'cmName',
+        'cmContact',
+        'cmEmail',
+        'cmAddress',
     ];
 }

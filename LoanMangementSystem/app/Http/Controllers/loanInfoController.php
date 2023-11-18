@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\borrowerinfo;
+use App\Helpers\Helper;
+use Psy\Readline\Hoa\Console;
 
 class loanInfoController extends Controller
 {
@@ -13,35 +15,73 @@ class loanInfoController extends Controller
      */
     public function index(Request $request)
     {
+        $data = '';
         $search = $request->search;
-        $borrowerinfo = borrowerinfo::all();
+        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         
         $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
-        return view('Loan.index', compact('loanInfo','borrowerinfo','data'));
-        search();
+       
+
+       
+            return view('Loan.index', compact('loanInfo','data', 'search','genId'));
+       
+
+        
+
+        
+
+      
+       
 
     }
 
 
     public function search(Request $request)
-    {
+    { 
+        
+        
+        // $search = $request->search;
+
+       
+
+        
+        
+        
+        // return view('Loan.index', compact('data','search','loanInfo'));
+       
         $search = $request->search;
-        $borrowerinfo = borrowerinfo::all();
+
+        // $data = borrowerinfo::where (function($query) use ($search){
+        //     $query->where('bno','like','%'.$search.'%')->get();
+        // });
+        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
 
         $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
-        return view('Loan.index', compact('loanInfo','borrowerinfo','data'));
-        preventDefault();
+
+        
+        
+        return redirect()->route('Loan', compact('loanInfo','data','search','genId'))->with('found', ' ' );
+
+       
+
+
+      
 
         
 
         
     }
 
+    
+
 
     public function newloan()
     {
+        
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         return view('Loan.newloan', compact('loanInfo'));
     }
@@ -91,12 +131,25 @@ class loanInfoController extends Controller
     //         'xage' => ['required', ],
     //         'xgender' => ['required']
     //    ]);
-       $loanInfo = new loanInfo();
+   
+    $loanInfo = new loanInfo();
+    $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+    $loanInfo->bno = 2;
+    $loanInfo->loanNumber = $genId;
+    $loanInfo->LoanTerm = $request->xLoanTerm;
+    $loanInfo->LoanAmount = $request->xLoanAmount;
+    $loanInfo->InterestRate = $request->xInterest;
+    $loanInfo->LoanApplication = $request->xLoanDate;
+    // $loanInfo->loanstatus = $request->xaddress;
+    $loanInfo->cmName = $request->xcFullname;
+    $loanInfo->cmContact = $request->xcContact;
+    $loanInfo->cmEmail = $request->xcEmail;
+    $loanInfo->cmAddress = $request->xcAddress;
 
-       
 
-       $loanInfo->save();
-       return redirect()->route('Loan');
+    $loanInfo->save();
+    return redirect()->route('Loan')->with('success', ' ' );
+
     }
 
     /**

@@ -149,6 +149,7 @@
          </li>
          <li> 
             <!-- LOAN OFFICERS NAVIGATION -->
+            @if (auth()->user()->is_admin)
          <button  id="dropdownDefaultButton" type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" aria-controls="Officer-Dropdown" data-collapse-toggle="Officer-Dropdown">
          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
@@ -158,10 +159,13 @@
                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                   </svg>
             </button>
+           
+           
             <ul aria-labelledby="dropdownDefaultButton" id="Officer-Dropdown" class="hidden py-2 space-y-2">
+           
                 <li>
                     <a href="{{ route('add-officer') }}"
-                        class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
+                        class="nav-link {{ Request::is('users*') ? 'active' : '' }} flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                         <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -177,9 +181,10 @@
                                 d="M4.109 17H1v-2a4 4 0 0 1 4-4h.87M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm7.95 2.55a2 2 0 0 1 0 2.829l-6.364 6.364-3.536.707.707-3.536 6.364-6.364a2 2 0 0 1 2.829 0Z" />
                         </svg><span class="ml-2 whitespace-nowrap">Manage Officer</span></a>
                 </li>
-                
+              
               
             </ul>
+           
          </li>
 
          <!-- INTEREST RATE NAVIGATION -->
@@ -199,7 +204,7 @@
             </button>
             <ul id="Interest-dropdown" class="hidden py-2 space-y-2">
                 <li>
-                    <a href="#"
+                    <a 
                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                         <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -219,6 +224,7 @@
                         </svg><span class="ml-2 whitespace-nowrap">Manage Interest</span></a>
                 </li>
             </ul>
+            @endif
          </li>
     </ul>
          <ul class="pt-2 mt-10 space-y-2 font-medium border-t border-gray-200 dark:border-gray-700">

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\borrowerInfoController;
 use App\Http\Controllers\loanInfoController;
 use App\Http\Controllers\officerInfoController;
+use App\Http\Controllers\loansettingsController;
 
 
 /*
@@ -80,6 +81,10 @@ Route::patch('/Officer/update/{ofno}', [officerInfoController::class, 'update'])
    ->middleware(['auth', 'verified'])
    ->name('officer-delete');
 // LOAN
+Route::get('/Loan/match/', [loanInfoController::class, 'search'])
+->middleware(['auth', 'verified'])
+->name('search');
+
 
 Route::get('/Loan', [loanInfoController::class, 'index'])
 ->middleware(['auth', 'verified'])
@@ -89,13 +94,15 @@ Route::get('/Loan/create', function () {
     return view('Loan.create');
 })->middleware(['auth', 'verified'])->name('add-Loan');
 
-Route::post('/Loan/create', [borrowerInfoController::class, 'store'])
+Route::post('/Loan/create', [loanInfoController::class, 'store'])
 ->middleware(['auth', 'verified'])
 ->name('Loan-store');
 
 Route::get('/Loan/create', [loanInfoController::class, 'getBorrowerInfo'])
 ->middleware(['auth', 'verified'])
 ->name('add-Loan');
+
+
 /////////////////
 
 
@@ -115,10 +122,14 @@ Route::get('/Loan/paid', [loanInfoController::class, 'paid'])
 ->middleware(['auth', 'verified'])
 ->name('paid-loan');
 
-
-Route::get('/Loan/match', [loanInfoController::class, 'search'])
+Route::get('/Loan/interest', [loansettingsController::class, 'Interest'])
 ->middleware(['auth', 'verified'])
-->name('search');
+->name('add-interest');
+
+
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

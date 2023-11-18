@@ -56,7 +56,7 @@ class borrowerInfoController extends Controller
         $borrowerinfo->borGender = $request->xgender;
 
         $borrowerinfo->save();
-        return redirect()->route('borrower');
+        return redirect()->route('borrower')->with('success', ' ' );
     }
 
     // Search function    -------- NOT DONE
