@@ -80,12 +80,14 @@
                             </div>
                             @endif
                     </div>
+                    @foreach ($data as $borinfo)  @endforeach  
                         <div class="input-group no-border mb-5">
-                            <form action="{{ route('search') }}" method="GET">  
+                            <form action="{{ route('search', ['brno' => $borinfo->bno]) }}" method="GET">  
                                 @if(isset($search))
                                     <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower Account No.</label>    
                                     <div class="relative w-full"> 
-                                        <input type="search" name="search" id="location-search" value="{{$search}}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    
+                                        <input type="search" name="search" id="location-search" value="{{$borinfo->borAccount}}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                                         <button type="submit" value="search" class="absolute top-0 end-0 h-full p-2.5 text-sm font-medium text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -139,6 +141,7 @@
                                             <option value="1">01%</option>
                                             <option value="5">05%</option>
                                             <option value="10">10%</option>
+                                            <option value="10">{{$genId}}</option>
                                         </select>
                                     </div>
                                     <div>
@@ -163,6 +166,7 @@
                                         <input type="text" name="xLoanAmount" value="{{ old('xLoan') }}"
                                             class=" w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
+                                            <input type="hidden" name="xbno" value="{{ $borinfo->bno }}" class="border border-gray-300 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" />
                                     </div>
 
                                     <div>
@@ -175,7 +179,7 @@
 
                                 </div>
 
-                                @foreach ($data as $borinfo)  @endforeach  
+                               
                                 <div
                                     class="shadow-lg shadow-gray-500/50 border-b text-xl my-6 py-6 text-black-900 dark:text-gray-100">
                                     <h1>BORROWER INFORMATION</h1>

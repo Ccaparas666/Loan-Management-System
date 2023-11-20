@@ -26,23 +26,15 @@
                     
                     <div class="container-xl px-4 mt-n4">
                             @if (session()->has('success'))
-                            <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
-                                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                    viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                                </svg>
-                                <span class="sr-only">Info</span>
-                                <div class="ms-3 text-sm font-medium">
-                                    <h3 class="text-lg font-medium">Borrower Successfully Created</h3>
-                                </div>
-                                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
-                                    <span class="sr-only">Close</span>
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                    </svg>
-                                </button>
-                            </div>
-                            
+                            <script>
+                                Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "{{session('success')}}",
+
+                                });
+                            </script>
+                           
                             @endif
                     </div>
                     <!-- ////////////////////// -->
@@ -53,7 +45,7 @@
                                 <tr>
                                 
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('ID NO.') }}<a href=""></div>
+                                        <div class="flex items-center">{{ __('Account NO.') }}<a href=""></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Full Name') }}<a href="#"></div>
@@ -68,7 +60,7 @@
                                         <div class="flex items-center">{{ __('Address') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Age') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Date of Birth') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Gender') }}<a href="#"></div>
@@ -85,13 +77,13 @@
                                         class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td scope="row"
                                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $borinfo->bno }}</td>
+                                            {{ $borinfo->borAccount }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borFname }} {{ $borinfo->borMname }}
                                             {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borContact }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borEmail }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borAddress }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borAge }}</td>
+                                        <td class="px-6 py-4">{{ $borinfo->borDob }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borGender }}</td>
                                         <td class="px-6 py-4 flex justify-center">
                                             <a
@@ -108,11 +100,14 @@
                                         
                                         
                                             <form method="POST"
-                                                action = "{{ route('borrower-delete', ['brno' => $borinfo->bno]) }}"
-                                                onclick="return confirm('Are you sure you want to delete this record?')">
+                                                action = "{{ route('borrower-delete', ['brno' => $borinfo->bno]) }}" onsubmit="return submitForm(this);">
                                                 @csrf
                                                 @method('delete')
-                                                <button
+
+                                                <script>
+                                                    
+                                                </script>
+                                                <button type="submit" id="hrbp_yearend_approve_btn-submit" 
                                                   class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                                                   <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                     <path fill-rule="evenodd"
@@ -121,6 +116,32 @@
                                                   </svg>
                                                   Delete
                                                 </button>
+
+                                                <script>
+                                                    function submitForm(form) {
+
+    Swal.fire({
+        title: 'Are you sure you want to delete this record?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+                form.submit();
+           
+            
+
+          
+        }
+
+    });
+    return false;
+}
+                                                </script>
                                             </form>
                                         </td>
 
@@ -144,7 +165,11 @@
                             });
                           
                         </script>
-                       
+                       @if (Session::has('message'))
+                        <script>
+                            toastr.success("{{ Session::get('message') }}");
+                        </script>
+                       @endif
                        
                     </div>
                 </div>

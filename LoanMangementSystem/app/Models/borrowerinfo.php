@@ -12,15 +12,15 @@ class borrowerinfo extends Model
     protected $table = 'borrowerinfo';
 
     protected $fillable = [
-
+        'borAccount',
         'borFname',
         'borMname',
         'borLname',
         'borSuffix',
         'borContact',
         'borEmail',
+        'borDob',
         'borAddress',
-        'borAge',
         'borGender',
     ];
 }

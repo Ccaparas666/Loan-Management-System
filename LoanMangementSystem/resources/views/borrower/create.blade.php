@@ -15,9 +15,17 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     
                     @if ($errors)
-                        <ul>
+                        <ul class="bg-white dark:bg-green-400 overflow-hidden shadow-sm sm:rounded-lg">
                             @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
+                                <li></li>
+                                <script>
+                                    Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "{{ $error }}",
+                                    footer: '<a href="#">Why do I have this issue?</a>'
+                                    });
+                                </script>
                             @endforeach
                         </ul>
                     @endif
@@ -71,7 +79,7 @@
                             <div>
                                 <label for="Gender"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="xgender" required
+                                <select name="xgender" required value="{{ old('xgender') }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected disabled>Choose Gender</option>
                                     <option value="Male">Male</option>
@@ -80,11 +88,8 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="Age"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Age</label>
-                                <input type="text" name="xage" value="{{ old('xage') }}"
-                                    class=" w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                     required>
+                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                <input type="date" name="xbirthDate"  value="{{ old('xbirthDate') }}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
                         </div>
@@ -103,10 +108,7 @@
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                             </div>
-                            <div>
-                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
-                                <input type="date" name="xbirthDate"  class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                            </div>
+                            
                         </div>
 
 

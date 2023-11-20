@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
-
+use App\Helpers\Helper;
+use App\Models\officerInfo;
 class borrowerInfoController extends Controller
 {
     /**
@@ -40,11 +41,12 @@ class borrowerInfoController extends Controller
             'xcontact' => ['required', 'max:20'],
             'xemail' => ['required', 'max:100'],
             'xaddress' => ['required'],
-            'xage' => ['required',],
+            'xbirthDate' => ['required',],
             'xgender' => ['required']
         ]);
+        $genAccount = Helper::AccountNumberGenerator(new borrowerinfo, 'borAccount', 5, 'BAC');
         $borrowerinfo = new borrowerinfo();
-
+        $borrowerinfo->borAccount = $genAccount;
         $borrowerinfo->borFname = $request->xfirstName;
         $borrowerinfo->borMname = $request->xmiddleName;
         $borrowerinfo->borLname = $request->xlastName;
@@ -52,11 +54,11 @@ class borrowerInfoController extends Controller
         $borrowerinfo->borContact = $request->xcontact;
         $borrowerinfo->borEmail = $request->xemail;
         $borrowerinfo->borAddress = $request->xaddress;
-        $borrowerinfo->borAge = $request->xage;
+        $borrowerinfo->borDob = $request->xbirthDate;
         $borrowerinfo->borGender = $request->xgender;
 
         $borrowerinfo->save();
-        return redirect()->route('borrower')->with('success', ' ' );
+        return redirect()->route('borrower')->with('success', 'Borrower Successfully Created' );
     }
 
     // Search function    -------- NOT DONE
@@ -96,20 +98,23 @@ class borrowerInfoController extends Controller
                     'borContact' => $request->xcontact,
                     'borEmail' => $request->xemail,
                     'borAddress' => $request->xaddress,
-                    'borAge' => $request->xage,
+                    'borDob' => $request->xbirthDate,
                     'borGender' => $request->xgender,
                 ]
             );
-        return redirect()->route('borrower');
+        return redirect()->route('borrower')->with('success', 'Borrower Successfully Updated' );
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
+    
     {
         $borrowerinfo = borrowerinfo::where('bno', $id);
+        $borrowerinfo2 = officerInfo::where('ono', $id);
+        $borrowerinfo2->delete();
         $borrowerinfo->delete();
-        return redirect()->route('borrower');
+        return redirect()->route('borrower')->with('success', 'Borrower Successfully Deleted' );
     }
 }

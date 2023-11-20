@@ -8,6 +8,8 @@ use App\Models\borrowerinfo;
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
 
+use Mail;
+use App\Mail\MailDemo;
 class loanInfoController extends Controller
 {
     /**
@@ -15,13 +17,12 @@ class loanInfoController extends Controller
      */
     public function index(Request $request)
     {
-        $data = '';
         $search = $request->search;
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         
-        $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
+        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
        
 
        
@@ -38,33 +39,37 @@ class loanInfoController extends Controller
     }
 
 
-    public function search(Request $request)
+    public function search(Request $request, string $id)
     { 
         
         
         // $search = $request->search;
 
-       
+        
+        
+        
+        
+    
+        $borrowerinfo = borrowerinfo::where('bno', $id)->get();
+      
 
-        
-        
-        
-        // return view('Loan.index', compact('data','search','loanInfo'));
        
         $search = $request->search;
 
-        // $data = borrowerinfo::where (function($query) use ($search){
-        //     $query->where('bno','like','%'.$search.'%')->get();
-        // });
+      
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
 
-        $data = borrowerinfo::where('bno', 'Like', '%'.$search.'%')->get();
+        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
 
+    
+
+        return view('Loan.index', compact('loanInfo','data','search','genId','borrowerinfo'))->with('found', ' ' );
+       
         
         
-        return redirect()->route('Loan', compact('loanInfo','data','search','genId'))->with('found', ' ' );
+        
 
        
 
@@ -116,7 +121,7 @@ class loanInfoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request )
     {
         //
     //     $validatedData = $request->validate([
@@ -131,10 +136,14 @@ class loanInfoController extends Controller
     //         'xage' => ['required', ],
     //         'xgender' => ['required']
     //    ]);
-   
+
+       
+
+       
+
     $loanInfo = new loanInfo();
     $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-    $loanInfo->bno = 2;
+    $loanInfo->bno = $request->xbno;
     $loanInfo->loanNumber = $genId;
     $loanInfo->LoanTerm = $request->xLoanTerm;
     $loanInfo->LoanAmount = $request->xLoanAmount;
@@ -148,7 +157,18 @@ class loanInfoController extends Controller
 
 
     $loanInfo->save();
-    return redirect()->route('Loan')->with('success', ' ' );
+        
+    
+    $sendMailData = [
+        'title' => "Mail from walsjdhasd",
+        'body' => 'this is an email from carmelo'
+        
+
+    ];
+        Mail::to('carcapz123@gmail.com')->send(new MailDemo($sendMailData));
+        dd('Email sent yawa!!');
+   
+    // return redirect()->route('Loan')->with('success', ' ' );
 
     }
 
@@ -188,4 +208,7 @@ class loanInfoController extends Controller
         $borrowerinfo = borrowerinfo::all();
         return view('Loan.create', compact('borrowerinfo'));
     }
+
+
+   
 }
