@@ -96,7 +96,7 @@ Route::get('/Loan/create', function () {
 
 Route::post('/Loan/create', [loanInfoController::class, 'store'])
 ->middleware(['auth', 'verified'])
-->name('Loan-store');
+->name('Loan-store'); 
 
 Route::get('/Loan/create', [loanInfoController::class, 'getBorrowerInfo'])
 ->middleware(['auth', 'verified'])

@@ -55,17 +55,23 @@ class loanInfoController extends Controller
 
        
         $search = $request->search;
+        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
+        
+        if($data->isEmpty()) {
+            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist' );
+        }
+        // elseif (loanInfo::where('bno', $borrowerinfo)->exists()) {
+
+        //     return redirect()->route('Loan')->with('error', 'Account Already Exist' );
+        // }
+        else{
+            return redirect()->route('Loan', compact('loanInfo','data','search','genId','borrowerinfo'))->with('success', 'Borrower Match Found' );
+            // dd($borrowerinfo);
+        }
 
       
-        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-
-        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-
-        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
-
-    
-
-        return view('Loan.index', compact('loanInfo','data','search','genId','borrowerinfo'))->with('found', ' ' );
        
         
         
@@ -142,6 +148,7 @@ class loanInfoController extends Controller
        
 
     $loanInfo = new loanInfo();
+   
     $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
     $loanInfo->bno = $request->xbno;
     $loanInfo->loanNumber = $genId;
@@ -157,18 +164,20 @@ class loanInfoController extends Controller
 
 
     $loanInfo->save();
-        
     
+    $send  = borrowerinfo::select('borEmail')->get();
+
     $sendMailData = [
         'title' => "Mail from walsjdhasd",
         'body' => 'this is an email from carmelo'
         
 
     ];
-        Mail::to('carcapz123@gmail.com')->send(new MailDemo($sendMailData));
-        dd('Email sent yawa!!');
+        Mail::to('carmelo.caparas@lccdo.edu.ph')->send(new MailDemo($sendMailData));
+        // dd($sendMailData);
+      
    
-    // return redirect()->route('Loan')->with('success', ' ' );
+    return redirect()->route('Loan')->with('CreateSuccess', 'New Loan Created' );
 
     }
 
