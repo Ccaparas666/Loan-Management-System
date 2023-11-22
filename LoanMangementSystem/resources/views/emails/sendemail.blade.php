@@ -69,8 +69,8 @@
     <div id="container" class="bg-light p-4">
         <h1>Your Loan Application is in Process</h1>
         <p>
-            Dear [Applicant's Name],<br>
-            We hope this email finds you well. Thank you for choosing [Your Company Name] for your financial needs.
+            Dear {{ $mailData['Fullname'] }}<br>
+            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
         
         <p>
@@ -79,8 +79,9 @@
 
         <p>
             <strong>Application Details:</strong><br>
-            <strong>Application Number:</strong> [Your Application Number]<br>
-            <strong>Loan Amount:</strong> [Requested Loan Amount]<br>
+            <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
+            <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
             <strong>Application Status:</strong> In Process
         </p>
 

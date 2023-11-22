@@ -109,18 +109,18 @@ class loanInfoController extends Controller
       
     }
     
-    // public function  StatusReject(Request $request, string $id)
-    // {   
-    //     $loanInfo = loanInfo::where('lid', $id)
-    //     ->update(
-    //         [
-    //             'loanstatus' => 'Rejected',
-    //         ]
-    //     );
-    //     return back()->with('success', 'Rejected Loan' );
+    public function  StatusReject(Request $request, string $id)
+    {   
+        $loanInfo = loanInfo::where('lid', $id)
+        ->update(
+            [
+                'loanstatus' => 'Rejected',
+            ]
+        );
+        return back()->with('reject', 'Rejected Loan' );
         
       
-    // }
+    }
    
 
     public function rejected()
@@ -188,6 +188,7 @@ class loanInfoController extends Controller
     $loanInfo->cmEmail = $request->xcEmail;
     $loanInfo->cmAddress = $request->xcAddress;
 
+    $accountnumber = $request->search;
 
     $loanInfo->save();
     
@@ -195,7 +196,11 @@ class loanInfoController extends Controller
 
     $sendMailData = [
         'title' => "Mail from walsjdhasd",
-        'body' => 'this is an email from carmelo'
+        'body' => 'this is an email from carmelo',
+        'Fullname' => $request->xFullname,
+        'accountnumber' => $accountnumber,
+        'loanNumber' => $genId,
+        'loanAmount' => $request->xLoanAmount,
         
 
     ];

@@ -41,7 +41,7 @@
                 </div>
                 
             </div>
-            <form method="POST" action="{{ route('borrower-store') }}">
+            
                 @csrf
                 <!-- /////////////////////// -->
 
@@ -71,7 +71,67 @@
                                 </tr>
                             </thead>
                             <tbody id="Content">
-                                
+                            @foreach ($loanInfo as $loan)
+                               
+                               @if ($loan->loanstatus == "Rejected")
+                               
+                                   <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                       <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                           {{ $loan->loanNumber }}</td>
+                                       <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
+                                       <td class="px-6 py-4">Reasons list</td>
+                                       <td class="px-6 py-4">Rejected Name</td>
+                                       <td class="px-6 py-4">{{ $loan->loanstatus }}</td>
+                                       <td  class="px-6 py-4 flex justify-center "> 
+                                        
+                                            
+                                            <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}" class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#"> 
+                                            <svg class="w-[19px] h-[19px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 2 3 5-5M9 19A18.55 18.55 0 0 1 1 4l8-3 8 3a18.549 18.549 0 0 1-8 15Z"/>
+                                            </svg>
+                                            <div id="{{'tooltip-default-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-green-700">
+                                                Approve This Loan
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            <a data-tooltip-target="{{'tooltip-default2-'. $loan->lid}}" class="reject text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#"> 
+                                            <svg class="w-[19px] h-[19px] text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.992 11.287c-1 .097-1.96.45-2.792 1.029a25.118 25.118 0 0 0-4.454 5.721 1.803 1.803 0 0 1-.655.705 1.742 1.742 0 0 1-1.648.096 1.786 1.786 0 0 1-.604-.457 1.874 1.874 0 0 1-.432-1.439l1.562-4.626m9.023-1.03H19V2.03c0-.273-.106-.535-.294-.728A.99.99 0 0 0 17.997 1h-1.002a.99.99 0 0 0-.71.301 1.042 1.042 0 0 0-.293.728v9.258Zm-8.02 1.03H3.003c-.322 0-.64-.08-.925-.233a2.022 2.022 0 0 1-.716-.645 2.108 2.108 0 0 1-.242-1.883l2.36-7.2C3.769 1.54 3.96 1 5.365 1c2.59 0 5.39 1.06 7.504 1.66"/>
+                                            </svg>
+                                            <div id="{{'tooltip-default2-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-red-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-red-700">
+                                                Reject This Loan
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+                                            </a>
+                                            <a data-tooltip-target="{{'tooltip-default-'. $loan->loanNumber}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#">
+                                                <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                                                    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />       
+                                                </svg>
+                                            <div id="{{'tooltip-default-'. $loan->loanNumber}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-700 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
+                                                Edit This Loan
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+                                            
+                                            <form data-tooltip-target="{{'tooltip-default1-'. $loan->loanNumber}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" method="POST" action="#" 
+                                            onclick="return confirm('Are you sure you want to delete this record?')"> @csrf
+                                                @method('delete')
+                                                <button>
+                                                    <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                                    </svg>
+                                                    <div id="{{'tooltip-default1-'. $loan->loanNumber}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-red-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-red-800">
+                                                        Delete This Loan
+                                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    </div>
+                                                </button>
+                                            </form>
+                                        </td>
+
+                                   </tr>
+                                   @endif
+                               @endforeach
                             </tbody>
 
                            
@@ -97,7 +157,7 @@
                 
 
                 
-            </form>
+            
             </div>      
         </div>
     </div>

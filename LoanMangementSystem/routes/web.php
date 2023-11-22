@@ -114,7 +114,7 @@ Route::get('/Loan/newloan/{lno}', [loanInfoController::class, 'StatusApprove'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Approve');
 
-Route::get('/Loan/newloan/reject{lno}', [loanInfoController::class, 'StatusReject'])
+Route::get('/Loan/newloan/reject/{lno}', [loanInfoController::class, 'StatusReject'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Reject');
 
