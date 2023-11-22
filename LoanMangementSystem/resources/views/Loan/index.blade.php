@@ -47,7 +47,6 @@
                             @if (session()->has('success'))
                             <script>
                                 Swal.fire({
-                                position: "top-end",
                                 icon: "success",
                                 title: "Success",
                                 text: "{{session('success')}}",

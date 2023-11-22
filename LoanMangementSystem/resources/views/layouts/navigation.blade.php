@@ -128,8 +128,12 @@
             <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
                 <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
-            </svg>       
-               <span class="ml-3">ADMINISTRATOR</span>
+            </svg>   
+            @if (auth()->user()->is_admin)
+                <span class="ml-3">ADMINISTRATOR</span>
+            @else    
+               <span class="ml-3">LOAN OFFICER</span>
+            @endif
             </a>
          </li>
     </ul>

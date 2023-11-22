@@ -96,6 +96,32 @@ class loanInfoController extends Controller
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         return view('Loan.newloan', compact('loanInfo'));
     }
+    public function StatusApprove(Request $request, string $id)
+    {   
+        
+        $loanInfo = loanInfo::where('lid', $id)
+            ->update(
+                [
+                    'loanstatus' => 'Approved',
+                ]
+            );
+            return back()->with('success', 'Approved Loan' );
+      
+    }
+    
+    // public function  StatusReject(Request $request, string $id)
+    // {   
+    //     $loanInfo = loanInfo::where('lid', $id)
+    //     ->update(
+    //         [
+    //             'loanstatus' => 'Rejected',
+    //         ]
+    //     );
+    //     return back()->with('success', 'Rejected Loan' );
+        
+      
+    // }
+   
 
     public function rejected()
     {
