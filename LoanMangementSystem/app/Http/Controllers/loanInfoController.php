@@ -10,6 +10,8 @@ use Psy\Readline\Hoa\Console;
 
 use Mail;
 use App\Mail\MailDemo;
+use Illuminate\Support\Facades\Mail as FacadesMail;
+
 class loanInfoController extends Controller
 {
     /**
@@ -169,7 +171,7 @@ class loanInfoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request )
+    public function store(Request $request, borrowerinfo $user )
     {
         //
     //     $validatedData = $request->validate([
@@ -204,11 +206,11 @@ class loanInfoController extends Controller
     $loanInfo->cmEmail = $request->xcEmail;
     $loanInfo->cmAddress = $request->xcAddress;
 
-    $accountnumber = $request->search;
-
-    $loanInfo->save();
+    $accountnumber = $request->xsearch;
     
-    $send  = borrowerinfo::select('borEmail')->where('$accountnumber');
+    $loanInfo->save();
+   
+    $email = $request->xemail;
    
 
     $sendMailData = [
@@ -218,11 +220,12 @@ class loanInfoController extends Controller
         'accountnumber' => $accountnumber,
         'loanNumber' => $genId,
         'loanAmount' => $request->xLoanAmount,
+        'BorrowerName' => $request->xName,
         
 
     ];
-        Mail::to('carmelo.caparas@lccdo.edu.ph')->send(new MailDemo($sendMailData));
-        // dd($sendMailData);
+        FacadesMail::to($email)->send(new MailDemo($sendMailData));
+        // dd($request->xName);
       
    
     return redirect()->route('Loan')->with('CreateSuccess', 'New Loan Created' );
