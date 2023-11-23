@@ -81,6 +81,7 @@
                         <div class="input-group no-border mb-5">
                            
                             <form action="{{ route('search', ['brno' => $borinfo->bno]) }}" method="GET">  
+                                
                                 @if(isset($search))
                                     <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower Account No.</label>    
                                     <div class="relative w-full"> 
@@ -204,10 +205,13 @@
                                     <div>
                                         <label for="contact" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                         @if(isset($search))
-                                            <input type="text"   name="xemail" value="{{ $borinfo->borEmail }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                                            <input type="text"   name="xemail1" value="{{ $borinfo->borEmail }}" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                         @else
                                             <input type="text"  value="" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
                                         @endif
+                                        <input type="text" name="xName" value="{{ $borinfo->borLname }} , {{ $borinfo->borFname }} {{ $borinfo->borSuffix }}" class="hidden">
+                                        <input type="search" name="xsearch" value="{{$borinfo->borAccount}}" class="hidden">
+                                        <input type="text"   name="xemail" value="{{ $borinfo->borEmail }}" class="hidden">
                                     </div>
                                     <div>
                                         <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>

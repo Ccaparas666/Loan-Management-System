@@ -69,7 +69,7 @@
     <div id="container" class="bg-light p-4">
         <h1>Your Loan Application is in Process</h1>
         <p>
-            Dear {{ $mailData['Fullname'] }}<br>
+            Dear {{ $mailData['BorrowerName'] }}<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
         
