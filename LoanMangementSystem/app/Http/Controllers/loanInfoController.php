@@ -208,7 +208,8 @@ class loanInfoController extends Controller
 
     $loanInfo->save();
     
-    $send  = borrowerinfo::select('borEmail')->get();
+    $send  = borrowerinfo::select('borEmail')->where('$accountnumber');
+   
 
     $sendMailData = [
         'title' => "Mail from walsjdhasd",
