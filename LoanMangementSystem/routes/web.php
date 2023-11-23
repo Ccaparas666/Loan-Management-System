@@ -140,6 +140,11 @@ Route::get('/Loan/interest', [loansettingsController::class, 'Interest'])
 ->name('add-interest');
 
 
+Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
+->middleware(['auth', 'verified'])
+->name('payment');
+
+
 
 
 

@@ -81,7 +81,7 @@
                                        <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
                                        <td class="px-6 py-4">Reasons list</td>
                                        <td class="px-6 py-4">Rejected Name</td>
-                                       <td class="px-6 py-4 text-red-500 font-semibold dark:text-red">{{ $loan->loanstatus }}</td>
+                                       <td class="px-6 py-4 text-red-500 font-semibold dark:text-red"><h1 class="inline-block p-1 rounded bg-red-200/10 text-red-500 font-medium text-[12px] leading-none">{{ $loan->loanstatus }}</h1></td>
                                        <td  class="px-6 py-4 flex justify-center "> 
                                         
                                             

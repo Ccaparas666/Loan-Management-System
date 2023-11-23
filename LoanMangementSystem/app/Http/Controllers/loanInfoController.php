@@ -154,6 +154,9 @@ class loanInfoController extends Controller
         return view('Loan.paid', compact('loanInfo'));
     }
 
+    public function payment(){
+        return view('Loan.payment');
+    }
 
     /**
      * Show the form for creating a new resource.
