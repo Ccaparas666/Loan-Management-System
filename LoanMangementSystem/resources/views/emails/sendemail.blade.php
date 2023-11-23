@@ -85,7 +85,7 @@
             <strong>Application Status:</strong> In Process
         </p>
 
-        <p>
+        <!-- <p>
             <strong>Next Steps:</strong><br>
             Our team will carefully assess your application and may reach out to you for any additional information required. Please ensure that you have provided all necessary documentation to expedite the process.
         </p>
@@ -102,9 +102,9 @@
 
         <p>
             We appreciate your trust in [Your Company Name], and we look forward to the opportunity to support your financial goals. Thank you for choosing us as your financial partner.
-        </p>
+        </p> -->
 
-        <a href="[Your Website URL]" class="btn btn-primary">Visit Our Website</a>
+        <!-- <a href="[Your Website URL]" class="btn btn-primary">Visit Our Website</a> -->
     </div>
 </body>
 </html>

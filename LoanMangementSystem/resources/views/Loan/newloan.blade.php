@@ -104,7 +104,7 @@
                                         <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
                                         <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
                                         <td class="px-6 py-4">Verified information</td>
-                                        <td class="px-6 py-4">{{ $loan->loanstatus }}</td>
+                                        <td class="px-6 py-4 text-blue-500 font-semibold dark:text-blue ">{{ $loan->loanstatus }}</td>
                                         <td  class="px-6 py-4 flex justify-center "> 
                                         
                                             

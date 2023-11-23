@@ -20,7 +20,7 @@ use App\Http\Controllers\loansettingsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 
 Route::get('/dashboard', function () {
@@ -125,6 +125,11 @@ Route::get('/Loan/rejected', [loanInfoController::class, 'rejected'])
 Route::get('/Loan/approved', [loanInfoController::class, 'approved'])
 ->middleware(['auth', 'verified'])
 ->name('approved-loan');
+
+Route::get('/Loan/approved/{lno}', [loanInfoController::class, 'Released'])
+->middleware(['auth', 'verified'])
+->name('loan-Release');
+
 
 Route::get('/Loan/paid', [loanInfoController::class, 'paid'])
 ->middleware(['auth', 'verified'])

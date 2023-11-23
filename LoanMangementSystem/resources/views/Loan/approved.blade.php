@@ -41,6 +41,19 @@
                 </div>
                 
             </div>
+
+                        @if (session()->has('Released'))
+                            <script>
+                                Swal.fire({
+                                icon: "success",
+                                title: "Loan Released",
+                                text: "{{session('Released')}}",
+
+                                });
+                            </script>
+                           
+                       
+                        @endif
             <form method="POST" action="{{ route('borrower-store') }}">
                 @csrf
                 <!-- /////////////////////// -->
@@ -77,7 +90,7 @@
                                  
                             @foreach ($loanInfo as $loan)
                                
-                               @if ($loan->loanstatus == "Approved")
+                               @if ($loan->loanstatus == "Approved" || $loan->loanstatus == "Loan Active")
                                
                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -86,37 +99,61 @@
                                        <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
                                        <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
                                        <td class="px-6 py-4">Verified information</td>
+                                       @if ($loan->loanstatus == "Approved")
                                        <td class="px-6 py-4">{{ $loan->loanstatus }} waiting for cash release</td>
                                        <td class="px-6 py-4 flex justify-center">
-                                           <a
-                                               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href= "#">
-                                               <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                           <svg>
-                                             <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-                                             <path fill-rule="evenodd"
-                                               d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd">
-                                             </path>
-                                           </svg>
-                                         </svg>
-                                         Update</a>
-                                       
-                                       
-                                           <form method="POST"
-                                               action = "#"
-                                               onclick="return confirm('Are you sure you want to delete this record?')">
-                                               @csrf
-                                               @method('delete')
-                                               <button
-                                                 class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                                 <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                   <path fill-rule="evenodd"
-                                                     d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                     clip-rule="evenodd"></path>
-                                                 </svg>
-                                                 Delete
-                                               </button>
-                                           </form>
+                                            <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}" class="Released text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="{{route('loan-Release', ['lno' => $loan->lid]) }}"> 
+                                            <svg class="w-[19px] h-[19px] text-gray-200 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1M2 5h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+                                            </svg>
+                                            <div id="{{'tooltip-default-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-green-700">
+                                                For Cash Release
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+                                            <a data-tooltip-target="{{'tooltip-default1-'. $loan->lid}}" class="approved text-white bg-blue-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#"> 
+                                            <svg class="w-[19px] h-[19px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
+                                            </g>
+                                            </svg>
+                                            <div id="{{'tooltip-default1-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
+                                                View Loan Details
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
                                        </td>
+                                       @elseif($loan->loanstatus == "Loan Active")
+                                       <td class="px-6 py-4 text-green-500 font-semibold dark:text-green"><h1 class="inline-block p-1 rounded bg-emerald-200/10 text-emerald-500 font-medium text-[12px] leading-none">{{ $loan->loanstatus }}</h1></td>
+                                       <td class="px-6 py-4 flex justify-center ">
+                                            <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}" class="Active text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-indigo-400 dark:hover:bg-indigo-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"> 
+                                            <svg class="w-[19px] h-[19px] test" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                                                <style>.test{fill:#fffff2}</style>
+                                                <path d="M64 32C46.3 32 32 46.3 32 64v64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V384h80c68.4 0 127.7-39 156.8-96H352c17.7 0 32-14.3 32-32s-14.3-32-32-32h-.7c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16h.7c17.7 0 32-14.3 32-32s-14.3-32-32-32H332.8C303.7 71 244.4 32 176 32H64zm190.4 96H96V96h80c30.5 0 58.2 12.2 78.4 32zM96 192H286.9c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16H96V192zm158.4 96c-20.2 19.8-47.9 32-78.4 32H96V288H254.4z"/>
+                                            </svg>
+                                            
+                                            <div id="{{'tooltip-default3-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-indigo-700">
+                                                Loan Active
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+                                            <a data-tooltip-target="{{'tooltip-default1-'. $loan->lid}}" class="approved text-white bg-blue-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#"> 
+                                            <svg class="w-[19px] h-[19px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
+                                            </g>
+                                            </svg>
+                                            <div id="{{'tooltip-default1-'. $loan->lid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
+                                                View Loan Details
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+                                       </td>
+                                       @endif
+                                      
+                                        
 
                                    </tr>
                                    @endif
@@ -140,6 +177,33 @@
                           
                         </script>
                        
+                       <script>
+                        $('.Released').on('click', function (e) {
+                                    e.preventDefault();
+                                    var self = $(this);
+                                    Swal.fire({
+                                        title: "is Cash Released?",
+                                        showCancelButton: true,
+                                        confirmButtonText: "Yes",
+
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = self.attr('href');  
+                                        }
+                                    });
+
+                                });
+
+                                $('.Active').on('click', function (e) {
+                                    
+                                    Swal.fire({
+                                        title: "Loan Active",
+                                        confirmButtonText: "OK",
+
+                                    });
+
+                                });
+                       </script>
                        
                     </div>
 

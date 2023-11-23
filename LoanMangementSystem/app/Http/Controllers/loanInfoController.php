@@ -135,6 +135,19 @@ class loanInfoController extends Controller
         return view('Loan.approved', compact('loanInfo'));
     }
 
+    public function  Released(Request $request, string $id)
+    {
+        $loanInfo = loanInfo::where('lid', $id)
+        ->update(
+            [
+                'loanstatus' => 'Loan Active',
+            ]
+        );
+        return back()->with('Released', 'Loan Released' );
+    }
+
+   
+
     public function paid()
     {
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
