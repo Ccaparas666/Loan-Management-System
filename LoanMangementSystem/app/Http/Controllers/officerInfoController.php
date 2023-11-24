@@ -5,6 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\officerInfo;
 use App\Helpers\Helper;
+use App\Models\User;
+use App\Http\Controllers\Controller;
+
+use App\Providers\RouteServiceProvider;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Illuminate\View\View;
+
 class officerInfoController extends Controller
 {
     /**
@@ -31,6 +43,7 @@ class officerInfoController extends Controller
      */
     public function store(Request $request)
     {
+        
         $genId = Helper::OfficerIDgenerator(new officerinfo, 'offId', 5, 'OFL');
         $OfficerInfo = new officerInfo();
        
@@ -44,12 +57,21 @@ class officerInfoController extends Controller
         $OfficerInfo->offDob = $request->xbirthDate;
         $OfficerInfo->offGender = $request->xgender;
         $OfficerInfo->offEmail = $request->xemail;
-        $OfficerInfo->offpassword = $request->xpassword;
-
-        
-        
-        
+        $OfficerInfo->offpassword = $request->xpassword;       
         $OfficerInfo->save();
+
+        $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
+        // dd( $name );
+
+        $user = User::create([
+            'name' => $name,
+            'email' => $request->xemail,
+            'password' => Hash::make($request->xpassword),
+        ]);
+
+        event(new Registered($user));
+
+
         return redirect()->route('officer');
     }
 

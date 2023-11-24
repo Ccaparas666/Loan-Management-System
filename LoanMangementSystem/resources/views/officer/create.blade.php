@@ -100,7 +100,7 @@
                         <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">CREATE ACCOUNT</h3>
                         <br>
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
-                            <div class="">
+                            <!-- <div class="">
                                 <label for="Email"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">EMAIL</label>
                                 <input type="email" name="xemail" value="{{ old('xemail') }}"
@@ -114,9 +114,41 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required>
                             </div>
                             <div>
-                                <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CONFIRM PASSWORD</label>
-                                <input type="password" name="xconfirmpass"  placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                            </div>
+                                <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CONFIRM PASSWORD</label>
+                                <input type="password" id="password_confirmation"  name="password_confirmation"  placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required autocomplete="new-password">
+                            </div> -->
+                             <!-- Email -->
+    <div class="mb-4">
+        <label for="xemail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+        <input id="xemail" type="email" name="xemail" value="{{ old('xemail') }}"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               placeholder="example@gmail.com" required>
+        @error('xemail')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <!-- Password -->
+    <div class="mb-4">
+        <label for="xpassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+        <input id="xpassword" type="password" name="xpassword" value="{{ old('xpassword') }}"
+               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               placeholder="••••••••" required>
+        @error('xpassword')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="mb-4">
+        <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+        <input id="password_confirmation" type="password" name="password_confirmation" placeholder="••••••••"
+               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               required autocomplete="new-password">
+        @error('password_confirmation')
+            <span class="text-red-600 text-sm">{{ $message }}</span>
+        @enderror
+    </div>
                             <div class="">
                                 </select>
                                 <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Role</label>
