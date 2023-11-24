@@ -93,6 +93,7 @@
                                                 </svg>
                                                 <span class="sr-only">Search</span>
                                         </button>
+                                        
                                     </div>
                                 @else
                                 <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Borrower Account No.</label>    
@@ -212,6 +213,7 @@
                                         <input type="text" name="xName" value="{{ $borinfo->borLname }} , {{ $borinfo->borFname }} {{ $borinfo->borSuffix }}" class="hidden">
                                         <input type="search" name="xsearch" value="{{$borinfo->borAccount}}" class="hidden">
                                         <input type="text"   name="xemail" value="{{ $borinfo->borEmail }}" class="hidden">
+                                        
                                     </div>
                                     <div>
                                         <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>

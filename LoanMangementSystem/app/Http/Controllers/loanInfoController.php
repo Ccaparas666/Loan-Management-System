@@ -53,8 +53,8 @@ class loanInfoController extends Controller
         
     
         $borrowerinfo = borrowerinfo::where('bno', $id)->get();
-      
-
+        
+         
        
         $search = $request->search;
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
@@ -173,7 +173,7 @@ class loanInfoController extends Controller
      */
     public function store(Request $request, borrowerinfo $user )
     {
-        //
+        
     //     $validatedData = $request->validate([
             
     //         'xfirstName' => ['required', 'max:20'],
@@ -184,7 +184,8 @@ class loanInfoController extends Controller
     //        'xemail' => ['required', 'max:100'],
     //         'xaddress' => ['required'],
     //         'xage' => ['required', ],
-    //         'xgender' => ['required']
+    //         'xgender' => ['required'],
+            
     //    ]);
 
        
@@ -228,7 +229,9 @@ class loanInfoController extends Controller
         // dd($request->xName);
       
    
-    return redirect()->route('Loan')->with('CreateSuccess', 'New Loan Created' );
+     
+        
+        return redirect()->route('Loan')->with('CreateSuccess', 'New Loan Created' );
 
     }
 
