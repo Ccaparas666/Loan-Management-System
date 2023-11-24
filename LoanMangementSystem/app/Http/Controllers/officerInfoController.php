@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+
+use App\Http\Requests\ProfileUpdateRequest;
+
+use Illuminate\Support\Facades\Redirect;
+
+
 class officerInfoController extends Controller
 {
     /**
@@ -58,7 +64,7 @@ class officerInfoController extends Controller
         $OfficerInfo->offGender = $request->xgender;
         $OfficerInfo->offEmail = $request->xemail;
         $OfficerInfo->offpassword = $request->xpassword;       
-        $OfficerInfo->save();
+       
 
         $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
         // dd( $name );
@@ -67,11 +73,12 @@ class officerInfoController extends Controller
             'name' => $name,
             'email' => $request->xemail,
             'password' => Hash::make($request->xpassword),
+            'is_admin' => $request->Role,
         ]);
 
         event(new Registered($user));
 
-
+        $OfficerInfo->save();
         return redirect()->route('officer');
     }
 
@@ -120,9 +127,20 @@ class officerInfoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
+        $datafinder = OfficerInfo::where('ono', $id)->first();
+        $email =  $datafinder->offEmail ?? null;
+        $user = User::where('email', 'LIKE', $email)->first();
+
         $OfficerInfo = officerInfo::where('ono', $id);
+        
+
+        $user->delete();
+
+
+
+        
         $OfficerInfo->delete();
         return redirect()->route('officer');
     }

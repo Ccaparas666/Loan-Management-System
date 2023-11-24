@@ -19,6 +19,11 @@ return new class extends Migration
             $table->string('password');
             $table->integer('is_admin')->default(0);
             //////////////
+            // $table->string('UserNumber');
+            // $table->string('Contact');
+            // $table->string('Address');
+            // $table->date('DateOfBirth');
+            // $table->string('Gender', 6);
             $table->rememberToken();
             $table->timestamps();
         });
