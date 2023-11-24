@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('borLname', 20);
             $table->string('borSuffix', 5)->nullable();
             $table->string('borContact', 20);
-            $table->string('borEmail', 100);
+            $table->string('borEmail', 100)->unique();
             $table->date('borDob');
             // $table->boolean('notification');
             $table->string('borAddress', 100);

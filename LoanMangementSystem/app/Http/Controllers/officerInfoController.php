@@ -45,6 +45,8 @@ class officerInfoController extends Controller
         $OfficerInfo->offGender = $request->xgender;
         $OfficerInfo->offEmail = $request->xemail;
         $OfficerInfo->offpassword = $request->xpassword;
+
+        
         
         
         $OfficerInfo->save();

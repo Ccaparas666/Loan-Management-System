@@ -34,28 +34,28 @@ class borrowerInfoController extends Controller
         //
         $validatedData = $request->validate([
 
-            'xfirstName' => ['required', 'max:20'],
-            'xmiddleName' => ['max:15'],
-            'xlastName' => ['required', 'max:20'],
-            'xsuffix' => ['nullable', 'max:5'],
-            'xcontact' => ['required', 'max:20'],
-            'xemail' => ['required', 'max:100'],
-            'xaddress' => ['required'],
-            'xbirthDate' => ['required',],
-            'xgender' => ['required']
+            'FirstName' => ['required', 'max:20'],
+            // 'MiddleName' => ['size:1'],
+            'LastName' => ['required', 'max:20'],
+            'Suffix' => ['nullable', 'max:5'],
+            'Contact' => ['required','string','size:11','starts_with:09'],
+            'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
+            'Address' => ['required'],
+            'BirthDate' => ['date',],
+            'Gender' => ['required']
         ]);
         $genAccount = Helper::AccountNumberGenerator(new borrowerinfo, 'borAccount', 5, 'BAC');
         $borrowerinfo = new borrowerinfo();
         $borrowerinfo->borAccount = $genAccount;
-        $borrowerinfo->borFname = $request->xfirstName;
-        $borrowerinfo->borMname = $request->xmiddleName;
-        $borrowerinfo->borLname = $request->xlastName;
-        $borrowerinfo->borSuffix = $request->xsuffix;
-        $borrowerinfo->borContact = $request->xcontact;
-        $borrowerinfo->borEmail = $request->xemail;
-        $borrowerinfo->borAddress = $request->xaddress;
-        $borrowerinfo->borDob = $request->xbirthDate;
-        $borrowerinfo->borGender = $request->xgender;
+        $borrowerinfo->borFname = $request->FirstName;
+        $borrowerinfo->borMname = $request->MiddleName;
+        $borrowerinfo->borLname = $request->LastName;
+        $borrowerinfo->borSuffix = $request->Suffix;
+        $borrowerinfo->borContact = $request->Contact;
+        $borrowerinfo->borEmail = $request->Email;
+        $borrowerinfo->borAddress = $request->Address;
+        $borrowerinfo->borDob = $request->BirthDate;
+        $borrowerinfo->borGender = $request->Gender;
 
         $borrowerinfo->save();
         return redirect()->route('borrower')->with('success', 'Borrower Successfully Created' );

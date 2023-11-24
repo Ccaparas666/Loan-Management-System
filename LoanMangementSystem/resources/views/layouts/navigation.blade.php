@@ -158,7 +158,7 @@
          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
             </svg>
-                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">Loan Officers</span>
+                  <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">User Management</span>
                   <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                   </svg>
@@ -174,7 +174,7 @@
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 8h6m-3 3V5m-6-.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
-                        </svg><span class="ml-2 whitespace-nowrap">Add New Officer</span></a>
+                        </svg><span class="ml-2 whitespace-nowrap">Add New Account</span></a>
                 </li>
                 <li>
                     <a href="{{ route('officer') }}"
@@ -183,7 +183,7 @@
                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M4.109 17H1v-2a4 4 0 0 1 4-4h.87M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm7.95 2.55a2 2 0 0 1 0 2.829l-6.364 6.364-3.536.707.707-3.536 6.364-6.364a2 2 0 0 1 2.829 0Z" />
-                        </svg><span class="ml-2 whitespace-nowrap">Manage Officer</span></a>
+                        </svg><span class="ml-2 whitespace-nowrap">Manage Account</span></a>
                 </li>
               
               

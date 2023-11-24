@@ -6,11 +6,12 @@
                 <div>
                     <div class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900 dark:text-gray-100">
-                            <h4 class="text-2xl font-bold dark:text-white">ADD OFFICER INFORMATION</h4>
+                            <h4 class="text-2xl font-bold dark:text-white">ADD ACCOUNT INFORMATION</h4>
                         </div>
                     </div>
                 </div>
             </div> 
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     
@@ -22,14 +23,14 @@
                         </ul>
                     @endif
                     <br /><br>
-                    <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Loan Officer Information</h3>
+                    <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Loan Account Information</h3>
                     <br><br>
                     <form method="POST" action="{{ route('Officer-store') }}">
                         @csrf
                         <!-- /////////////////////// -->
 
                         
-
+                       
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div>
                                 <label for="First Name"
@@ -96,7 +97,7 @@
 
                         </div>
                         <br>
-                        <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">Officer Account Information</h3>
+                        <h3 class="text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-2xl font-bold dark:text-white">CREATE ACCOUNT</h3>
                         <br>
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div class="">
@@ -113,9 +114,19 @@
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required>
                             </div>
                             <div>
-                      <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CONFIRM PASSWORD</label>
-                      <input type="password" name="xconfirmpass"  placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
-                  </div>
+                                <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CONFIRM PASSWORD</label>
+                                <input type="password" name="xconfirmpass"  placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                            </div>
+                            <div class="">
+                                </select>
+                                <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Role</label>
+                                <select id="default"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <option selected disabled>Choose Role Accunt</option>
+                                    <option value="0">Loan Officer</option>
+                                    <option value="1">Loan Manager</option>
+                                </select>
+                            </div>
 
                   
                         </div>
