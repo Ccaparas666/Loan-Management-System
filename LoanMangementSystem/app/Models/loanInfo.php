@@ -24,4 +24,9 @@ class loanInfo extends Model
         'cmEmail',
         'cmAddress',
     ];
+
+    public function borrowerinfo()
+    {
+        return $this->hasOne(BorrowerInfo::class, 'bno', 'bno'); 
+    }
 }

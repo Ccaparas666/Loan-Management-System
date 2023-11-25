@@ -73,6 +73,15 @@
                                 text: "{{session('CreateSuccess')}}",
                                 });                               
                             </script>
+                            @elseif (session()->has('errorFound'))
+                           <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Borrower Already Registered",
+                                text: "{{session('errorFound')}}",
+                                });                               
+                            </script>
+                            
                             
                             
                             @endif

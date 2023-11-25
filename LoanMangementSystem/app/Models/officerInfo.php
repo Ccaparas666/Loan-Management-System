@@ -51,4 +51,19 @@ class officerInfo extends Model
     protected $casts = [
         'password' => 'hashed',
     ];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            // Capitalize the first letter and make the rest lowercase for specific fields
+            $fieldsToFormat = ['offFname', 'offMname', 'offLname', 'offSuffix'];
+
+            foreach ($fieldsToFormat as $field) {
+                $model->$field = ucfirst(strtolower($model->$field));
+            }
+        });
+    }
 }

@@ -69,6 +69,22 @@ class officerInfoController extends Controller
         $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
         // dd( $name );
 
+        $request->validate([
+
+            'xfirstName' => ['required', 'string', 'max:255'],
+            // 'xmiddleName' => ['nullable', 'string', 'max:255'],
+            'xlastName' => ['required', 'string', 'max:255'],
+            'xsuffix' => ['nullable', 'string', 'max:255'],
+            'xcontact' => ['required', 'string', 'max:255'],
+            'xaddress' => ['required', 'string', 'max:255'],
+            'xbirthDate' => ['required', 'date'],
+            'xgender' => ['required'],
+            'xemail' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'Role' => ['required'],
+            'xpassword' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+
         $user = User::create([
             'name' => $name,
             'email' => $request->xemail,
@@ -76,9 +92,10 @@ class officerInfoController extends Controller
             'is_admin' => $request->Role,
         ]);
 
-        event(new Registered($user));
+        
 
         $OfficerInfo->save();
+        event(new Registered($user));
         return redirect()->route('officer');
     }
 

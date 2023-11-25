@@ -23,4 +23,25 @@ class borrowerinfo extends Model
         'borAddress',
         'borGender',
     ];
+
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            $fieldsToFormat = ['borFname', 'borMname', 'borLname', 'borSuffix'];
+
+            foreach ($fieldsToFormat as $field) {
+                $model->$field = ucfirst(strtolower($model->$field));
+            }
+        });
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(LoanInfo::class, 'bno', 'bno');
+    }
+
+     protected $primaryKey = 'bno';
 }

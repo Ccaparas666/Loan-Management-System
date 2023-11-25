@@ -45,48 +45,44 @@ class loanInfoController extends Controller
     { 
         
         
-        // $search = $request->search;
-
-        
-        
-        
-        
-    
-        $borrowerinfo = borrowerinfo::where('bno', $id)->get();
-        
-         
-       
         $search = $request->search;
+
+        // Find borrowerinfo based on borAccount
+        $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();     
+        if (!$borrowerinfo) {
+            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
+        }  
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
-        
-        if($data->isEmpty()) {
-            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist' );
+        if ($borrowerinfo->loanInfo()->exists()) {
+            return redirect()->route('Loan')->with('errorFound', 'Borrower already registered for a loan');
         }
-        // elseif (loanInfo::where('bno', $borrowerinfo)->exists()) {
+        
+        $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Match Found');    
 
-        //     return redirect()->route('Loan')->with('error', 'Account Already Exist' );
+           // $search = $request->search;
+
+        // $search = $request->search;
+        // $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+        // $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        // $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
+
+        // $borrowerinfo = borrowerinfo::where('bno', $id)->first();
+        
+        // if($data->isEmpty()) {
+        //     return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist' );
         // }
-        else{
-            return redirect()->route('Loan', compact('loanInfo','data','search','genId','borrowerinfo'))->with('success', 'Borrower Match Found' );
-            // dd($borrowerinfo);
-        }
+        // elseif (loanInfo::where('bno', $borrowerinfo->bno)->exists()) {
+        //     return redirect()->route('Loan')->with('error', 'Borrower already registered for a loan');
+        // }
+        // // elseif (loanInfo::where('bno', $borrowerinfo)->exists()) {
 
-      
-       
-        
-        
-        
-
-       
-
-
-      
-
-        
-
-        
+        // //     return redirect()->route('Loan')->with('error', 'Account Already Exist' );
+        // // }
+        // else{
+        //     return redirect()->route('Loan', compact('loanInfo','data','search','genId','borrowerinfo'))->with('success', 'Borrower Match Found' );
+        //     // dd($borrowerinfo);
+        // }     
     }
 
     
@@ -99,18 +95,30 @@ class loanInfoController extends Controller
         return view('Loan.newloan', compact('loanInfo'));
     }
     public function StatusApprove(Request $request, string $id)
-    {   
-        
+    {
         $loanInfo = loanInfo::where('lid', $id)
-            ->update(
-                [
-                    'loanstatus' => 'Approved',
-                ]
-            );
-            return back()->with('success', 'Approved Loan' );
-      
+            ->update([
+                'loanstatus' => 'Approved',
+            ]);
+        $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
+        if ($loan && $loan->borrowerinfo) {   
+            $sendMailData = [
+                'BorrowerName' => $loan->borrowerinfo->borFname,
+                'accountnumber' => $loan->borrowerinfo->borAccount,
+                'loanNumber' => $loan->loanNumber,
+                'loanAmount' => $loan->LoanAmount,
+                'loanStatus' => 'Approved',
+            ];
+            
+            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+        } else {
+         
+            return back()->with('error', 'Loan or borrower information not found');
+        }
+        return back()->with('success', 'Approved Loan');
+
     }
-    
+
     public function  StatusReject(Request $request, string $id)
     {   
         $loanInfo = loanInfo::where('lid', $id)
@@ -214,16 +222,24 @@ class loanInfoController extends Controller
     $email = $request->xemail;
    
 
+    // $sendMailData = [
+    //     'title' => "Mail from walsjdhasd",
+    //     'body' => 'this is an email from carmelo',
+    //     'Fullname' => $request->xFullname,
+    //     'accountnumber' => $accountnumber,
+    //     'loanNumber' => $genId,
+    //     'loanAmount' => $request->xLoanAmount,
+    //     'BorrowerName' => $request->xName,
+        
+
+    // ];
+
     $sendMailData = [
-        'title' => "Mail from walsjdhasd",
-        'body' => 'this is an email from carmelo',
-        'Fullname' => $request->xFullname,
+        'BorrowerName' => $request->xName,
         'accountnumber' => $accountnumber,
         'loanNumber' => $genId,
         'loanAmount' => $request->xLoanAmount,
-        'BorrowerName' => $request->xName,
-        
-
+        'loanStatus' => 'In Process', // Set the appropriate status here
     ];
         FacadesMail::to($email)->send(new MailDemo($sendMailData));
         // dd($request->xName);

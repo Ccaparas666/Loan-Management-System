@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
 use App\Helpers\Helper;
 use App\Models\officerInfo;
+
+use Illuminate\Database\QueryException; 
 class borrowerInfoController extends Controller
 {
     /**
@@ -111,10 +113,18 @@ class borrowerInfoController extends Controller
     public function destroy(string $id)
     
     {
-        $borrowerinfo = borrowerinfo::where('bno', $id);
-        $borrowerinfo2 = officerInfo::where('ono', $id);
-        $borrowerinfo2->delete();
-        $borrowerinfo->delete();
-        return redirect()->route('borrower')->with('success', 'Borrower Successfully Deleted' );
+        // $borrowerinfo = borrowerinfo::where('bno', $id);
+        // $borrowerinfo->delete();
+        // return redirect()->route('borrower')->with('success', 'Borrower Successfully Deleted' );
+        try {
+            $borrowerinfo = BorrowerInfo::findOrFail($id);     
+            if ($borrowerinfo->loans()->exists()) {
+                return redirect()->route('borrower')->with('error', 'Cannot delete borrower. There are active loans associated with this borrower.');
+            }
+            $borrowerinfo->delete();
+            return redirect()->route('borrower')->with('success', 'Borrower Successfully Deleted');
+        } catch (QueryException $e) {
+            return redirect()->route('borrower')->with('error', 'Borrower not found');
+        }
     }
 }

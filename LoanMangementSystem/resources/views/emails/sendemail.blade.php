@@ -1,24 +1,9 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>asdasdasd</title>
-</head>
-<body>
-    <h1>{{ $mailData['title'] }}</h1>
-    <h1>{{ $mailData['body'] }}</h1>
-    <p>this is test email only</p>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Loan Application is in Process</title>
+    <title>Your Loan Application Status</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
         body {
@@ -35,12 +20,13 @@
             padding: 40px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff; /* Background color inside the container */
+            background-color: #ffffff;
         }
 
         h1 {
-            color: black;
-            background-color: rgba(135, 212, 235, 0.185);
+            color: #007BFF;
+            background-color: #f8f9fa;
+            padding: 20px;
             text-align: center;
         }
        
@@ -67,44 +53,29 @@
 </head>
 <body>
     <div id="container" class="bg-light p-4">
-        <h1>Your Loan Application is in Process</h1>
+        <h1>Your Loan Application Status</h1>
         <p>
             Dear {{ $mailData['BorrowerName'] }}<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
         
-        <p>
-            We are pleased to inform you that your loan application is currently in process. Our dedicated team is diligently reviewing the information you provided to ensure a swift and accurate evaluation.
-        </p>
+        @if ($mailData['loanStatus'] === 'In Process')
+            <p>
+                We are pleased to inform you that your loan application is currently in process. Our dedicated team is diligently reviewing the information you provided to ensure a swift and accurate evaluation.
+            </p>
+        @elseif ($mailData['loanStatus'] === 'Approved')
+            <p>
+                Congratulations! Your loan application has been approved. You can expect further instructions and details regarding your approved loan shortly.
+            </p>
+        @endif
 
         <p>
             <strong>Application Details:</strong><br>
             <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
             <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
             <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
-            <strong>Application Status:</strong> In Process
+            <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
         </p>
-
-        <!-- <p>
-            <strong>Next Steps:</strong><br>
-            Our team will carefully assess your application and may reach out to you for any additional information required. Please ensure that you have provided all necessary documentation to expedite the process.
-        </p>
-
-        <p>
-            <strong>Timeline:</strong><br>
-            We understand the importance of a timely response. Rest assured, we are working diligently to process your application as quickly as possible. You can expect an update on the status of your application within the next [provide an estimated timeframe].
-        </p>
-
-        <p>
-            <strong>Contact Information:</strong><br>
-            Should you have any questions or concerns during this process, please feel free to contact our customer support team at [Your Customer Support Email/Phone Number]. Our representatives are ready to assist you.
-        </p>
-
-        <p>
-            We appreciate your trust in [Your Company Name], and we look forward to the opportunity to support your financial goals. Thank you for choosing us as your financial partner.
-        </p> -->
-
-        <!-- <a href="[Your Website URL]" class="btn btn-primary">Visit Our Website</a> -->
     </div>
 </body>
 </html>
