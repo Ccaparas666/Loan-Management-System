@@ -14,13 +14,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <h6 class="text-lg font-bold">Errors Encountered</h6><br /><br />
-                    @if($errors)
-                    <ul class="list-disc list-inside">
-                        @foreach($errors->all() as $error)
-                        <li class="text-red-600">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    @endif
+                    
                     @foreach ($borrowerinfo as $borinfo)
                     <form method="POST" action="{{ route('borrower-update',['brno' => $borinfo->bno]) }}">
                         @csrf
@@ -31,45 +25,50 @@
                                 <label for="First Name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
                                     name</label>
-                                <input type="text" name="xfirstName" value="{{$borinfo->borFname}}"
+                                <input type="text" name="FirstName" value="{{$borinfo->borFname}}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
+                                    <x-input-error :messages="$errors->get('FirstName')" class="mt-2" />
                             </div>
                             <div>
                                 <label for="Middle Name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middlename</label>
-                                <input type="text" name="xmiddleName" value="{{ $borinfo->borMname }}"
+                                <input type="text" name="MiddleName" value="{{ $borinfo->borMname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John">
+                                    <x-input-error :messages="$errors->get('MiddleName')" class="mt-2" />
                             </div>
                             <div>
                                 <label for="Last Name"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name
                                 </label>
-                                <input type="text" name="xlastName" value="{{ $borinfo->borLname }}"
+                                <input type="text" name="LastName" value="{{ $borinfo->borLname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
+                                    <x-input-error :messages="$errors->get('LastName')" class="mt-2" />
                             </div>
                             <div>
                                 <label for="Suffix"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Suffix </label>
-                                <input type="text" name="xsuffix" value="{{ $borinfo->borSuffix }}"
+                                <input type="text" name="Suffix" value="{{ $borinfo->borSuffix }}"
                                     class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g jr">
+                                    <x-input-error :messages="$errors->get('Suffix')" class="mt-2" />
                             </div>
                         </div>
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div class="col-span-2">
                                 <label for="Email"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                <input type="email" name="xemail" value="{{ $borinfo->borEmail }}"
+                                <input type="email" name="Email" value="{{ $borinfo->borEmail }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="example@gmail.com" required>
+                                    <x-input-error :messages="$errors->get('Email')" class="mt-2" />
                             </div>
                             <div>
                                 <label for="Gender"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="xgender"  id="gender" required
+                                <select name="Gender"  id="gender" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 
                                     <option selected hidden>{{ $borinfo->borGender}}</option>
@@ -77,26 +76,30 @@
                                     <option value="Female">Female</option>
 
                                 </select>
+                                <x-input-error :messages="$errors->get('Gender')" class="mt-2" />
                             </div>
                             <div>
                                 <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
-                                <input type="date" name="xbirthDate"  value="{{ $borinfo->borDob }}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <input type="date" name="BirthDate"  value="{{ $borinfo->borDob }}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                <x-input-error :messages="$errors->get('BirthDate')" class="mt-2" />
                             </div>
                         </div>
                         <div class="grid gap-6 mb-6 md:grid-cols-3">
                             <div class="col-span-2">
                                 <label for="Address"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                <input type="text" name="xaddress" value="{{ $borinfo->borAddress }}"
+                                <input type="text" name="Address" value="{{ $borinfo->borAddress }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required>
+                                    <x-input-error :messages="$errors->get('Address')" class="mt-2" />
                             </div>
                             <div class="col-span-1">
                                 <label for="contact"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
-                                <input type="text" name="xcontact" value="{{ $borinfo->borContact }}"
+                                <input type="text" name="Contact" value="{{ $borinfo->borContact }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
+                                    <x-input-error :messages="$errors->get('Contact')" class="mt-2" />
                             </div>
                         </div>
                         <div class="flex justify-start mt-4">

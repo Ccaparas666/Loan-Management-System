@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class borrowerinfo extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'bno';
     protected $table = 'borrowerinfo';
 
     protected $fillable = [
@@ -43,5 +43,5 @@ class borrowerinfo extends Model
         return $this->hasMany(LoanInfo::class, 'bno', 'bno');
     }
 
-     protected $primaryKey = 'bno';
+    
 }

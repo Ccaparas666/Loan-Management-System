@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
 use App\Helpers\Helper;
 use App\Models\officerInfo;
-
+use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException; 
 class borrowerInfoController extends Controller
 {
@@ -93,19 +93,33 @@ class borrowerInfoController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
+    
     {
+        $validatedData = $request->validate([
+
+            'FirstName' => ['required', 'max:20'],
+            // 'MiddleName' => ['size:1'],
+            'LastName' => ['required', 'max:20'],
+            'Suffix' => ['nullable', 'max:5'],
+            'Contact' => ['required','string','size:11','starts_with:09', Rule::unique('borrowerinfo', 'borContact')->ignore($id, 'bno')],
+            'Email' => [ Rule::unique('borrowerinfo', 'borEmail')->ignore($id, 'bno')],
+            // 'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
+            'Address' => ['required'],
+            'BirthDate' => ['date',],
+            'Gender' => ['required']
+        ]);
         $borrowerinfo = borrowerinfo::where('bno', $id)
             ->update(
                 [
-                    'borFname' => $request->xfirstName,
-                    'borMname' => $request->xmiddleName,
-                    'borLname' => $request->xlastName,
-                    'borSuffix' => $request->xsuffix,
-                    'borContact' => $request->xcontact,
-                    'borEmail' => $request->xemail,
-                    'borAddress' => $request->xaddress,
-                    'borDob' => $request->xbirthDate,
-                    'borGender' => $request->xgender,
+                    'borFname' => $request->FirstName,
+                    'borMname' => $request->MiddleName,
+                    'borLname' => $request->LastName,
+                    'borSuffix' => $request->Suffix,
+                    'borContact' => $request->Contact,
+                    'borEmail' => $request->Email,
+                    'borAddress' => $request->Address,
+                    'borDob' => $request->BirthDate,
+                    'borGender' => $request->Gender,
                 ]
             );
         return redirect()->route('borrower')->with('success', 'Borrower Successfully Updated' );
