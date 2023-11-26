@@ -41,7 +41,8 @@ class borrowerInfoController extends Controller
             'LastName' => ['required', 'max:20'],
             'Suffix' => ['nullable', 'max:5'],
             'Contact' => ['required','string','size:11','starts_with:09', 'unique:borrowerinfo,borContact'],
-            'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
+            'Email' => ['unique:borrowerinfo,borEmail'],
+            // 'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
             'Address' => ['required'],
             'BirthDate' => ['date',],
             'Gender' => ['required']
@@ -74,6 +75,9 @@ class borrowerInfoController extends Controller
     public function show(string $id)
     {
         //
+        $borrowerinfo = borrowerinfo::where('bno', $id)->get();
+        return view('borrower.view', compact('borrowerinfo'));
+
     }
 
     /**

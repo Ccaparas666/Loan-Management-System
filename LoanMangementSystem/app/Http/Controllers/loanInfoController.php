@@ -53,7 +53,7 @@ class loanInfoController extends Controller
             return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
         }  
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-        if ($borrowerinfo->loanInfo()->exists()) {
+        if ($borrowerinfo->loans()->exists()) {
             return redirect()->route('Loan')->with('errorFound', 'Borrower already registered for a loan');
         }
         

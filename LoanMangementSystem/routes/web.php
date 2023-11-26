@@ -49,6 +49,10 @@ Route::get('/borrower/edit/{brno}', [borrowerInfoController::class, 'edit'])
 ->middleware(['auth', 'verified'])
 ->name('borrower-edit');
 
+Route::get('/borrower/view/{brno}', [borrowerInfoController::class, 'show'])
+->middleware(['auth', 'verified'])
+->name('borrower-view');
+
 Route::patch('/borrower/update/{brno}', [borrowerInfoController::class, 'update'])
    ->middleware(['auth', 'verified'])
    ->name('borrower-update');

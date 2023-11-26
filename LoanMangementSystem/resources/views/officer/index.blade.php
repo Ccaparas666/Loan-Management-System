@@ -72,33 +72,72 @@
                                         <td class="px-6 py-4">{{ $OffInfo->offDob }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offGender }}</td>
                                         <td class="px-6 py-4 flex justify-center">
-                                            <a
-                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href= "{{route('officer-edit', ['ofno' => $OffInfo->ono]) }}">
-                                                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <svg>
-                                              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path>
-                                              <path fill-rule="evenodd"
-                                                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd">
-                                              </path>
+                                            <a data-tooltip-target="{{'tooltip-default1-'. $OffInfo->offId}}"  class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-green-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-700" href="#"> 
+                                            <svg class="w-[19px] h-[19px] text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
+                                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                            <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
+                                            </g>
                                             </svg>
-                                          </svg>
-                                          Update</a>
+                                            <div id="{{'tooltip-default1-'. $OffInfo->offId}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-green-700">
+                                                View Account Details
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
+
+                                            <a data-tooltip-target="{{'tooltip-default3-'. $OffInfo->offId}}"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="{{route('officer-edit', ['ofno' => $OffInfo->ono]) }}">
+                                                <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z" />
+                                                    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />       
+                                                </svg>
+                                            <div id="{{'tooltip-default3-'. $OffInfo->offId}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-700 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
+                                                Update Account
+                                                <div class="tooltip-arrow" data-popper-arrow></div>
+                                            </div>
+                                            </a>
                                         
-                                        
-                                            <form method="POST"
-                                                action = "{{ route('officer-delete', ['ofno'=>$OffInfo->ono]) }} "
-                                                onclick="return confirm('Are you sure you want to delete this record?')">
+                                            <form data-tooltip-target="{{'tooltip-default4-'. $OffInfo->ono}}"
+                                                class="text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-700 dark:hover:bg-red-800 focus:outline-none dark:focus:ring-red-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
+                                                method="POST" action="{{ route('officer-delete', ['ofno'=>$OffInfo->ono]) }}"
+                                                onsubmit="return submitForm(this);">
                                                 @csrf
                                                 @method('delete')
-                                                <button
-                                                  class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
-                                                  <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd"
-                                                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                                      clip-rule="evenodd"></path>
-                                                  </svg>
-                                                  Delete
+                                            
+                                                <button>
+                                                    <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                        fill="none" viewBox="0 0 18 20">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                                    </svg>
+                                                    <div id="{{'tooltip-default4-'. $OffInfo->ono}}" role="tooltip"
+                                                        class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-red-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-red-800">
+                                                        Delete This Account
+                                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                                    </div>
                                                 </button>
+                                            
+                                            
+                                                <script>
+                                                    function submitForm(form) {
+
+                                                        Swal.fire({
+                                                            title: 'Are you sure you want to delete this record?',
+                                                            text: "You won't be able to revert this!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, delete it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+
+                                                                form.submit();
+                                                            }
+
+                                                        });
+                                                        return false;
+                                                    }
+                                                </script>
                                             </form>
                                         </td>
 
@@ -112,6 +151,11 @@
                                         
                            
                         </table>
+
+                        
+
+
+
                         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
                         <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
                         
@@ -133,7 +177,7 @@
     </div>
     
             
-
+<div></div>
 
 </x-app-layout>
 
