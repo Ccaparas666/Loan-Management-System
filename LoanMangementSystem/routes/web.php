@@ -6,7 +6,7 @@ use App\Http\Controllers\borrowerInfoController;
 use App\Http\Controllers\loanInfoController;
 use App\Http\Controllers\officerInfoController;
 use App\Http\Controllers\loansettingsController;
-
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +23,9 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 Route::get('/borrower', [borrowerInfoController::class, 'index'])

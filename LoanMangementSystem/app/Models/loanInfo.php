@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class loanInfo extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'lid';
+
     protected $table = 'loanInfo';
 
     protected $fillable =[
@@ -18,6 +20,8 @@ class loanInfo extends Model
         'LoanAmount',
         'InterestRate',
         'LoanApplication',
+        'loan_approval_date',
+        'cash_release_date',
         'loanstatus',
         'cmName',
         'cmContact',

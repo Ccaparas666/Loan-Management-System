@@ -97,8 +97,8 @@
                                            {{ $loan->loanNumber }}</td>
                                        <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
                                        <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
-                                       <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
-                                       <td class="px-6 py-4">Verified information</td>
+                                       <td class="px-6 py-4">{{$loan->approved_by}}</td>
+                                       <td class="px-6 py-4">{{ $loan->loan_approval_date }}</td>
                                        @if ($loan->loanstatus == "Approved")
                                        <td class="px-6 py-4">{{ $loan->loanstatus }} waiting for cash release</td>
                                        <td class="px-6 py-4 flex justify-center">

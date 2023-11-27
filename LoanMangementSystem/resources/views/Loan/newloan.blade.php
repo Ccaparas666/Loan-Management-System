@@ -45,7 +45,7 @@
                         @elseif(session()->has('reject'))
                             <script>
                                 Swal.fire({
-                                icon: "success",
+                                icon: "error",
                                 title: "Borrower Rejected",
                                 text: "{{session('reject')}}",
 

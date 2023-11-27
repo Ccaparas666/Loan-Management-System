@@ -73,13 +73,13 @@
                                 <x-input-error :messages="$errors->get('Email')" class="mt-2" />
                             </div>
                             <div>
-                                <label for="Gender" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">GENDER</label>
-                                <select name="Gender" value="{{ old('Gender') }}" required
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected disabled>Choose Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
+                            <label for="Gender" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">GENDER</label>
+                            <select name="Gender" required
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="" disabled {{ old('Gender') ? '' : 'selected' }}>Choose Gender</option>
+                                <option value="Male" {{ old('Gender')=='Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ old('Gender')=='Female' ? 'selected' : '' }}>Female</option>
+                            </select>
                                 <x-input-error :messages="$errors->get('Gender')" class="mt-2" />
                             </div>
                             <div>

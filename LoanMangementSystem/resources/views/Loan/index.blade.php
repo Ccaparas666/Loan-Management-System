@@ -81,10 +81,9 @@
                                 text: "{{session('errorFound')}}",
                                 });                               
                             </script>
-                            
-                            
-                            
                             @endif
+
+                            
                     </div>
                     @foreach ($data as $borinfo)   @endforeach  
                         <div class="input-group no-border mb-5">
@@ -179,12 +178,12 @@
                                     </div>
 
                                     <div>
-                                        <label for="LoanDate" 
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                                        <label for="LoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
                                         <input type="date" name="xLoanDate"
                                             class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            required />
+                                            value="{{ now()->format('Y-m-d') }}" required />
                                     </div>
+
 
                                 </div>
 
@@ -289,32 +288,14 @@
                         </div>
                     </div>
                 </div>
+               
 
 
-<!-- <script>
-    
-$(document).ready(function () {
-    $('#searchdata').click(function (e){
-        e.preventDefault();
 
-        var id = $('input[name-id]').val();
 
-        $.ajax({
-            type:"POST",
-            url:"fetchintextbox.php",
-            data: {
-                "search_post_btn": 1,
-                "id": id,
-            },
-            dataType: "text",
-            success: function (response){
-                $("#vedformid").html(response);
-            }
-        });
 
-    });
-});
 
-</script> -->
+
+
 
 </x-app-layout>

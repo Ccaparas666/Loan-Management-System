@@ -6,37 +6,45 @@
            
        
         <div class="p-6 ">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <div class="bg-white rounded-md p-6 shadow-md shadow-black/5 dark:text-gray-100 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="flex justify-between mb-6 ">
-                        <div>
-                            <div class="text-2xl font-semibold mb-1">10</div>
-                            <div class="text-sm font-medium text-gray-400">Active orders</div>
-                        </div>
-                        <div class="dropdown">
-                            <button type="button" class="dropdown-toggle text-gray-400 hover:text-gray-600"><i class="ri-more-fill"></i></button>
-                            <ul class="dropdown-menu shadow-md shadow-black/5 z-30 hidden py-1.5 rounded-md bg-white border border-gray-100 w-full max-w-[140px]">
-                                <li>
-                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Profile</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Settings</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-blue-500 hover:bg-gray-50">Logout</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="flex items-center">
-                        <div class="w-full bg-gray-100 rounded-full h-4">
-                            <div class="h-full bg-blue-500 rounded-full p-1" style="width: 60%;">
-                                <div class="w-2 h-2 rounded-full bg-white ml-auto"></div>
-                            </div>
-                        </div>
-                        <span class="text-sm font-medium text-gray-600 ml-4">60%</span>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 mt-10">
+                <!-- //////////// -->
+                <div class="shadow-2xl  shadow-inner shadow-cyan-500/100 bg-white rounded-md p-6 dark:text-gray-100 bg-white dark:bg-gray-800 overflow-show relative">
+
+    <!-- Main content -->
+    <div class="relative top-0 left-0 bg-teal-500 h-24 w-24 -mt-12 mx-7 mb-20 flex items-center justify-center shadow-sm sm:rounded-lg">
+        <svg class="w-12 h-12 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z" />
+        </svg>
+    </div>
+
+    <!-- Borrower and Count positioned in the top right -->
+    <div class="absolute top-0 right-0 text-right pr-6 pt-4">
+        <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Borrower</div>
+        <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100">{{$borrowerCount}}</div>
+    </div>
+
+    <!-- Footer -->
+    
+    <div class="border-t border-cyan-500/100 flex items-center justify-between mt-6 text-gray-500 dark:text-gray-400">
+        <div class="flex items-center mt-2">
+        <a href="{{ route('borrower') }}" class="flex text-gray-50 items-center bg-teal-500 hover:bg-gray-600 rounded-md p-2">
+            <svg class="w-5 h-5 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 20 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z" />
+            </svg>
+            <span class="ml-2 font-semibold">SHOW ALL</span>
+        </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+                <!-- ///////////// -->
                 <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="flex justify-between mb-4">
                         <div>

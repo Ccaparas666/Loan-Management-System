@@ -74,7 +74,7 @@ class officerInfoController extends Controller
             'xfirstName' => ['required', 'string', 'max:255'],
             // 'xmiddleName' => ['nullable', 'string', 'max:255'],
             'xlastName' => ['required', 'string', 'max:255'],
-            'xsuffix' => ['nullable', 'string', 'max:255'],
+            'xsuffix' => ['nullable', 'string', 'max:5'],
             'xcontact' => ['required', 'string', 'max:255'],
             'xaddress' => ['required', 'string', 'max:255'],
             'xbirthDate' => ['required', 'date'],

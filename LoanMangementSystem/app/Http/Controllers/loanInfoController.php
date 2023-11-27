@@ -7,7 +7,7 @@ use App\Models\loanInfo;
 use App\Models\borrowerinfo;
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
-
+use Carbon\Carbon; 
 use Mail;
 use App\Mail\MailDemo;
 use Illuminate\Support\Facades\Mail as FacadesMail;
@@ -19,25 +19,15 @@ class loanInfoController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search;
-        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-
-        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         
-        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
-       
+     $search = $request->search;
+    $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
-       
-            return view('Loan.index', compact('loanInfo','data', 'search','genId'));
-       
+    $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
 
-        
+    $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
 
-        
-
-      
-       
-
+    return view('Loan.index', compact('loanInfo', 'data', 'search', 'genId'));
     }
 
 
@@ -46,8 +36,6 @@ class loanInfoController extends Controller
         
         
         $search = $request->search;
-
-        // Find borrowerinfo based on borAccount
         $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();     
         if (!$borrowerinfo) {
             return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
@@ -59,30 +47,6 @@ class loanInfoController extends Controller
         
         $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
         return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Match Found');    
-
-           // $search = $request->search;
-
-        // $search = $request->search;
-        // $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-        // $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        // $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
-
-        // $borrowerinfo = borrowerinfo::where('bno', $id)->first();
-        
-        // if($data->isEmpty()) {
-        //     return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist' );
-        // }
-        // elseif (loanInfo::where('bno', $borrowerinfo->bno)->exists()) {
-        //     return redirect()->route('Loan')->with('error', 'Borrower already registered for a loan');
-        // }
-        // // elseif (loanInfo::where('bno', $borrowerinfo)->exists()) {
-
-        // //     return redirect()->route('Loan')->with('error', 'Account Already Exist' );
-        // // }
-        // else{
-        //     return redirect()->route('Loan', compact('loanInfo','data','search','genId','borrowerinfo'))->with('success', 'Borrower Match Found' );
-        //     // dd($borrowerinfo);
-        // }     
     }
 
     
@@ -96,12 +60,16 @@ class loanInfoController extends Controller
     }
     public function StatusApprove(Request $request, string $id)
     {
+        $approvedBy = auth()->user()->name;
         $loanInfo = loanInfo::where('lid', $id)
             ->update([
                 'loanstatus' => 'Approved',
+                'approved_by' => $approvedBy,
             ]);
         $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
-        if ($loan && $loan->borrowerinfo) {   
+        if ($loan && $loan->borrowerinfo) {  
+            $loan->loan_approval_date = Carbon::now();
+            $loan->save(); 
             $sendMailData = [
                 'BorrowerName' => $loan->borrowerinfo->borFname,
                 'accountnumber' => $loan->borrowerinfo->borAccount,
@@ -110,7 +78,7 @@ class loanInfoController extends Controller
                 'loanStatus' => 'Approved',
             ];
             
-            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+            // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
          
             return back()->with('error', 'Loan or borrower information not found');
@@ -120,11 +88,13 @@ class loanInfoController extends Controller
     }
 
     public function  StatusReject(Request $request, string $id)
-    {   
+    {  
+        $RejectedBy = auth()->user()->name; 
         $loanInfo = loanInfo::where('lid', $id)
         ->update(
             [
                 'loanstatus' => 'Rejected',
+                'rejected_by' => $RejectedBy,
             ]
         );
         return back()->with('reject', 'Rejected Loan' );
@@ -182,23 +152,7 @@ class loanInfoController extends Controller
     public function store(Request $request, borrowerinfo $user )
     {
         
-    //     $validatedData = $request->validate([
-            
-    //         'xfirstName' => ['required', 'max:20'],
-    //         'xmiddleName' => ['max:15'],
-    //         'xlastName' => ['required', 'max:20'],
-    //        'xsuffix' => ['nullable','max:5'],
-    //        'xcontact' => ['required', 'max:20'],
-    //        'xemail' => ['required', 'max:100'],
-    //         'xaddress' => ['required'],
-    //         'xage' => ['required', ],
-    //         'xgender' => ['required'],
-            
-    //    ]);
-
-       
-
-       
+    
 
     $loanInfo = new loanInfo();
    
@@ -220,20 +174,6 @@ class loanInfoController extends Controller
     $loanInfo->save();
    
     $email = $request->xemail;
-   
-
-    // $sendMailData = [
-    //     'title' => "Mail from walsjdhasd",
-    //     'body' => 'this is an email from carmelo',
-    //     'Fullname' => $request->xFullname,
-    //     'accountnumber' => $accountnumber,
-    //     'loanNumber' => $genId,
-    //     'loanAmount' => $request->xLoanAmount,
-    //     'BorrowerName' => $request->xName,
-        
-
-    // ];
-
     $sendMailData = [
         'BorrowerName' => $request->xName,
         'accountnumber' => $accountnumber,
@@ -241,7 +181,7 @@ class loanInfoController extends Controller
         'loanAmount' => $request->xLoanAmount,
         'loanStatus' => 'In Process', // Set the appropriate status here
     ];
-        FacadesMail::to($email)->send(new MailDemo($sendMailData));
+        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
         // dd($request->xName);
       
    

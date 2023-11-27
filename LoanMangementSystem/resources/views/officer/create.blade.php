@@ -78,16 +78,14 @@
                                     <x-input-error :messages="$errors->get('xcontact')" class="mt-2" />
                             </div>
                             <div>
-                                <label for="Gender"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
-                                <select name="xgender" required
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected disabled>Choose Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-
-                                </select>
-                                <x-input-error :messages="$errors->get('xgender')" class="mt-2" />
+                            <label for="Gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                            <select name="xgender" required
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                <option value="" {{ old('xgender') ? '' : 'selected' }} disabled>Choose Gender</option>
+                                <option value="Male" {{ old('xgender')=='Male' ? 'selected' : '' }}>Male</option>
+                                <option value="Female" {{ old('xgender')=='Female' ? 'selected' : '' }}>Female</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('xgender')" class="mt-2" />
                             </div>
                            
                             <div>
@@ -149,11 +147,11 @@
                             <div class="">
                                 </select>
                                 <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Role</label>
-                                <select id="default" name = "Role" required value="{{ old('Role') }}"
+                                <select id="default" name="Role" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                    <option selected value="{{ old('Role') }}" disabled>Choose Role Account</option>
-                                    <option value="0">Loan Officer</option>
-                                    <option value="1">Loan Manager</option>
+                                    <option value="" {{ old('Role') ? '' : 'selected' }} disabled>Choose Role Account</option>
+                                    <option value="0" {{ old('Role')=='0' ? 'selected' : '' }}>Loan Officer</option>
+                                    <option value="1" {{ old('Role')=='1' ? 'selected' : '' }}>Loan Manager</option>
                                 </select>
                                 <x-input-error :messages="$errors->get('Role')" class="mt-2" />
                             </div>

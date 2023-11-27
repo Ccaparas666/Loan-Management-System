@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('loanInfo', function (Blueprint $table) {
             $table->id('lid');
             $table->unsignedBigInteger('bno');
+            $table->string('approved_by')->nullable();
+            $table->string('rejected_by')->nullable();
             $table->string('loanNumber', 50);
             $table->integer('LoanTerm');    
             $table->decimal('LoanAmount', $precision = 8, $scale = 2);
             $table->decimal('InterestRate', $precision = 8, $scale = 2);
-            $table->date('LoanApplication');
+            $table->date('LoanApplication')->nullable();
+            $table->date('loan_approval_date')->nullable();
+            $table->date('cash_release_date')->nullable();
             $table->string('loanstatus')->default('Waiting For Approval');
             $table->string('cmName');
             $table->string('cmContact');
