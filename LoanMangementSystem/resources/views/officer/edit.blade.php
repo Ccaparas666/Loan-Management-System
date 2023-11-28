@@ -32,30 +32,28 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div>
                                 <label for="First Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                    name</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">FIRST NAME</label>
                                 <input type="text" name="xfirstName" value="{{ $OffInfo->offFname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
                             </div>
                             <div>
                                 <label for="Middle Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle name</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">MIDDLE INITIAL</label>
                                 <input type="text" name="xmiddleName" value="{{ $OffInfo->offMname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John">
                             </div>
                             <div>
                                 <label for="Last Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name
-                                </label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">LAST NAME</label>
                                 <input type="text" name="xlastName" value="{{ $OffInfo->offLname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
                             </div>
                             <div>
                                 <label for="Suffix"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Suffix </label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">SUFFIX</label>
                                 <input type="text" name="xsuffix" value="{{ $OffInfo->offSuffix }}"
                                     class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g jr">
@@ -64,21 +62,21 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div>
                                 <label for="Address"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">ADDRESS</label>
                                 <input type="text" name="xaddress" value="{{ $OffInfo->offAddress }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required>
                             </div>
                             <div>
                                 <label for="contact"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONTACT NUMBER</label>
                                 <input type="text" name="xcontact" value="{{ $OffInfo->offContact }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                             </div>
                             <div>
                                 <label for="Gender"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">GENDER</label>
                                 <select name="xgender" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option selected hidden>{{ $OffInfo->offGender }}</option>
@@ -89,7 +87,7 @@
                             </div>
                            
                             <div>
-                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                <label for="Birth Date" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">BIRTH DATE</label>
                                 <input type="date" name="xbirthDate" value="{{ $OffInfo->offDob }}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
 
@@ -100,14 +98,14 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div class="">
                                 <label for="Email"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">EMAIL</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">EMAIL</label>
                                 <input type="email" name="xemail" value="{{ $OffInfo->offEmail }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="example@gmail.com" required>
                             </div>
                             <div class="">
                                 <label for="Email"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PASSWORD</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">PASSWORD</label>
                                 <input type="text" name="xpassword" value="{{ $OffInfo->offpassword }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="••••••••" required>
                             </div>

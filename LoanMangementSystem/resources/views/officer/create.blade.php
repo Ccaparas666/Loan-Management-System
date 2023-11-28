@@ -27,8 +27,7 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div>
                                 <label for="First Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
-                                    name</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">FIRST NAME</label>
                                 <input type="text" name="xfirstName" value="{{ old('xfirstName') }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
@@ -36,7 +35,7 @@
                             </div>
                             <div>
                                 <label for="Middle Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Middle name</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">MIDDLE INITIAL</label>
                                 <input type="text" maxlength="1" name="xmiddleName" value="{{ old('xmiddleName') }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John">
@@ -44,8 +43,7 @@
                             </div>
                             <div>
                                 <label for="Last Name"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last name
-                                </label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">LAST NAME</label>
                                 <input type="text" name="xlastName" value="{{ old('xlastName') }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John" required>
@@ -53,7 +51,7 @@
                             </div>
                             <div>
                                 <label for="Suffix"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Suffix </label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">SUFFIX</label>
                                 <input type="text" name="xsuffix" value="{{ old('xsuffix') }}"
                                     class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g jr">
@@ -63,7 +61,7 @@
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
                             <div>
                                 <label for="Address"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">ADDRESS</label>
                                 <input type="text" name="xaddress" value="{{ old('xaddress') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required>
@@ -71,14 +69,14 @@
                             </div>
                             <div>
                                 <label for="contact"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact Number</label>
+                                    class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONTACT NUMBER</label>
                                 <input type="text" name="xcontact" value="{{ old('xcontact') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                                     <x-input-error :messages="$errors->get('xcontact')" class="mt-2" />
                             </div>
                             <div>
-                            <label for="Gender" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                            <label for="Gender" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">GENDER</label>
                             <select name="xgender" required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="" {{ old('xgender') ? '' : 'selected' }} disabled>Choose Gender</option>
@@ -89,7 +87,7 @@
                             </div>
                            
                             <div>
-                                <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                <label for="Birth Date" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">BIRTH DATE</label>
                                 <input type="date" name="xbirthDate"  value="{{ old('xbirthDate') }}"  class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                                 <x-input-error :messages="$errors->get('xbirthDate')" class="mt-2" />
                             </div>
@@ -118,7 +116,7 @@
                             </div> -->
                              <!-- Email -->
     <div class="mb-4">
-        <label for="xemail" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+        <label for="xemail" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">EMAIL</label>
         <input id="xemail" type="email" name="xemail" value="{{ old('xemail') }}"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                placeholder="example@gmail.com" required>
@@ -129,7 +127,7 @@
 
     <!-- Password -->
     <div class="mb-4">
-        <label for="xpassword" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+        <label for="xpassword" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">PASSWORD</label>
         <input id="xpassword" type="password" name="xpassword" value="{{ old('xpassword') }}"
                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                placeholder="••••••••" required>
@@ -138,7 +136,7 @@
 
     <!-- Confirm Password -->
     <div class="mb-4">
-        <label for="xpassword_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+        <label for="xpassword_confirmation" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONFIRM PASSWORD</label>
         <input id="xpassword_confirmation" type="password" name="xpassword_confirmation" placeholder="••••••••"
                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                required autocomplete="new-password">
@@ -146,7 +144,7 @@
     </div>
                             <div class="">
                                 </select>
-                                <label for="default" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Account Role</label>
+                                <label for="default" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">ACCOUNT</label>
                                 <select id="default" name="Role" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="" {{ old('Role') ? '' : 'selected' }} disabled>Choose Role Account</option>
