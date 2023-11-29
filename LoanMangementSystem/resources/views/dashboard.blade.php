@@ -231,46 +231,45 @@
                         <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                             <div class="flex justify-between items-center pt-5">
                                 <!-- Button -->
-                                <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown"
-                                    data-dropdown-placement="bottom"
-                                    class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-                                    type="button">
-                                    Last 7 days
-                                    <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 10 6">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m1 1 4 4 4-4" />
-                                    </svg>
-                                </button>
-                                <div id="lastDaysdropdown"
-                                    class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
-                                        aria-labelledby="dropdownDefaultButton">
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                7 days</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                30 days</a>
-                                        </li>
-                                        <li>
-                                            <a href="#"
-                                                class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last
-                                                90 days</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <div>
+    <button id="dropdownDefaultButton" data-dropdown-toggle="lastDaysdropdown"
+            data-dropdown-placement="bottom"
+            class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+            type="button">
+        Last 7 days
+        <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+            fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
+        </svg>
+    </button>
+    <div id="lastDaysdropdown"
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
+            aria-labelledby="dropdownDefaultButton">
+            <li>
+                <a href="/dashboard?date_range=yesterday"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
+            </li>
+            <li>
+                <a href="/dashboard?date_range=today"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
+            </li>
+            <li>
+                <a href="/dashboard?date_range=last_7_days"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
+            </li>
+            <li>
+                <a href="/dashboard?date_range=last_30_days"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
+            </li>
+            <li>
+                <a href="/dashboard?date_range=last_90_days"
+                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
+            </li>
+        </ul>
+    </div>
+</div>
                                 <a href="#"
                                     class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
                                     Progress report
@@ -285,11 +284,10 @@
                     </div>
             
                     <script>
-    // ApexCharts options and config
     window.addEventListener("load", function () {
-        const getChartOptions = () => {
+        const getChartOptions = (chartData) => {
             return {
-                series: [{{$activeCount}}, {{$newLoanCount}}, {{$approvedCount}}, {{$rejectedCount}}],
+                series: chartData,
                 colors: ["#008000", "#FFA500", "#0000FF", "#FF0000"],
                 chart: {
                     height: "380px",
@@ -346,9 +344,35 @@
             };
         };
 
+        const updateChart = (chart, chartData) => {
+            chart.updateSeries(chartData);
+        };
+
+        const fetchDataAndUpdateChart = (filter) => {
+            
+            fetchData(filter).then((data) => {
+              
+                const updatedChartData = data.map(Number);
+
+                
+                updateChart(chart, updatedChartData);
+            });
+        };
+
+        const handleFilterClick = (filter) => {
+            fetchDataAndUpdateChart(filter);
+        };
+
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
-            var chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions());
+            var chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions([{{$activeCount}}, {{$newLoanCount}}, {{$approvedCount}}, {{$rejectedCount}}]));
             chart.render();
+
+            
+            document.getElementById("last7daysFilter").addEventListener("click", () => {
+                handleFilterClick("last7days");
+            });
+
+         
         }
     });
 </script>
