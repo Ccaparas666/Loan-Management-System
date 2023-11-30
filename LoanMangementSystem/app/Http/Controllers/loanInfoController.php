@@ -12,6 +12,8 @@ use Mail;
 use App\Mail\MailDemo;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 
+use App\Models\loansettings;
+
 class loanInfoController extends Controller
 {
     /**
@@ -19,7 +21,7 @@ class loanInfoController extends Controller
      */
     public function index(Request $request)
     {
-        
+        $loansettings = loansettings::all()->sortBy('interest');
      $search = $request->search;
     $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
@@ -27,7 +29,7 @@ class loanInfoController extends Controller
 
     $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
 
-    return view('Loan.index', compact('loanInfo', 'data', 'search', 'genId'));
+    return view('Loan.index', compact('loanInfo', 'data', 'search', 'genId', 'loansettings'));
     }
 
 
@@ -36,7 +38,13 @@ class loanInfoController extends Controller
         
         
         $search = $request->search;
-        $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();     
+
+        if ($search == '') {
+            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
+        }else{
+            $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();     
+        }
+        
         if (!$borrowerinfo) {
             return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
         }  
@@ -56,6 +64,18 @@ class loanInfoController extends Controller
     {
         
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        
+
+        if ($loanInfo->isNotEmpty()) {
+            $loanInfo = $loanInfo->map(function ($loan) {
+                    $interestRate = $loan->InterestRate / 100;
+                    $amount = $loan->LoanAmount;
+                    $loanTerm = $loan->LoanTerm;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    return $loan;
+            });
+        }
+        
         return view('Loan.newloan', compact('loanInfo'));
     }
     public function StatusApprove(Request $request, string $id)
@@ -66,6 +86,10 @@ class loanInfoController extends Controller
                 'loanstatus' => 'Approved',
                 'approved_by' => $approvedBy,
             ]);
+        ///////////////
+            
+///////////////////////////
+
         $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
         if ($loan && $loan->borrowerinfo) {  
             $loan->loan_approval_date = Carbon::now();
@@ -105,13 +129,34 @@ class loanInfoController extends Controller
 
     public function rejected()
     {
+        
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+
+        if ($loanInfo->isNotEmpty()) {
+            $loanInfo = $loanInfo->map(function ($loan) {
+                    $interestRate = $loan->InterestRate / 100;
+                    $amount = $loan->LoanAmount;
+                    $loanTerm = $loan->LoanTerm;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    return $loan;
+            });
+        }
         return view('Loan.rejected', compact('loanInfo'));
     }
 
     public function approved()
     {
         $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+
+        if ($loanInfo->isNotEmpty()) {
+            $loanInfo = $loanInfo->map(function ($loan) {
+                    $interestRate = $loan->InterestRate / 100;
+                    $amount = $loan->LoanAmount;
+                    $loanTerm = $loan->LoanTerm;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    return $loan;
+            });
+        }
         return view('Loan.approved', compact('loanInfo'));
     }
 
@@ -123,6 +168,15 @@ class loanInfoController extends Controller
                 'loanstatus' => 'Loan Active',
             ]
         );
+        if ($loanInfo->isNotEmpty()) {
+            $loanInfo = $loanInfo->map(function ($loan) {
+                    $interestRate = $loan->InterestRate / 100;
+                    $amount = $loan->LoanAmount;
+                    $loanTerm = $loan->LoanTerm;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    return $loan;
+            });
+        }
         return back()->with('Released', 'Loan Released' );
     }
 

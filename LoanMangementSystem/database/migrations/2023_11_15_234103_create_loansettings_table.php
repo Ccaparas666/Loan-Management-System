@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('loansettings', function (Blueprint $table) {
             $table->id('lsid');
             $table->integer('interest')->nullable(); 
-            $table->integer('LoanTerm')->nullable(); 
-          
             $table->timestamps();
         });
     }
