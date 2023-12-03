@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
 use App\Models\paymentInfo;
+use App\Models\loanInfo;
 use App\Helpers\Helper;
 use App\Models\officerInfo;
 use Illuminate\Validation\Rule;
@@ -129,6 +130,33 @@ class borrowerInfoController extends Controller
             );
         return redirect()->route('borrower')->with('success', 'Borrower Successfully Updated' );
     }
+    
+
+    // public function borrowerpay(Request $request){
+    //     $remainingbalance = $request->Balance;
+    //     $PayAmount= $request->PayAmount;
+    //     $Money = $request->Money;
+
+
+    //     $change =     $Money -  $PayAmount;
+    //     $balance = $remainingbalance - $PayAmount;
+
+    //     dd($change );
+    //     $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
+    //          ->where('paymentInfo.due_date', '<', now())
+    //          ->select('loanInfo.*', 'paymentInfo.Remaining_Balance')
+    //          ->distinct()
+    //          ->get();
+
+
+    // }
+
+
+
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

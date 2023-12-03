@@ -8,13 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class loansettings extends Model
 {
     use HasFactory;
-
+    protected $primaryKey = 'lsid';
     protected $table = 'loansettings';
 
     protected $fillable =[
         
         'Interest',
-        'LoanTerm',
         
     ];
 }

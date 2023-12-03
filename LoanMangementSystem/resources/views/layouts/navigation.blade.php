@@ -217,7 +217,7 @@
                         </svg><span class="ml-2 whitespace-nowrap">Add New Interest</span></a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="{{ route('interest') }}"
                         class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                         <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">

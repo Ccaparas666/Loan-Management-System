@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\borrowerinfo;
 use App\Models\paymentInfo;
+
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
 use Carbon\Carbon; 
@@ -249,6 +250,12 @@ class loanInfoController extends Controller
         //
     }
 
+    public function interest(){
+        $loansettings = loansettings::all();
+           
+        return view('Loan.interest', compact('loansettings'));    
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -272,6 +279,18 @@ class loanInfoController extends Controller
     {
         //
     }
+    public function deleteI(string $id)
+    {
+        $loanSettings = loansettings::find($id); // Use find() to get the model by its primary key
+        if (!$loanSettings) {
+            return redirect()->route('Loan.interest')->with('error', 'Interest Rate not found');
+        }
+    
+        $loanSettings->delete();
+        
+        return back()->with('success', 'Interest Rate Deleted');
+    }
+   
 
     public function getBorrowerInfo(){
         $borrowerinfo = borrowerinfo::all();

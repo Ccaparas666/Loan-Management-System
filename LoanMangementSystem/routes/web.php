@@ -106,6 +106,15 @@ Route::get('/Loan/create', [loanInfoController::class, 'getBorrowerInfo'])
 ->name('add-Loan');
 
 
+Route::get('/Interest', [loanInfoController::class, 'interest'])
+->middleware(['auth', 'verified'])
+->name('interest');
+
+Route::delete('/Interest/delete/{int}', [loanInfoController::class, 'deleteI'])
+   ->middleware(['auth', 'verified'])
+   ->name('interest-delete');
+
+
 /////////////////
 
 
@@ -149,8 +158,12 @@ Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
 
 
 
+////////// payment
 
 
+Route::post('/borrower/payment', [borrowerInfoController::class, 'borrowerpay'])
+->middleware(['auth', 'verified'])
+->name('borrower-pay');
 
 
 
