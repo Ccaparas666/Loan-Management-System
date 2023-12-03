@@ -16,7 +16,7 @@ class loanInfo extends Model
         
         'bno',
         'loanNumber',
-        'LoanTerm',
+       
         'LoanAmount',
         'InterestRate',
         'LoanApplication',
@@ -28,9 +28,14 @@ class loanInfo extends Model
         'cmEmail',
         'cmAddress',
     ];
-
+    // 'LoanTerm',
     public function borrowerinfo()
-    {
-        return $this->hasOne(BorrowerInfo::class, 'bno', 'bno'); 
-    }
+{
+    return $this->belongsTo(borrowerinfo::class, 'bno', 'bno');
+}
+
+public function payments()
+{
+    return $this->hasMany(paymentInfo::class, 'loan_id', 'lid');
+}
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
+use App\Models\paymentInfo;
 use App\Helpers\Helper;
 use App\Models\officerInfo;
 use Illuminate\Validation\Rule;
@@ -73,12 +74,13 @@ class borrowerInfoController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-        $borrowerinfo = borrowerinfo::where('bno', $id)->get();
-        return view('borrower.view', compact('borrowerinfo'));
+{
+    $borrowerinfo = BorrowerInfo::with('loans.payments')->where('bno', $id)->get();
 
-    }
+    $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
+
+    return view('borrower.view', compact('borrowerinfo', 'loanStatus'));
+}
 
     /**
      * Show the form for editing the specified resource.

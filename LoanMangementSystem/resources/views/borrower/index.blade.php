@@ -65,12 +65,6 @@
                                         <div class="flex items-center">{{ __('Email') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Address') }}<a href="#"></div>
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Date of Birth') }}<a href="#"></div>
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Gender') }}<a href="#"></div>
                                     </th>
                                     
@@ -80,6 +74,7 @@
                                 </tr>
                                 
                             </thead>
+                            
                             <tbody id="Content">
                                 @foreach ($borrowerinfo as $borinfo)
                                     <tr
@@ -90,8 +85,6 @@
                                         <td class="px-6 py-4">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borContact }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borEmail }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borAddress }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borDob }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borGender }}</td>
                                         <td class="px-6 py-4 flex justify-center">
                                         <a data-tooltip-target="{{'tooltip-default23-'. $borinfo->bno}}"  class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-green-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-700" href="{{route('borrower-view', ['brno' => $borinfo->bno]) }}"> 

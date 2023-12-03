@@ -151,28 +151,13 @@
                                             </select>
                                     </div>
                                     <div>
-                                        <label for="Loan Term"
-                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
-                                            Term</label>
-                                        <select id="default" name="xLoanTerm"
-                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                            <option value="1">1 Month</option>
-                                            <option value="2">2 Months</option>
-                                            <option value="3">3 Months</option>
-                                            <option value="4">4 Months</option>
-                                            <option value="5">5 Months</option>
-                                            <option value="6">6 Months</option>
-                                            <option value="7">7 Months</option>
-                                            <option value="8">8 Months</option>
-                                            <option value="9">9 Months</option>
-                                            <option value="10">10 Months</option>
-                                            <option value="11">11 Months</option>
-                                            <option value="12">12 Months</option>
-                                        </select>
+                                        <label for="LoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
+                                        <input type="date" name="xLoanDate"
+                                            class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            value="{{ now()->format('Y-m-d') }}" required />
                                     </div>
                                 </div>
                                 <div class="grid gap-6 mb-6 md:grid-cols-3">
-                                 
                                     <div>
                                         <label for="Loan Amount" 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
@@ -182,15 +167,6 @@
                                             required>
                                             <input type="hidden" name="xbno" value="{{ $borinfo->bno }}" class="border border-gray-300 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" />
                                     </div>
-
-                                    <div>
-                                        <label for="LoanDate" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                                        <input type="date" name="xLoanDate"
-                                            class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            value="{{ now()->format('Y-m-d') }}" required />
-                                    </div>
-
-
                                 </div>
 
                                

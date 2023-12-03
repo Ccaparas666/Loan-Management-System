@@ -90,12 +90,6 @@
         <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
         <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
     </div>
-
-    <div class="mb-2">
-        <span class="text-gray-600 dark:text-gray-400 font-bold">Loan Term:</span>
-        <span class="ml-2 text-green-500 dark:text-green-300">{{ $loan->LoanTerm }} Months</span>
-    </div>
-
     <div>
         <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly Payment:</span>
         <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>

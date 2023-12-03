@@ -11,16 +11,40 @@
                     </div>
                 </div>
             </div> 
+
+          
             @foreach ($borrowerinfo as $borinfo)
             <div class="flex flex-row space-x-4">
                 <div class="basis-2/5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg ">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="text-center">
-    <label for="Name" class="font-bold block">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</label>
-    <label for="Accountnumber" class="block mt-2">
-        Account No. <span class="font-bold text-purple-500">{{ $borinfo->borAccount }}</span>
-    </label>
-</div>
+                        <div class="text-center">
+                            <label for="Name" class="font-bold block">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{
+                                $borinfo->borLname }} {{ $borinfo->borSuffix }}</label>
+                            <label for="Accountnumber" class="block mt-2">Account No. <span class="font-bold text-purple-500">{{
+                                    $borinfo->borAccount }}</span></label>
+                            @if ($loanStatus == "Waiting For Approval")
+                            <label for="loanStatus" class="block mt-2">Account No. <span
+                                    class="font-bold inline-block rounded bg-blue-200/10 text-blue-500 p-1">{{ $loanStatus
+                                    }}</span></label>
+                            @elseif ($loanStatus == "Approved")
+                            <label for="loanStatus" class="block mt-2">Account No. <span
+                                    class="font-bold inline-block rounded bg-green-200/10 text-green-500 p-1">{{ $loanStatus
+                                    }}</span></label>
+                            @elseif ($loanStatus == "Loan Active")
+                            <label for="loanStatus" class="block mt-2">Account No. <span
+                                    class="font-bold inline-block rounded bg-emerald-200/10 text-green-500 p-1">{{ $loanStatus
+                                    }}</span></label>
+                            @elseif ($loanStatus == "Rejected")
+                            <label for="loanStatus" class="block mt-2">Account No. <span
+                                    class="font-bold inline-block rounded bg-red-200/10 text-red-500 p-1">{{ $loanStatus
+                                    }}</span></label>
+                            @else
+                            <label for="loanStatus" class="block mt-2">Account No. <span
+                                    class="font-bold inline-block rounded bg-gray-300/10 text-gray-500 p-1">No Loan Registered
+                                    Yet</span></label>
+                            @endif
+            
+                        </div>
                     </div>
 
                     <div class="grid gap-6 m-4 md:grid-cols-2">
@@ -85,7 +109,74 @@
             
                 <div class=" basis-3/5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
+                        
+                        <div class="mb-5 text-gray-50 bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 dark:focus:ring-cyan-800 overflow-hidden shadow-sm sm:rounded-lg text-center py-2 text-lg font-bold dark:text-white">LOAN LOGS (monthly)</div>
+
+                    <table id="example2" class="display nowrap text-sm text-left text-black-500 dark:text-gray-400" style="width:100%">
+                            <thead
+                                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('Loan Number') }}</div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('Remaining Balance') }}</div>
+                                    </th>              
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('Due Date') }}</div>
+                                    </th>
+                                </tr>
+                                
+                            </thead>
+                            
+                            <tbody id="Content">
+                                @foreach ($borrowerinfo as $borinfo)
+                                    @foreach ($borinfo->loans as $loan)     
+                                                                                                                  
+                                        @foreach ($loan->payments as $payment)
+                                        <tr>
+                                        <td class="px-6 py-4">{{$loan->loanNumber}}</td>   
+                                        <td class="px-6 py-4">P {{$payment->Remaining_Balance}}</td>
+                                        <td class="px-6 py-4"> {{$payment->due_date}}</td>
+                                        </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endforeach
+                            </tbody>
+                        </table>
+                        
+
+                        <script>
+                            function submitForm(form) {
+                                Swal.fire({
+                                    title: 'Are you sure you want to delete this record?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        form.submit();
+                                    }
+                                });
+                                return false;
+                            }
+                        </script>
+                        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+                            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+                        <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+                        
+                        <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+                        
+                        <script>
+                            new DataTable('#example2', {
+                                responsive: true
+                            });
+
+                        </script>
                     </div>
                 </div>           
         </div> 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('approved_by')->nullable();
             $table->string('rejected_by')->nullable();
             $table->string('loanNumber', 50);
-            $table->integer('LoanTerm');    
+            
             $table->decimal('LoanAmount', $precision = 8, $scale = 2);
             $table->decimal('InterestRate', $precision = 8, $scale = 2);
             $table->date('LoanApplication')->nullable();
@@ -36,6 +36,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * $table->integer('LoanTerm');    
      */
     public function down(): void
     {

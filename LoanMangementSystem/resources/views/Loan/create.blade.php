@@ -23,15 +23,6 @@
                             <label for="last_name" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">Co-Maker</label>
                             <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
                         </div>
-                        <div>
-                            <label for="First Name" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">Loan Term</label>
-                            <select id="default" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="">1 Month</option>
-                                <option value="">2 Months</option>
-                                <option value="">6 Months</option>
-                                <option value="">12 Months</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="grid gap-6 mb-6 md:grid-cols-3">
                         <div>

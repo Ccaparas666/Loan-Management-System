@@ -129,31 +129,18 @@
                                                 <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
                                                 <td class="px-6 py-4">{{$loan->approved_by}}</td>
                                                 <td class="px-6 py-4">{{ $loan->loan_approval_date }}</td>
+                                                <td class="px-6 py-4">
+                                            <div class="mb-2">
+                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
+                                                <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
+                                            </div>
+                                            <div>
+                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly Payment:</span>
+                                                <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
+                                            </div>
+                                        </td>
                                                 @if ($loan->loanstatus == "Approved")
                                                 <td class="px-6 py-4">{{ $loan->loanstatus }} waiting for cash release
-                                                </td>
-                                                <td class="px-6 py-4">
-                                                    <div class="mb-2">
-                                                        <span
-                                                            class="text-gray-600 dark:text-gray-400 font-bold">Interest
-                                                            Rate:</span>
-                                                        <span class="ml-2 text-blue-500 dark:text-blue-300">{{
-                                                            number_format($loan->InterestRate, 0) }}%</span>
-                                                    </div>
-
-                                                    <div class="mb-2">
-                                                        <span class="text-gray-600 dark:text-gray-400 font-bold">Loan
-                                                            Term:</span>
-                                                        <span class="ml-2 text-green-500 dark:text-green-300">{{
-                                                            $loan->LoanTerm }} Months</span>
-                                                    </div>
-
-                                                    <div>
-                                                        <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly
-                                                            Payment:</span>
-                                                        <span class="ml-2 text-purple-500 dark:text-purple-300">P{{
-                                                            number_format($loan->monthlyPayment, 2) }}</span>
-                                                    </div>
                                                 </td>
                                                 <td class="px-6 py-4">
                                                     <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}"
@@ -198,7 +185,7 @@
                                                         class="inline-block p-1 rounded bg-emerald-200/10 text-emerald-500 font-medium text-[12px] leading-none">
                                                         {{ $loan->loanstatus }}</h1>
                                                 </td>
-                                                <td class="px-6 py-4 flex justify-center ">
+                                                <td class="px-6 py-4">
                                                     <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}"
                                                         class="Active text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-indigo-400 dark:hover:bg-indigo-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700">
                                                         <svg class="w-[19px] h-[19px] test"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\borrowerinfo;
+use App\Models\paymentInfo;
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
 use Carbon\Carbon; 
@@ -70,8 +71,7 @@ class loanInfoController extends Controller
             $loanInfo = $loanInfo->map(function ($loan) {
                     $interestRate = $loan->InterestRate / 100;
                     $amount = $loan->LoanAmount;
-                    $loanTerm = $loan->LoanTerm;
-                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount);
                     return $loan;
             });
         }
@@ -101,6 +101,12 @@ class loanInfoController extends Controller
                 'loanAmount' => $loan->LoanAmount,
                 'loanStatus' => 'Approved',
             ];
+            
+            $payment = new paymentInfo();
+            $payment->loan_id = $loan->lid; // Assuming 'lid' is the primary key of the loanInfo table
+            $payment->remaining_balance = $loan->LoanAmount; // Initial remaining balance is the full loan amount
+            $payment->due_date = Carbon::now()->addMonth(); // Initial due date is one month from now
+            $payment->save();
             
             // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
@@ -135,9 +141,8 @@ class loanInfoController extends Controller
         if ($loanInfo->isNotEmpty()) {
             $loanInfo = $loanInfo->map(function ($loan) {
                     $interestRate = $loan->InterestRate / 100;
-                    $amount = $loan->LoanAmount;
-                    $loanTerm = $loan->LoanTerm;
-                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                    $amount = $loan->LoanAmount;                   
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount);
                     return $loan;
             });
         }
@@ -152,8 +157,8 @@ class loanInfoController extends Controller
             $loanInfo = $loanInfo->map(function ($loan) {
                     $interestRate = $loan->InterestRate / 100;
                     $amount = $loan->LoanAmount;
-                    $loanTerm = $loan->LoanTerm;
-                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
+                   
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount);
                     return $loan;
             });
         }
@@ -168,15 +173,7 @@ class loanInfoController extends Controller
                 'loanstatus' => 'Loan Active',
             ]
         );
-        if ($loanInfo->isNotEmpty()) {
-            $loanInfo = $loanInfo->map(function ($loan) {
-                    $interestRate = $loan->InterestRate / 100;
-                    $amount = $loan->LoanAmount;
-                    $loanTerm = $loan->LoanTerm;
-                    $loan->monthlyPayment = (($amount * $interestRate) + $amount) / $loanTerm;
-                    return $loan;
-            });
-        }
+        
         return back()->with('Released', 'Loan Released' );
     }
 
@@ -207,17 +204,16 @@ class loanInfoController extends Controller
     {
         
     
-
     $loanInfo = new loanInfo();
    
     $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
     $loanInfo->bno = $request->xbno;
     $loanInfo->loanNumber = $genId;
-    $loanInfo->LoanTerm = $request->xLoanTerm;
+
     $loanInfo->LoanAmount = $request->xLoanAmount;
     $loanInfo->InterestRate = $request->xInterest;
     $loanInfo->LoanApplication = $request->xLoanDate;
-    // $loanInfo->loanstatus = $request->xaddress;
+   
     $loanInfo->cmName = $request->xcFullname;
     $loanInfo->cmContact = $request->xcContact;
     $loanInfo->cmEmail = $request->xcEmail;

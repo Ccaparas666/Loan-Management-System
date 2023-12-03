@@ -44,7 +44,6 @@ class loansettingsController extends Controller
    
     $loansettings = new loansettings();
     $loansettings->interest = $request->xinterest;
-    $loansettings->LoanTerm = $request->xinterest;
     $loansettings->save();
 
     return back()->with('success', ' New Interest Rate Added');

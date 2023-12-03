@@ -7,10 +7,13 @@
             <div class="overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 flex items-center flex-wrap">
                     
-                        <a href="{{ route('Loan') }}" class="  sm:w-auto text-gray-200 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-gray-50 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800"> 
-                            <svg class="w-[20px] h-[20px] mx-2 text-gray-800 dark:text-white" aria-hidden=?true? xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 1v16M1 9h16" />
-                            </svg>CREATE NEW LOAN 
+                    <a href="{{ route('Loan') }}"
+                            class=" flex items-center  sm:w-auto text-gray-200 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:text-base px-2 py-2.5 sm:px-4 sm:py-3 text-center me-2 mb-2 dark:border-blue-500 dark:text-gray-50 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800">
+                            <svg class="w-[20px] h-[20px] mx-2 text-gray-800 dark:text-white" aria-hidden=?true?
+                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="1.7" d="M9 1v16M1 9h16" />
+                            </svg>CREATE NEW LOAN
                         </a>
                         <a href="{{ route('new-loan') }}" class="dark:bg-blue-500 bg-blue-500 flex items-center sm:w-auto text-gray-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-2 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-gray-50 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-gray-800">
                             <svg class="w-[20px] h-[20px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 11 20">
@@ -114,12 +117,6 @@
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
                                                 <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
                                             </div>
-                                        
-                                            <div class="mb-2">
-                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Loan Term:</span>
-                                                <span class="ml-2 text-green-500 dark:text-green-300">{{ $loan->LoanTerm }} Months</span>
-                                            </div>
-                                        
                                             <div>
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly Payment:</span>
                                                 <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
