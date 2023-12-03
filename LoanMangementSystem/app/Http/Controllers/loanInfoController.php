@@ -250,11 +250,7 @@ class loanInfoController extends Controller
         //
     }
 
-    public function interest(){
-        $loansettings = loansettings::all();
-           
-        return view('Loan.interest', compact('loansettings'));    
-    }
+   
 
     /**
      * Show the form for editing the specified resource.
@@ -279,17 +275,40 @@ class loanInfoController extends Controller
     {
         //
     }
-    public function deleteI(string $id)
+
+    public function updates(Request $request, string $id)
     {
-        $loanSettings = loansettings::find($id); // Use find() to get the model by its primary key
-        if (!$loanSettings) {
-            return redirect()->route('Loan.interest')->with('error', 'Interest Rate not found');
-        }
-    
-        $loanSettings->delete();
-        
-        return back()->with('success', 'Interest Rate Deleted');
+        //
+        $validatedData = $request->validate([
+
+            'FirstName' => ['required', 'max:20'],
+            // 'MiddleName' => ['size:1'],
+            'LastName' => ['required', 'max:20'],
+            'Suffix' => ['nullable', 'max:5'],
+            'Contact' => ['required','string','size:11','starts_with:09', Rule::unique('borrowerinfo', 'borContact')->ignore($id, 'bno')],
+            'Email' => [ Rule::unique('borrowerinfo', 'borEmail')->ignore($id, 'bno')],
+            // 'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
+            'Address' => ['required'],
+            'BirthDate' => ['date',],
+            'Gender' => ['required']
+        ]);
+        $borrowerinfo = borrowerinfo::where('bno', $id)
+            ->update(
+                [
+                    'borFname' => $request->FirstName,
+                    'borMname' => $request->MiddleName,
+                    'borLname' => $request->LastName,
+                    'borSuffix' => $request->Suffix,
+                    'borContact' => $request->Contact,
+                    'borEmail' => $request->Email,
+                    'borAddress' => $request->Address,
+                    'borDob' => $request->BirthDate,
+                    'borGender' => $request->Gender,
+                ]
+            );
+        return redirect()->route('borrower')->with('success', 'Borrower Successfully Updated' );
     }
+    
    
 
     public function getBorrowerInfo(){

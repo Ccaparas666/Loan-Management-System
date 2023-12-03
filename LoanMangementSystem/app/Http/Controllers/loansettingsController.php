@@ -72,13 +72,42 @@ class loansettingsController extends Controller
     {
         //
     }
-
+    public function interestdisplay(){
+        $loansettings = loansettings::all();
+           
+        return view('Loan.interest', compact('loansettings'));    
+    }
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
         //
+        $validator = Validator::make($request->all(), [
+            'xinterest' => 'required|integer',
+        ]);
+    
+        if ($validator->fails()) {
+            
+            return back()->with('inputerror', 'Interest Input invalid. It must be a whole number WITHOUT decimals or special characters (e.g., 12% or 2.1).');
+        }
+    
+        $existingInterest = loansettings::where('interest', $request->xinterest)->exists();
+    
+        if ($existingInterest) {
+            // Interest value already exists
+            return back()->with('exist', 'Interest value already exists in the database.');
+        }
+    
+       
+        $loanSettings = loansettings::where('lsid', $id)
+            ->update(
+                [
+                    'interest' => $request->xinterest,
+                ]
+            );
+    
+        return back()->with('success', ' Interest Rate Updated');
     }
 
     /**
@@ -86,6 +115,13 @@ class loansettingsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $loanSettings = loansettings::find($id); 
+        if (!$loanSettings) {
+            return redirect()->route('Loan.interest')->with('error', 'Interest Rate not found');
+        }
+    
+        $loanSettings->delete();
+        
+        return back()->with('success', 'Interest Rate Deleted');
     }
 }
