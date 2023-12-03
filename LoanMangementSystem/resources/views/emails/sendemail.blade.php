@@ -58,7 +58,7 @@
             Dear {{ $mailData['BorrowerName'] }}<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
-        
+
         @if ($mailData['loanStatus'] === 'In Process')
             <p>
                 We are pleased to inform you that your loan application is currently in process. Our dedicated team is diligently reviewing the information you provided to ensure a swift and accurate evaluation.
@@ -66,6 +66,10 @@
         @elseif ($mailData['loanStatus'] === 'Approved')
             <p>
                 Congratulations! Your loan application has been approved. You can expect further instructions and details regarding your approved loan shortly.
+            </p>
+        @elseif ($mailData['loanStatus'] === 'Rejected')
+            <p>
+                We regret to inform you that your loan application has been rejected. If you have any questions or concerns, please contact our customer support for assistance.
             </p>
         @endif
 

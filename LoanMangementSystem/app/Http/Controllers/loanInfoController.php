@@ -109,7 +109,7 @@ class loanInfoController extends Controller
             $payment->due_date = Carbon::now()->addMonth(); 
             $payment->save();
             
-            // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
          
             return back()->with('error', 'Loan or borrower information not found');
@@ -117,9 +117,8 @@ class loanInfoController extends Controller
         return back()->with('success', 'Approved Loan');
 
     }
-
     public function  StatusReject(Request $request, string $id)
-    {  
+    {   
         $RejectedBy = auth()->user()->name; 
         $loanInfo = loanInfo::where('lid', $id)
         ->update(
@@ -128,6 +127,22 @@ class loanInfoController extends Controller
                 'rejected_by' => $RejectedBy,
             ]
         );
+       
+        $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
+        if ($loan && $loan->borrowerinfo) {   
+            $sendMailData = [
+                'BorrowerName' => $loan->borrowerinfo->borFname,
+                'accountnumber' => $loan->borrowerinfo->borAccount,
+                'loanNumber' => $loan->loanNumber,
+                'loanAmount' => $loan->LoanAmount,
+                'loanStatus' => 'Rejected',
+            ];
+            
+            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+        } else {
+         
+            return back()->with('error', 'Loan or borrower information not found');
+        }
         return back()->with('reject', 'Rejected Loan' );
         
       
@@ -162,6 +177,7 @@ class loanInfoController extends Controller
                     $loan->monthlyPayment = (($amount * $interestRate) + $amount);
                     return $loan;
             });
+            
         }
         return view('Loan.approved', compact('loanInfo'));
     }
@@ -174,6 +190,8 @@ class loanInfoController extends Controller
                 'loanstatus' => 'Loan Active',
             ]
         );
+
+       
         
         return back()->with('Released', 'Loan Released' );
     }
@@ -232,7 +250,7 @@ class loanInfoController extends Controller
         'loanAmount' => $request->xLoanAmount,
         'loanStatus' => 'In Process', // Set the appropriate status here
     ];
-        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+        FacadesMail::to($email)->send(new MailDemo($sendMailData));
         // dd($request->xName);
       
    
