@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +30,7 @@
             padding: 20px;
             text-align: center;
         }
-       
+
         p {
             line-height: 1.6;
             color: #555;
@@ -51,44 +52,69 @@
         }
     </style>
 </head>
+
 <body>
     <div id="container" class="bg-light p-4">
         <h1>Your Loan Application Status</h1>
         <p>
-            Dear {{ $mailData['BorrowerName'] }},<br>
+            Dear {{ $mailData['BorrowerName'] }}<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
 
-        @if ($mailData['emailType'] === 'PaymentReminder')
-            <p>
-                This is a friendly reminder about the latest update on your loan with LendWise.
-            </p>
-            <p>
-                <strong>Loan Details:</strong><br>
-                <strong>Borrower Name:</strong> {{ $mailData['BorrowerName'] }}<br>
-                <strong>Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
-                <strong>Loan Number:</strong> {{ $mailData['loanNumber'] }}<br>
-                <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
-                <strong>Remaining Balance:</strong> {{ $mailData['remainingBalance'] }}<br>
-                <strong>Due Date:</strong> {{ $mailData['dueDate'] }}<br>
-            </p>
-        @elseif ($mailData['loanStatus'] === 'In Process')
-            <p>
-                We are pleased to inform you that your loan application is currently in process. Our dedicated team is diligently reviewing the information you provided to ensure a swift and accurate evaluation.
-            </p>
+        @if ($mailData['loanStatus'] === 'In Process')
+        <p>
+            We are pleased to inform you that your loan application is currently in process. Our dedicated team is
+            diligently reviewing the information you provided to ensure a swift and accurate evaluation.
+        </p>
+        <p>
+            <strong>Application Details:</strong><br>
+            <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
+            <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
+            <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
+        </p>
         @elseif ($mailData['loanStatus'] === 'Approved')
-            <p>
-                Congratulations! Your loan application has been approved. You can expect further instructions and details regarding your approved loan shortly.
-            </p>
+        <p>
+            Congratulations! Your loan application has been approved. You can expect further instructions and details
+            regarding your approved loan shortly.
+        </p>
+        <p>
+            <strong>Application Details:</strong><br>
+            <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
+            <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
+            <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
+        </p>
         @elseif ($mailData['loanStatus'] === 'Rejected')
-            <p>
-                We regret to inform you that your loan application has been rejected. If you have any questions or concerns, please contact our customer support for assistance.
-            </p>
-        @endif
+        <p>
+            We regret to inform you that your loan application has been rejected. If you have any questions or concerns,
+            please contact our customer support for assistance.
+        </p>
+        <p>
+            <strong>Application Details:</strong><br>
+            <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
+            <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
+            <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
+        </p>
+        @elseif ($mailData['emailType'] === 'PaymentReminder')
 
         <p>
-            Thank you for choosing LendWise. If you have any questions or concerns, please feel free to contact our customer support.
+            This is a friendly reminder about the latest update on your loan with LendWise.
         </p>
+        <p>
+            <strong>Loan Details:</strong><br>
+            <strong>Borrower Name:</strong> {{ $mailData['BorrowerName'] }}<br>
+            <strong>Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
+            <strong>Loan Number:</strong> {{ $mailData['loanNumber'] }}<br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
+            <strong>Remaining Balance:</strong> {{ $mailData['remainingBalance'] }}<br>
+            <strong>Due Date:</strong> {{ $mailData['dueDate'] }}<br>
+        </p>
+        @endif
+
+
     </div>
 </body>
+
 </html>

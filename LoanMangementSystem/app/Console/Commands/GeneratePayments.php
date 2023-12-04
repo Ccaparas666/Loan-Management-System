@@ -31,6 +31,7 @@ class GeneratePayments extends Command
 
     public function handle()
     {
+        ////////// BACK UPPPPPPPPPPPPPPP - KUNG MAGUBA HAHAHAHA
         // $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
         //     ->join('borrowerInfo', 'loanInfo.bno', '=', 'borrowerInfo.bno') // Add this join
         //     ->where('paymentInfo.due_date', '<', now())
@@ -86,19 +87,7 @@ class GeneratePayments extends Command
                         'loanStatus' => $dueLoan->loanstatus,
                     ];
 
-                    // FacadesMail::to($email)->send(new MailDemo($sendMailData));
-
-
-
-                    \Log::info('Generated Payment Data', [
-                        'BorrowerName' => $dueLoan->borFname . ' ' . $dueLoan->borLname,
-                        'accountnumber' => $dueLoan->borAccount,
-                        'loanNumber' => $dueLoan->loanNumber,
-                        'loanAmount' => $dueLoan->LoanAmount,
-                        'remainingBalance' => $updatedBalance,
-                        'dueDate' => $latestDueDate->toDateString(),
-                        'loanStatus' => $dueLoan->loanstatus,
-                    ]);
+                    FacadesMail::to($email)->send(new MailDemo($sendMailData));
                 }
             }
         }
