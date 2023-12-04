@@ -147,7 +147,7 @@ Route::get('/Loan/approved/{lno}', [loanInfoController::class, 'Released'])
 ->name('loan-Release');
 
 
-Route::get('/Loan/paid', [loanInfoController::class, 'paid'])
+Route::get('/Loan/List', [loanInfoController::class, 'paid'])
 ->middleware(['auth', 'verified'])
 ->name('paid-loan');
 

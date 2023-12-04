@@ -17,6 +17,7 @@ class officerInfo extends Model
 
     use HasFactory;
     protected $table = 'officerinfo';
+    protected $primaryKey = 'ono';
 
     protected $fillable = [
 

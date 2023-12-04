@@ -7,7 +7,7 @@ use App\Models\officerInfo;
 use App\Helpers\Helper;
 use App\Models\User;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Validation\Rule;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -31,8 +31,11 @@ class officerInfoController extends Controller
     public function index()
     {
         //
-        
-        $OfficerInfo = officerInfo::all();
+
+        $OfficerInfo = OfficerInfo::join('users', 'officerinfo.offEmail', '=', 'users.email')
+            ->select('officerinfo.*', 'users.is_admin')
+            ->get();
+
         return view('Officer.index', compact('OfficerInfo'));
     }
 
@@ -49,10 +52,10 @@ class officerInfoController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $genId = Helper::OfficerIDgenerator(new officerinfo, 'offId', 5, 'OFL');
         $OfficerInfo = new officerInfo();
-       
+
         $OfficerInfo->offId = $genId;
         $OfficerInfo->offFname = $request->xfirstName;
         $OfficerInfo->offMname = $request->xmiddleName;
@@ -63,8 +66,8 @@ class officerInfoController extends Controller
         $OfficerInfo->offDob = $request->xbirthDate;
         $OfficerInfo->offGender = $request->xgender;
         $OfficerInfo->offEmail = $request->xemail;
-        $OfficerInfo->offpassword = $request->xpassword;       
-       
+        $OfficerInfo->offpassword = $request->xpassword;
+
 
         $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
         // dd( $name );
@@ -72,10 +75,10 @@ class officerInfoController extends Controller
         $request->validate([
 
             'xfirstName' => ['required', 'string', 'max:255'],
-            // 'xmiddleName' => ['nullable', 'string', 'max:255'],
+            'xmiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'xlastName' => ['required', 'string', 'max:255'],
             'xsuffix' => ['nullable', 'string', 'max:5'],
-            'xcontact' => ['required', 'string', 'max:255'],
+            'xcontact' => ['required', 'string', 'size:11', 'starts_with:09'],
             'xaddress' => ['required', 'string', 'max:255'],
             'xbirthDate' => ['required', 'date'],
             'xgender' => ['required'],
@@ -92,11 +95,11 @@ class officerInfoController extends Controller
             'is_admin' => $request->Role,
         ]);
 
-        
+
 
         $OfficerInfo->save();
         event(new Registered($user));
-        return redirect()->route('officer');
+        return redirect()->route('officer')->with('success', 'Account Successfully Created');
     }
 
     /**
@@ -113,7 +116,10 @@ class officerInfoController extends Controller
     public function edit(string $id)
     {
         //
-        $OfficerInfo = officerInfo::where('ono', $id)->get();
+        $OfficerInfo = OfficerInfo::join('users', 'officerinfo.offEmail', '=', 'users.email')
+            ->where('officerinfo.ono', $id)
+            ->select('officerinfo.*', 'users.is_admin')
+            ->get();
         return view('officer.edit', compact('OfficerInfo'));
     }
 
@@ -122,23 +128,49 @@ class officerInfoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $OfficerInfo = officerInfo::where('ono', $id)
-        ->update(
-            [
-                'offFname' => $request->xfirstName,
-                'offMname' => $request->xmiddleName,
-                'offLname' => $request->xlastName,
-                'offSuffix' => $request->xsuffix,
-                'offContact' => $request->xcontact,
-                'offEmail' => $request->xemail,
-                'offAddress' => $request->xaddress,
-                'offDob' => $request->xbirthDate,
-                'offGender' => $request->xgender,
-                'offpassword' => $request->xpassword,
-            ]
-        );
-    return redirect()->route('officer');
+
+        $request->validate([
+
+            'xfirstName' => ['required', 'string', 'max:255'],
+            'xmiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
+            'xlastName' => ['required', 'string', 'max:255'],
+            'xsuffix' => ['nullable', 'string', 'max:5'],
+            'xcontact' => ['required', 'string', 'size:11', 'starts_with:09', Rule::unique('officerInfo', 'offContact')->ignore($id, 'ono')],
+            'xaddress' => ['required', 'string', 'max:255'],
+            'xbirthDate' => ['required', 'date'],
+            'xgender' => ['required'],
+            'xemail' => [Rule::unique('officerInfo', 'offEmail')->ignore($id, 'ono')],
+            'Role' => ['required'],
+            'xpassword' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $officerInfo = officerInfo::find($id);
+        $officerInfo->update([
+            'offFname' => $request->xfirstName,
+            'offMname' => $request->xmiddleName,
+            'offLname' => $request->xlastName,
+            'offSuffix' => $request->xsuffix,
+            'offContact' => $request->xcontact,
+            'offEmail' => $request->xemail,
+            'offAddress' => $request->xaddress,
+            'offDob' => $request->xbirthDate,
+            'offGender' => $request->xgender,
+            'offpassword' => $request->xpassword,
+        ]);
+
+
+        $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
+        $user = User::where('email', $officerInfo->offEmail)->first();
+
+        if ($user) {
+            $user->update([
+                'name' => $name,
+                'email' => $request->xemail,
+                'password' => bcrypt($request->xpassword),
+                'is_admin' => $request->Role == '1' ? 1 : 0,
+            ]);
+        }
+        return redirect()->route('officer')->with('success', 'Account Updated');
     }
 
     /**
@@ -147,18 +179,18 @@ class officerInfoController extends Controller
     public function destroy(string $id, Request $request)
     {
         $datafinder = OfficerInfo::where('ono', $id)->first();
-        $email =  $datafinder->offEmail ?? null;
+        $email = $datafinder->offEmail ?? null;
         $user = User::where('email', 'LIKE', $email)->first();
 
         $OfficerInfo = officerInfo::where('ono', $id);
-        
+
 
         $user->delete();
 
 
 
-        
+
         $OfficerInfo->delete();
-        return redirect()->route('officer');
+        return redirect()->route('officer')->with('success', 'Account Deleted');
     }
 }

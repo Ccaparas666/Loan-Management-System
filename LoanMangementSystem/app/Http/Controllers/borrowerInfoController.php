@@ -40,7 +40,7 @@ class borrowerInfoController extends Controller
         $validatedData = $request->validate([
 
             'FirstName' => ['required', 'max:20'],
-            // 'MiddleName' => ['size:1'],
+            'MiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'LastName' => ['required', 'max:20'],
             'Suffix' => ['nullable', 'max:5'],
             'Contact' => ['required','string','size:11','starts_with:09', 'unique:borrowerinfo,borContact'],
@@ -104,7 +104,7 @@ class borrowerInfoController extends Controller
         $validatedData = $request->validate([
 
             'FirstName' => ['required', 'max:20'],
-            // 'MiddleName' => ['size:1'],
+            'MiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'LastName' => ['required', 'max:20'],
             'Suffix' => ['nullable', 'max:5'],
             'Contact' => ['required','string','size:11','starts_with:09', Rule::unique('borrowerinfo', 'borContact')->ignore($id, 'bno')],

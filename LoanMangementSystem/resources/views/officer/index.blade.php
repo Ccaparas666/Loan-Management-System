@@ -11,6 +11,16 @@
             </div>
         </div>
     </div>
+                        @if (session()->has('success'))
+                            <script>
+                                Swal.fire({
+                                icon: "success",
+                                title: "Success",
+                                text: "{{session('success')}}",
+
+                                });
+                            </script>
+                        @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900 dark:text-gray-100 ">
                     <div class="flex flex-row-reverse ">
@@ -35,6 +45,9 @@
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Full Name') }}<a href="#"></div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('Role') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Contact Number') }}<a href="#"></div>
@@ -66,6 +79,7 @@
                                             {{ $OffInfo->offId }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offFname }} {{ $OffInfo->offMname }}
                                             {{ $OffInfo->offLname }} {{ $OffInfo->offSuffix }}</td>
+                                            <td class="px-6 py-4">{{ $OffInfo->is_admin ? 'Manager' : 'Officer' }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offContact }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offEmail }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offAddress }}</td>

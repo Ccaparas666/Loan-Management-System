@@ -109,7 +109,7 @@ class loanInfoController extends Controller
             $payment->due_date = Carbon::now()->addMonth(); 
             $payment->save();
             
-            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+            // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
          
             return back()->with('error', 'Loan or borrower information not found');
@@ -138,7 +138,7 @@ class loanInfoController extends Controller
                 'loanStatus' => 'Rejected',
             ];
             
-            FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
+            // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
          
             return back()->with('error', 'Loan or borrower information not found');
@@ -200,8 +200,19 @@ class loanInfoController extends Controller
 
     public function paid()
     {
-        $loanInfo = loanInfo:: join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        return view('Loan.paid', compact('loanInfo'));
+        
+        $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')
+        ->orderBy('loanInfo.loanstatus')
+        ->get();
+        if ($loanInfo->isNotEmpty()) {
+            $loanInfo = $loanInfo->map(function ($loan) {
+                    $interestRate = $loan->InterestRate / 100;
+                    $amount = $loan->LoanAmount;
+                    $loan->monthlyPayment = (($amount * $interestRate) + $amount);
+                    return $loan;
+            });
+        } 
+    return view('Loan.Loan', compact('loanInfo'));
     }
 
     public function payment(){
@@ -250,7 +261,8 @@ class loanInfoController extends Controller
         'loanAmount' => $request->xLoanAmount,
         'loanStatus' => 'In Process', // Set the appropriate status here
     ];
-        FacadesMail::to($email)->send(new MailDemo($sendMailData));
+    
+        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
         // dd($request->xName);
       
    
