@@ -128,5 +128,33 @@
                     </div>
                 </div>
             </div>
+
+
+            <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the button and dropdown elements
+        const dropdownButton = document.getElementById('dropdownDefaultButton');
+        const officerDropdown = document.getElementById('Officer-Dropdown');
+
+        // Add a click event listener to the button
+        dropdownButton.addEventListener('click', function () {
+            // Toggle the 'hidden' class on the dropdown to show/hide it
+            officerDropdown.classList.toggle('hidden');
+        });
+
+        // Highlight the active link in the dropdown
+        const links = officerDropdown.getElementsByTagName('a');
+        for (const link of links) {
+            link.addEventListener('click', function () {
+                // Remove 'active' class from all links
+                for (const otherLink of links) {
+                    otherLink.classList.remove('active');
+                }
+                // Add 'active' class to the clicked link
+                this.classList.add('active');
+            });
+        }
+    });
+</script>
     </body>
 </html>

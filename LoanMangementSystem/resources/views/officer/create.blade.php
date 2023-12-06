@@ -70,7 +70,7 @@
                             <div>
                                 <label for="contact"
                                     class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONTACT NUMBER</label>
-                                <input type="text" name="xcontact" value="{{ old('xcontact') }}"
+                                <input type="text" maxlength="11" name="xcontact" value="{{ old('xcontact') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                                     <x-input-error :messages="$errors->get('xcontact')" class="mt-2" />
@@ -156,10 +156,32 @@
                             
                   
                         </div>
-                        <br> <button type="submit"
-                            class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-500">Create Account</button><br>
-
-                        </a><br />
+                        <div class="flex justify-center">
+                                <div class="grid gap-6 m-4 md:grid-cols-2">
+                                    <button type="submit"
+                                        class="flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-500">
+                                        <svg class="w-5 h-5 mr-2 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                d="M5 3l2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
+                                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                d="M17 11l2 2m0 0l2-2m-2 2l-2-2m0 2l2 2"></path>
+                                        </svg>
+                                        CREATE
+                                    </button>
+                            
+                            
+                                    <a href="{{ route('officer') }}"
+                                        class="flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 rounded-md dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
+                                        <svg class="w-5 h-5 mr-2 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                        CANCEL
+                                    </a>
+                                </div>
+                            </div>
                     </form>
                 </div>
             </div> 

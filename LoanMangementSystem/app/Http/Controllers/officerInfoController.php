@@ -78,7 +78,7 @@ class officerInfoController extends Controller
             'xmiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'xlastName' => ['required', 'string', 'max:255'],
             'xsuffix' => ['nullable', 'string', 'max:5'],
-            'xcontact' => ['required', 'string', 'size:11', 'starts_with:09'],
+            'xcontact' => ['required', 'string', 'starts_with:09', 'unique:officerinfo,offContact','regex:/^[0-9]{11}$/'],
             'xaddress' => ['required', 'string', 'max:255'],
             'xbirthDate' => ['required', 'date'],
             'xgender' => ['required'],
@@ -135,7 +135,7 @@ class officerInfoController extends Controller
             'xmiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'xlastName' => ['required', 'string', 'max:255'],
             'xsuffix' => ['nullable', 'string', 'max:5'],
-            'xcontact' => ['required', 'string', 'size:11', 'starts_with:09', Rule::unique('officerInfo', 'offContact')->ignore($id, 'ono')],
+            'xcontact' => ['required', 'string', 'starts_with:09','regex:/^[0-9]{11}$/', Rule::unique('officerInfo', 'offContact')->ignore($id, 'ono')],
             'xaddress' => ['required', 'string', 'max:255'],
             'xbirthDate' => ['required', 'date'],
             'xgender' => ['required'],
@@ -144,7 +144,14 @@ class officerInfoController extends Controller
             'xpassword' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $officerInfo = officerInfo::find($id);
+        $officerInfo = officerInfo::findOrFail($id);
+
+        $fieldsToFormat = ['offFname', 'offMname', 'offLname', 'offSuffix'];
+
+        foreach ($fieldsToFormat as $field) {
+            $officerInfo->$field = ucfirst(strtolower($request->{"x" . $field}));
+        }
+
         $officerInfo->update([
             'offFname' => $request->xfirstName,
             'offMname' => $request->xmiddleName,
@@ -159,7 +166,7 @@ class officerInfoController extends Controller
         ]);
 
 
-        $name = $request->xfirstName . ' ' . $request->xmiddleName . ' ' . $request->xlastName;
+        $name = $officerInfo->offFname . ' ' . $officerInfo->offMname . ' ' . $officerInfo->offLname;
         $user = User::where('email', $officerInfo->offEmail)->first();
 
         if ($user) {

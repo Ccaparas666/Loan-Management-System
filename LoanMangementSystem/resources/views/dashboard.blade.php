@@ -18,11 +18,11 @@
     </div>
     <div class="absolute top-0 right-0 text-right pr-6 pt-4">
         <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Accounts</div>
-        <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mt-2">{{$borrowerCount}}</div>
+        <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mt-2">{{$AccountCount}}</div>
     </div>
     <div class="border-t border-blue-500/100 flex items-center justify-between mt-6 text-gray-500 dark:text-gray-400">
         <div class="flex items-center mt-2">
-            <a href="{{ route('borrower') }}"
+            <a href="{{ route('officer') }}"
                 class="flex text-gray-50 items-center bg-blue-500 hover:bg-gray-600 rounded-md p-2">
                 <svg class="w-5 h-5 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="none" viewBox="0 0 20 18">
@@ -49,7 +49,7 @@
                 
                    
                     <div class="absolute top-0 right-0 text-right pr-6 pt-4">
-                        <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Borrower</div>
+                        <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Borrowers</div>
                         <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mt-2">{{$borrowerCount}}</div>
                     </div>
                 
@@ -84,15 +84,15 @@
                 
                    
                     <div class="absolute top-0 right-0 text-right pr-6 pt-4">
-                        <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Loan Active</div>
-                        <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mt-2">{{$borrowerCount}}</div>
+                        <div class="text-xl font-medium text-gray-500 dark:text-gray-400">Loan Registered</div>
+                        <div class="text-4xl font-semibold text-gray-900 dark:text-gray-100 mt-2">{{$LoanCount}}</div>
                     </div>
                 
               
                 
                     <div class="border-t border-green-500/100 flex items-center justify-between mt-6 text-gray-500 dark:text-gray-400">
                         <div class="flex items-center mt-2">
-                            <a href="{{ route('borrower') }}"
+                            <a href="{{ route('paid-loan') }}"
                                 class="flex text-gray-50 items-center bg-green-500 hover:bg-gray-600 rounded-md p-2">
                                 <svg class="w-5 h-5 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     fill="none" viewBox="0 0 20 18">

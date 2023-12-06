@@ -101,7 +101,7 @@
                             </div>
                             <div>
                                 <label for="Contact" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONTACT NUMBER</label>
-                                <input type="text" maxlength="11a" name="Contact" value="{{ old('Contact') }}"
+                                <input type="text" maxlength="11" name="Contact" value="{{ old('Contact') }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                                 <x-input-error :messages="$errors->get('Contact')" class="mt-2" />

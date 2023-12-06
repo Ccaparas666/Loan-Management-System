@@ -43,7 +43,7 @@ class borrowerInfoController extends Controller
             'MiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'LastName' => ['required', 'max:20'],
             'Suffix' => ['nullable', 'max:5'],
-            'Contact' => ['required','string','size:11','starts_with:09', 'unique:borrowerinfo,borContact'],
+            'Contact' => ['required','string','regex:/^[0-9]{11}$/','starts_with:09', 'unique:borrowerinfo,borContact'],
             'Email' => ['unique:borrowerinfo,borEmail'],
             // 'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
             'Address' => ['required'],
@@ -107,27 +107,45 @@ class borrowerInfoController extends Controller
             'MiddleName' => ['nullable', 'string', 'max:1', 'regex:/^[a-zA-Z]+$/'],
             'LastName' => ['required', 'max:20'],
             'Suffix' => ['nullable', 'max:5'],
-            'Contact' => ['required','string','size:11','starts_with:09', Rule::unique('borrowerinfo', 'borContact')->ignore($id, 'bno')],
+            'Contact' => ['required','string','starts_with:09','regex:/^[0-9]{11}$/', Rule::unique('borrowerinfo', 'borContact')->ignore($id, 'bno')],
             'Email' => [ Rule::unique('borrowerinfo', 'borEmail')->ignore($id, 'bno')],
             // 'Email' => ['ends_with:gmail.com','unique:borrowerinfo,borEmail'],
             'Address' => ['required'],
             'BirthDate' => ['date',],
             'Gender' => ['required']
         ]);
-        $borrowerinfo = borrowerinfo::where('bno', $id)
-            ->update(
-                [
-                    'borFname' => $request->FirstName,
-                    'borMname' => $request->MiddleName,
-                    'borLname' => $request->LastName,
-                    'borSuffix' => $request->Suffix,
-                    'borContact' => $request->Contact,
-                    'borEmail' => $request->Email,
-                    'borAddress' => $request->Address,
-                    'borDob' => $request->BirthDate,
-                    'borGender' => $request->Gender,
-                ]
-            );
+        // $borrowerinfo = borrowerinfo::where('bno', $id)
+        //     ->update(
+        //         [
+        //             'borFname' => $request->FirstName,
+        //             'borMname' => $request->MiddleName,
+        //             'borLname' => $request->LastName,
+        //             'borSuffix' => $request->Suffix,
+        //             'borContact' => $request->Contact,
+        //             'borEmail' => $request->Email,
+        //             'borAddress' => $request->Address,
+        //             'borDob' => $request->BirthDate,
+        //             'borGender' => $request->Gender,
+        //         ]
+        //     );
+
+
+        $borrowerinfo = borrowerinfo::findOrFail($id);
+
+        $borrowerinfo->fill([
+            'borFname' => $request->FirstName,
+            'borMname' => $request->MiddleName,
+            'borLname' => $request->LastName,
+            'borSuffix' => $request->Suffix,
+            'borContact' => $request->Contact,
+            'borEmail' => $request->Email,
+            'borAddress' => $request->Address,
+            'borDob' => $request->BirthDate,
+            'borGender' => $request->Gender,
+        ]);
+    
+      
+        $borrowerinfo->save();
         return redirect()->route('borrower')->with('success', 'Borrower Successfully Updated' );
     }
     

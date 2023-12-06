@@ -66,5 +66,14 @@ class officerInfo extends Model
                 $model->$field = ucfirst(strtolower($model->$field));
             }
         });
+
+        static::updating(function ($model) {
+            // Capitalize the first letter and make the rest lowercase for specific fields
+            $fieldsToFormat = ['offFname', 'offMname', 'offLname', 'offSuffix'];
+    
+            foreach ($fieldsToFormat as $field) {
+                $model->$field = ucfirst(strtolower($model->$field));
+            }
+        });
     }
 }

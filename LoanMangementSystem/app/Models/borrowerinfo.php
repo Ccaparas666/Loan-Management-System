@@ -28,15 +28,26 @@ class borrowerinfo extends Model
     protected static function boot()
     {
         parent::boot();
-
+    
         static::saving(function ($model) {
             $fieldsToFormat = ['borFname', 'borMname', 'borLname', 'borSuffix'];
-
+    
             foreach ($fieldsToFormat as $field) {
+                // Ensure only the first letter is uppercase
+                $model->$field = ucfirst(strtolower($model->$field));
+            }
+        });
+    
+        static::updating(function ($model) {
+            $fieldsToFormat = ['borFname', 'borMname', 'borLname', 'borSuffix'];
+    
+            foreach ($fieldsToFormat as $field) {
+                // Ensure only the first letter is uppercase
                 $model->$field = ucfirst(strtolower($model->$field));
             }
         });
     }
+    
 
     public function loans()
     {

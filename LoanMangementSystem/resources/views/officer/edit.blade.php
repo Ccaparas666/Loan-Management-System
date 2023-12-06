@@ -35,7 +35,7 @@
                             <div>
                                 <label for="Middle Name"
                                     class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">MIDDLE INITIAL</label>
-                                <input type="text" name="xmiddleName" value="{{ $OffInfo->offMname }}"
+                                <input type="text" maxlength="1" name="xmiddleName" value="{{ $OffInfo->offMname }}"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="John">
                                     <x-input-error :messages="$errors->get('xmiddleName')" class="mt-2" />
@@ -69,7 +69,7 @@
                             <div>
                                 <label for="contact"
                                     class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300">CONTACT NUMBER</label>
-                                <input type="text" name="xcontact" value="{{ $OffInfo->offContact }}"
+                                <input type="text" maxlength="11" name="xcontact" value="{{ $OffInfo->offContact }}"
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                                     <x-input-error :messages="$errors->get('xcontact')" class="mt-2" />
