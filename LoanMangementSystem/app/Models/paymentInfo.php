@@ -9,6 +9,7 @@ class paymentInfo extends Model
 {
     use HasFactory;
     protected $table = 'paymentInfo';
+    protected $primaryKey = 'pno';
     protected $fillable = ['loan_id', 'due_date','Remaining_Balance'];
 
     public function loan()

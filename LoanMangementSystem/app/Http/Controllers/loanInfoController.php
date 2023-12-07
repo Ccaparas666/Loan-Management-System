@@ -216,8 +216,51 @@ class loanInfoController extends Controller
     }
 
     public function payment(){
-        return view('Loan.payment');
+        $test = 'test';
+
+        
+        return view('Loan.payment', compact('test'));
     }
+
+    public function RoutePayment(Request $request, $bno){
+        if ($request->isMethod('post')) {
+            // Validate the form input
+            $request->validate([
+                'PayAmount' => 'required|numeric|min:0.01',
+                'Money' => 'required|numeric|min:0.01',
+            ]);
+    
+            // Find the borrower information
+            $borrowerinfo = BorrowerInfo::with('loans.payments')->where('bno', $bno)->first();
+    
+            // Get the latest loan and its payments
+            $loan = $borrowerinfo->loans->first();
+            $payments = $loan->payments;
+    
+            // Calculate the remaining balance
+            $payAmount = $request->input('PayAmount');
+            $moneyGiven = $request->input('Money');
+            $Remaining_Balance = $payments->last()->Remaining_Balance - $payAmount;
+    
+            // Update the remaining balance in the payment record
+            $latestPayment = $payments->last();
+            $latestPayment->Remaining_Balance = $Remaining_Balance;
+            $latestPayment->save();
+    
+            // Optionally, you might want to update other loan-related information here
+            // For example, you could update the loan status based on the remaining balance
+    
+            // Redirect back to the payment view with a success message
+            return redirect()->route('Loan', ['bno' => $bno])->with('success', 'Payment successful!');
+        }
+    
+        // If the form is not submitted, continue with your existing code to display the payment information
+        $test = 'test2';
+        $borrowerinfo = BorrowerInfo::with('loans')->where('bno', $bno)->first();
+    
+        return view('Loan.payment', compact('borrowerinfo', 'test'));
+    }
+    
 
     /**
      * Show the form for creating a new resource.

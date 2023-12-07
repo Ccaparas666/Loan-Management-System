@@ -163,11 +163,14 @@ Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
 
 
 ////////// payment
+Route::match(['get', 'post'], '/Loan/payment/{bno}', [loanInfoController::class, 'RoutePayment'])
+    ->middleware(['auth', 'verified'])
+    ->name('Route-Payment');
 
 
-Route::post('/borrower/payment', [borrowerInfoController::class, 'borrowerpay'])
-->middleware(['auth', 'verified'])
-->name('borrower-pay');
+
+
+
 
 
 
