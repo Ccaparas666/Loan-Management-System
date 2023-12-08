@@ -5,6 +5,15 @@
             <div>
                 <div class="py-10"></div>
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                @if (session()->has('error'))
+                           <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Invalid Input",
+                                text: "{{session('error')}}",
+                                });                               
+                            </script>
+                            @endif
                 @if ($test === 'test2')
                     <div class="p-6 text-black-900 dark:text-gray-100 ">
                         <div
