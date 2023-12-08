@@ -87,7 +87,7 @@ class GeneratePayments extends Command
                         'loanStatus' => $dueLoan->loanstatus,
                     ];
 
-                    FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                    // FacadesMail::to($email)->send(new MailDemo($sendMailData));
                 }
             }
         }

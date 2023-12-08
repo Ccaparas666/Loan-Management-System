@@ -85,8 +85,12 @@ Route::patch('/Officer/update/{ofno}', [officerInfoController::class, 'update'])
    ->name('officer-delete');
 // LOAN
 Route::get('/Loan/match/{brno}', [loanInfoController::class, 'search'])
-->middleware(['auth', 'verified'])
-->name('search');
+    ->middleware(['auth', 'verified'])
+    ->name('search');
+
+    Route::get('/Loan/match/test/{brno}', [loanInfoController::class, 'LoanRegister'])
+    ->middleware(['auth', 'verified'])
+    ->name('Apply-Loan');
 
 
 Route::get('/Loan', [loanInfoController::class, 'index'])

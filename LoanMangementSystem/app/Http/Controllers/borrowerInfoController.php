@@ -84,7 +84,26 @@ class borrowerInfoController extends Controller
     $Loan = BorrowerInfo::with('loans')->where('bno', $id)->first();
     $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
 
-    return view('borrower.view', compact('borrowerinfo', 'loanStatus','Loan'));
+    
+
+    $latestDueDate = null;
+
+// Check if borrower information is available
+if ($borrowerinfo->isNotEmpty()) {
+    $firstLoan = $borrowerinfo->first()->loans->first();
+
+    // Check if loans are available
+    if ($firstLoan) {
+        $firstPayment = $firstLoan->payments->first();
+
+        // Check if payments are available
+        if ($firstPayment) {
+            $latestDueDate = $firstPayment->due_date;
+        }
+    }
+}
+
+    return view('borrower.view', compact('borrowerinfo', 'loanStatus', 'Loan', 'latestDueDate'));
 }
 
     /**

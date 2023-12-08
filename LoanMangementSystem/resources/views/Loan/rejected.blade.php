@@ -91,7 +91,7 @@
         <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
     </div>
     <div>
-        <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly Payment:</span>
+        <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
         <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
     </div>
 </td>

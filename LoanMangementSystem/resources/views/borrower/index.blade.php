@@ -103,6 +103,9 @@
                                                 case 'Rejected':
                                                     $statusColor = 'red';
                                                     break;
+                                                    case 'PAID':
+                                                    $statusColor = 'green';
+                                                    break;
                                                 default:
                                                     $statusColor = 'yellow';
                                                     break;

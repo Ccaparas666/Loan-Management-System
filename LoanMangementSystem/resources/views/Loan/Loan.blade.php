@@ -93,7 +93,7 @@
                                                 <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
                                             </div>
                                             <div>
-                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Monthly Payment:</span>
+                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
                                                 <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
                                             </div>
                                         </td>
@@ -107,6 +107,8 @@
                                             <span class="inline-block rounded bg-emerald-200/10 text-green-500 p-1">Loan Active</span>
                                             @elseif ($loan->loanstatus == "Rejected")
                                             <span class="inline-block rounded bg-red-200/10 text-red-500 p-1">Rejected</span>
+                                            @elseif ($loan->loanstatus == "PAID")
+                                            <span class="inline-block rounded bg-green-200/10 text-green-500 p-1 font-bold">PAID</span>
                                             @else
                                             <span class="inline-block rounded bg-gray-300/10 text-yellow-500 p-1">Not Registered</span>
                                             @endif
