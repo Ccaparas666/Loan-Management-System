@@ -75,15 +75,16 @@ class borrowerInfoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request, string $id)
 {
     $borrowerinfo = BorrowerInfo::with(['loans.payments' => function ($query) {
         $query->orderBy('due_date', 'desc'); 
     }])->where('bno', $id)->get();
 
+    $Loan = BorrowerInfo::with('loans')->where('bno', $id)->first();
     $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
 
-    return view('borrower.view', compact('borrowerinfo', 'loanStatus'));
+    return view('borrower.view', compact('borrowerinfo', 'loanStatus','Loan'));
 }
 
     /**
