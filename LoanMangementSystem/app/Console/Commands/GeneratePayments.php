@@ -42,7 +42,7 @@ class GeneratePayments extends Command
         $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
             ->join('borrowerInfo', 'loanInfo.bno', '=', 'borrowerInfo.bno')
             ->where('paymentInfo.due_date', '<', now())
-            ->select('loanInfo.*', 'paymentInfo.Remaining_Balance', 'borrowerInfo.borEmail', 'borrowerInfo.borFname', 'borrowerInfo.borLname', 'borrowerInfo.borAccount',)
+            ->select('loanInfo.*', 'paymentInfo.Remaining_Balance', 'borrowerInfo.borEmail', 'borrowerInfo.borFname', 'borrowerInfo.borLname', 'borrowerInfo.borAccount', )
             ->get()
             ->groupBy('lid', 'bno');
 
@@ -58,36 +58,37 @@ class GeneratePayments extends Command
             if ($latestPayment) {
                 $latestDueDate = $latestPayment->due_date;
                 $latestBalance = $latestPayment->Remaining_Balance;
+                if ($latestBalance > 0) {
+                    // Check if today's date is after the latest due date
+                    if (Carbon::now()->gt($latestDueDate)) {
+                        // Create a new payment record with the updated balance and due date
+                        $Interest = $dueLoan->InterestRate / 100;
+                        $remainingBalance = $latestBalance;
 
-                // Check if today's date is after the latest due date
-                if (Carbon::now()->gt($latestDueDate)) {
-                    // Create a new payment record with the updated balance and due date
-                    $Interest = $dueLoan->InterestRate / 100;
-                    $remainingBalance = $latestBalance;
+                        // Calculate the updated balance with accumulated interest
+                        $updatedBalance = ($Interest * $remainingBalance) + $remainingBalance;
 
-                    // Calculate the updated balance with accumulated interest
-                    $updatedBalance = ($Interest * $remainingBalance) + $remainingBalance;
+                        $payment = new PaymentInfo();
+                        $payment->loan_id = $dueLoan->lid;
+                        $payment->remaining_balance = $updatedBalance;
+                        $payment->due_date = Carbon::now()->addMonth();
+                        $payment->save();
 
-                    $payment = new PaymentInfo();
-                    $payment->loan_id = $dueLoan->lid;
-                    $payment->remaining_balance = $updatedBalance;
-                    $payment->due_date = Carbon::now()->addMonth();
-                    $payment->save();
+                        $email = $dueLoan->borEmail;
+                        $latestDueDate = Carbon::parse($latestPayment->due_date);
+                        $sendMailData = [
+                            'emailType' => 'PaymentReminder',
+                            'BorrowerName' => $dueLoan->borFname . ' ' . $dueLoan->borLname,
+                            'accountnumber' => $dueLoan->borAccount,
+                            'loanNumber' => $dueLoan->loanNumber,
+                            'loanAmount' => $dueLoan->LoanAmount,
+                            'remainingBalance' => $updatedBalance,
+                            'dueDate' => $latestDueDate->toDateString(),
+                            'loanStatus' => $dueLoan->loanstatus,
+                        ];
 
-                    $email = $dueLoan->borEmail;
-                    $latestDueDate = Carbon::parse($latestPayment->due_date);
-                    $sendMailData = [
-                        'emailType' => 'PaymentReminder',
-                        'BorrowerName' => $dueLoan->borFname . ' ' . $dueLoan->borLname,
-                        'accountnumber' => $dueLoan->borAccount,
-                        'loanNumber' => $dueLoan->loanNumber,
-                        'loanAmount' => $dueLoan->LoanAmount,
-                        'remainingBalance' => $updatedBalance,
-                        'dueDate' => $latestDueDate->toDateString(),
-                        'loanStatus' => $dueLoan->loanstatus,
-                    ];
-
-                    // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                    }
                 }
             }
         }
