@@ -35,13 +35,13 @@ class loanInfoController extends Controller
     }
 
     public function LoanRegister(Request $request, string $brno)
-{
+    {
 
-    // Redirect to the search route with the 'brno' parameter
-    return redirect()->route('search', ['brno' => $brno])->with('success', 'Borrower Match Found');
-}
-public function search(Request $request, string $brno = null)
-{
+        // Redirect to the search route with the 'brno' parameter
+        return redirect()->route('search', ['brno' => $brno])->with('success', 'Borrower Match Found');
+    }
+    public function search(Request $request, string $brno = null)
+    {
 
 
         if ($borrowerinfo = borrowerinfo::where('borAccount', 'like', $brno)->first()) {
@@ -52,25 +52,25 @@ public function search(Request $request, string $brno = null)
         }
 
 
-    if ($search == '') {
-        return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
-    } else {
-        $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();
-    }
+        if ($search == '') {
+            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
+        } else {
+            $borrowerinfo = borrowerinfo::where('borAccount', 'like', $search)->first();
+        }
 
-    if (!$borrowerinfo) {
-        return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
-    }
+        if (!$borrowerinfo) {
+            return redirect()->route('Loan')->with('error', 'Account Number Does Not Exist');
+        }
 
-    $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
-    
-    if ($borrowerinfo->loans()->exists()) {
-        return redirect()->route('Loan')->with('errorFound', 'Borrower already registered for a loan');
-    }
+        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
-    $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-    return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Match Found');
-}
+        if ($borrowerinfo->loans()->exists()) {
+            return redirect()->route('Loan')->with('errorFound', 'Borrower already registered for a loan');
+        }
+
+        $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Match Found');
+    }
 
 
 
@@ -205,7 +205,7 @@ public function search(Request $request, string $brno = null)
 
             $payment = new paymentInfo();
             $payment->loan_id = $loan->lid;
-            $payment->remaining_balance = ($loan->LoanAmount * ($loan->InterestRate/100)) + $loan->LoanAmount;
+            $payment->remaining_balance = ($loan->LoanAmount * ($loan->InterestRate / 100)) + $loan->LoanAmount;
             $payment->due_date = Carbon::now()->addMonth();
             $payment->save();
 
@@ -235,11 +235,32 @@ public function search(Request $request, string $brno = null)
 
     public function payment()
     {
-        $test = 'test';
-
-
-        return view('Loan.payment', compact('test'));
+        if (session()->has('data')) {
+            $data = session('data');
+            return view('Loan.payment', compact('data'));
+        } else {
+            return view('Loan.payment');
+        }
     }
+
+
+    public function loanSearch(Request $request)
+    {
+        $search = $request->input('search');
+
+        $data = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')
+            ->where('loanInfo.loanNumber', 'LIKE', '%' . $search . '%')
+            ->get(['loanInfo.*', 'borrowerinfo.borFname', 'borrowerinfo.borMname', 'borrowerinfo.borLname', 'borrowerinfo.borSuffix']);
+
+        if ($data->count() > 0) {
+            return redirect()->route('payment')->with(['data' => $data, 'success' => 'Loan Number Match Found']);
+        } else {
+            return redirect()->route('payment')->with('error', 'LOAN NUMBER NOT FOUND, Loan Number Example (LNO-0000X)');
+        }
+    }
+
+
+
 
     public function RoutePayment(Request $request, $bno)
     {
@@ -262,22 +283,22 @@ public function search(Request $request, string $brno = null)
             $moneyGiven = $request->input('Money');
             $Remaining_Balance = $payments->last()->Remaining_Balance - $payAmount;
 
-             // Validate that the payment amount is not greater than the remaining balance
-    if ($payAmount > $moneyGiven) {
-        return redirect()->back()->with('error', 'Given Money amount cannot be greater than the Pay Amount.');
-    }
-    $tolerance = 0.01; 
-    if ($payAmount > $payments->last()->Remaining_Balance) {
-        return redirect()->back()->with('error', 'Remaining Balance cannot be greater than the Pay Amount.');
-    }
+            // Validate that the payment amount is not greater than the remaining balance
+            if ($payAmount > $moneyGiven) {
+                return redirect()->back()->with('error', 'Given Money amount cannot be greater than the Pay Amount.');
+            }
+            $tolerance = 0.01;
+            if ($payAmount > $payments->last()->Remaining_Balance) {
+                return redirect()->back()->with('error', 'Remaining Balance cannot be greater than the Pay Amount.');
+            }
 
-    if ($Remaining_Balance <= 0) {
-        $loanInfo = $borrowerinfo->loans->first(); 
-        $loanInfo->loanstatus = 'PAID'; 
-        $loanInfo->save();
-    }
+            if ($Remaining_Balance <= 0) {
+                $loanInfo = $borrowerinfo->loans->first();
+                $loanInfo->loanstatus = 'PAID';
+                $loanInfo->save();
+            }
 
-        $changeAmount = $moneyGiven - $payAmount;
+            $changeAmount = $moneyGiven - $payAmount;
 
             // Update the remaining balance in the payment record
             $latestPayment = $payments->last();
@@ -285,7 +306,7 @@ public function search(Request $request, string $brno = null)
             $latestPayment->save();
 
             // Loan Status Update
-            
+
 
             return redirect()->back()->with('success', 'Payment successful! Change: ' . $changeAmount);
         }
@@ -385,7 +406,7 @@ public function search(Request $request, string $brno = null)
         //
     }
 
-    
+
     public function getBorrowerInfo()
     {
         $borrowerinfo = borrowerinfo::all();

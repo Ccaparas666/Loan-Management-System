@@ -164,6 +164,10 @@ Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
 ->middleware(['auth', 'verified'])
 ->name('payment');
 
+Route::match(['get', 'post'], '/Loan/payment/search', [loanInfoController::class, 'loanSearch'])
+    ->middleware(['auth', 'verified'])
+    ->name('loan-search');
+
 
 
 ////////// payment
