@@ -80,7 +80,7 @@ class borrowerInfoController extends Controller
     $borrowerinfo = BorrowerInfo::with(['loans.payments' => function ($query) {
         $query->orderBy('due_date', 'desc'); 
     }])->where('bno', $id)->get();
-
+ 
     $Loan = BorrowerInfo::with('loans')->where('bno', $id)->first();
     $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
 

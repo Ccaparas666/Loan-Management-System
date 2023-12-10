@@ -135,14 +135,14 @@
                                                 <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
                                             </div>
                                             <div>
-                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
+                                                <span class="text-gray-600 dark:text-gray-400 font-bold">First Balance:</span>
                                                 <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
                                             </div>
                                         </td>
                                                 @if ($loan->loanstatus == "Approved")
                                                 <td class="px-6 py-4">{{ $loan->loanstatus }} waiting for cash release
                                                 </td>
-                                                <td class="px-6 py-4">
+                                                <td class="px-6 py-4 text-center">
                                                     <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}"
                                                         class="Released text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
                                                         href="{{route('loan-Release', ['lno' => $loan->lid]) }}">
@@ -159,7 +159,7 @@
                                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                                         </div>
                                                     </a>
-                                                    <a data-tooltip-target="{{'tooltip-default1-'. $loan->lid}}"
+                                                    <a data-tooltip-target="{{'tooltip-default1-'. $loan->lid}}" href="{{route('borrower-view', ['brno' => $loan->bno]) }}"
                                                         class="approved text-white bg-blue-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
                                                         href="#">
                                                         <svg class="w-[19px] h-[19px] text-gray-800 dark:text-white"
@@ -172,7 +172,7 @@
                                                                     d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
                                                             </g>
                                                         </svg>
-                                                        <div id="{{'tooltip-default1-'. $loan->lid}}" role="tooltip"
+                                                        <div id="{{'tooltip-default1-'. $loan->lid}}" role="tooltip" 
                                                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
                                                             View Loan Details
                                                             <div class="tooltip-arrow" data-popper-arrow></div>
@@ -185,9 +185,9 @@
                                                         class="inline-block p-1 rounded bg-emerald-200/10 text-emerald-500 font-medium text-[12px] leading-none">
                                                         {{ $loan->loanstatus }}</h1>
                                                 </td>
-                                                <td class="px-6 py-4">
-                                                    <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}"
-                                                        class="Active text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-indigo-400 dark:hover:bg-indigo-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700">
+                                                <td class="px-6 py-4 text-center">
+                                                    <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}" href="{{route('borrower-view', ['brno' => $loan->bno]) }}"
+                                                        class="text-white bg-teal-500/75 hover:bg-teal-700/75 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-teal-400/75 dark:hover:bg-teal-800/75 focus:outline-none dark:focus:ring-teal-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700">
                                                         <svg class="w-[19px] h-[19px] test"
                                                             xmlns="http://www.w3.org/2000/svg" height="1em"
                                                             viewBox="0 0 384 512">
@@ -201,27 +201,8 @@
                                                         </svg>
 
                                                         <div id="{{'tooltip-default3-'. $loan->lid}}" role="tooltip"
-                                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-indigo-700">
-                                                            Loan Active
-                                                            <div class="tooltip-arrow" data-popper-arrow></div>
-                                                        </div>
-                                                    </a>
-                                                    <a data-tooltip-target="{{'tooltip-default1-'. $loan->lid}}"
-                                                        class="approved text-white bg-blue-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
-                                                        href="#">
-                                                        <svg class="w-[19px] h-[19px] text-gray-800 dark:text-white"
-                                                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none" viewBox="0 0 20 14">
-                                                            <g stroke="currentColor" stroke-linecap="round"
-                                                                stroke-linejoin="round" stroke-width="2">
-                                                                <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                                                <path
-                                                                    d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z" />
-                                                            </g>
-                                                        </svg>
-                                                        <div id="{{'tooltip-default1-'. $loan->lid}}" role="tooltip"
-                                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
-                                                            View Loan Details
+                                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-teal-700">
+                                                            Pay Loan
                                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                                         </div>
                                                     </a>
@@ -254,7 +235,15 @@
                                         });
 
                                     </script>
+                                    <script>
+                                        $(document).ready(function () {
+                                            // value from search parameter
+                                            var searchValue = new URLSearchParams(window.location.search).get('search');
 
+                                            // datatabel search value default
+                                            $('#example').DataTable().search(searchValue !== null ? searchValue : '').draw();
+                                        });
+                                    </script>
                                     <script>
                                         $('.Released').on('click', function (e) {
                                             e.preventDefault();
@@ -272,16 +261,9 @@
 
                                         });
 
-                                        $('.Active').on('click', function (e) {
-
-                                            Swal.fire({
-                                                title: "Loan Active",
-                                                confirmButtonText: "OK",
-
-                                            });
-
-                                        });
+                                        
                                     </script>
+
 
                                 </div>
 

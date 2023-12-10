@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\borrowerinfo;
 use App\Models\paymentInfo;
-
+use App\Models\officerInfo;
+use App\Models\User;
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
+use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use Mail;
 use App\Mail\MailDemo;
@@ -332,6 +334,28 @@ class loanInfoController extends Controller
      */
     public function store(Request $request, borrowerinfo $user)
     {
+
+        $request->validate([
+            'xLoanAmount' => ['required', 'numeric', 'min:0.01', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'xcFullname' => 'required',
+            'xcContact' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{11}$/',
+                'starts_with:09',
+                Rule::unique('borrowerinfo', 'borContact'),
+                Rule::unique('loanInfo', 'cmContact'),
+                Rule::unique('officerInfo', 'offContact'),
+            ],
+            
+            'xcEmail' => [
+                Rule::unique('borrowerinfo', 'borEmail'),
+                Rule::unique('loanInfo', 'cmEmail'),
+                Rule::unique('users', 'email'),
+            ],
+            'xcAddress' => 'required',
+            
+        ]);
 
 
         $loanInfo = new loanInfo();

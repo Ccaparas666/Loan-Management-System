@@ -218,7 +218,15 @@
                         </script>
                        
 
+                        <script>
+                            $(document).ready(function () {
+                                // value from search parameter
+                                var searchValue = new URLSearchParams(window.location.search).get('search');
 
+                                // datatabel search value default
+                                $('#example').DataTable().search(searchValue !== null ? searchValue : '').draw();
+                            });
+                        </script>
                        <script>
                             $('.approved').on('click', function (e) {
                                     e.preventDefault();

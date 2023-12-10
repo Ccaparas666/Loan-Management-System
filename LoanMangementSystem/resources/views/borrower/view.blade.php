@@ -132,7 +132,7 @@
                         
                             </div>
                             @elseif ($loanStatus == "Rejected" || $loanStatus == "Waiting For Approval" || $loanStatus == "Approved")
-                            <div class="grid gap-6 m-4 md:grid-cols-1">
+                            <div class="grid gap-6 m-4 md:grid-cols-2">
                                 <a href="{{route('borrower-edit', ['brno' => $borinfo->bno]) }}"
                                     class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                                     <svg class="w-5 h-5 mr-2 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,20 @@
                                             d="M4.109 17H1v-2a4 4 0 0 1 4-4h.87M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm7.95 2.55a2 2 0 0 1 0 2.829l-6.364 6.364-3.536.707.707-3.536 6.364-6.364a2 2 0 0 1 2.829 0Z" />
                                     </svg>
                                     UPDATE
-                                </a>  
+                                </a> 
+
+                                <a href="@if ($loanStatus == 'Rejected'){{ route('rejected-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
+                                           @elseif ($loanStatus == 'Waiting For Approval'){{ route('new-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
+                                           @elseif ($loanStatus == 'Approved'){{ route('approved-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
+                                           @endif"
+                                    class="flex items-center text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">
+                                    <svg class="w-5 h-5 mr-2 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 20 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4.109 17H1v-2a4 4 0 0 1 4-4h.87M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm7.95 2.55a2 2 0 0 1 0 2.829l-6.364 6.364-3.536.707.707-3.536 6.364-6.364a2 2 0 0 1 2.829 0Z" />
+                                    </svg>
+                                    View Loan
+                                </a>
                             </div>
                             @else
                             <div class="grid gap-6 m-4 md:grid-cols-2">

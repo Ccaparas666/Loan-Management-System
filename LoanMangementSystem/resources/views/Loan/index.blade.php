@@ -163,12 +163,13 @@
                                         <label for="Loan Amount" 
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loan
                                             Amount</label>
-                                        <input type="text" name="xLoanAmount" value="{{ old('xLoan') }}"
+                                        <input type="text" name="xLoanAmount" value="{{ old('xLoanAmount') }}"
                                             class=" w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
                                             @if($data->isNotEmpty())
                                             <input type="hidden" name="xbno" value="{{ $borinfo->bno }}" class="border border-gray-300 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent" />
                                             @endif
+                                            <x-input-error :messages="$errors->get('xLoanAmount')" class="mt-2" />
                                             
                                     </div>
                                 </div>
@@ -211,7 +212,7 @@
                                         @endif
                                     </div>
                                     <div>
-                                        <label for="Birth Date" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
+                                        <label for="xBirth" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Birth Date</label>
                                         @if(isset($search))
                                             <input type="date"  name="xBirth" value = "{{ $borinfo->borDob }}" class="w-32 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled />
                                         @else
@@ -236,33 +237,37 @@
                                 </div>
                                 <div class="grid gap-6 mb-6 md:grid-cols-4">
                                     <div>
-                                        <label for="C name"
+                                        <label for="Cname"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fullname</label>
-                                        <input type="text" name="xcFullname" value="{{ old('xaddress') }}"
+                                        <input type="text" name="xcFullname" value="{{ old('xcFullname') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
+                                            <x-input-error :messages="$errors->get('xcFullname')" class="mt-2" />
                                     </div>
                                     <div>
-                                        <label for="c contact"
+                                        <label for="ccontact"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contact
                                             Number</label>
-                                        <input type="text" name="xcContact" value="{{ old('xcontact') }}"
+                                        <input type="text" maxlength="11" name="xcContact" value="{{ old('xcContact') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="e.g 09123456789" required>
+                                            <x-input-error :messages="$errors->get('xcContact')" class="mt-2" />
                                     </div>
                                     <div>
-                                        <label for="c email"
+                                        <label for="cemail"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                        <input type="text" name="xcEmail" value="{{ old('xcontact') }}"
+                                        <input type="email" name="xcEmail" value="{{ old('xcEmail') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             placeholder="e.g 09123456789" required>
+                                            <x-input-error :messages="$errors->get('xcEmail')" class="mt-2" />
                                     </div>
                                     <div class="">
-                                        <label for="c address"
+                                        <label for="caddress"
                                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                        <input type="text" name="xcAddress" value="{{ old('xaddress') }}"
+                                        <input type="text" name="xcAddress" value="{{ old('xcAddress') }}"
                                             class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             required>
+                                            <x-input-error :messages="$errors->get('xcAddress')" class="mt-2" />
                                     </div>
                                 </div>
 
