@@ -20,12 +20,22 @@
                                 });                               
                             </script>
                             @endif
-          
+                           
             @foreach ($borrowerinfo as $borinfo)
             <div class="flex flex-row space-x-4">
-                <div class="basis-2/5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg ">
+                <div class="basis-2/5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <div class="text-center">
+                    <button data-modal-target="large-modal2" data-modal-toggle="large-modal2" data-tooltip-target="{{'tooltip-default-'. $borinfo->lid}}" class="mt-2 absolute top-0 right-0 flex items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
+                    <svg class="w-5 h-5 text-gray-50 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"></path>
+    </svg>
+
+    
+                    
+                            </button>
+                        <div class="text-center mt-10">
+                        
                             <label for="Name" class="font-bold block">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{
                                 $borinfo->borLname }} {{ $borinfo->borSuffix }}</label>
                             <label for="Accountnumber" class="block mt-2">Borrower Account <span class="font-bold text-purple-500">{{
@@ -56,6 +66,10 @@
                             @endif
             
                         </div>
+                        <div>
+            
+        </div>
+                        
                     </div>
 
                     <div class="grid gap-6 m-4 md:grid-cols-2">
@@ -188,33 +202,33 @@
                             </thead>
                             
                             <tbody id="Content">
-    @foreach ($borrowerinfo as $borinfo)
-        @foreach ($borinfo->loans as $loan)
-            @foreach ($loan->payments as $payment)
-                <tr>
-                    <td class="px-6 py-4">{{$loan->loanNumber}}</td>
-                    <td class="px-6 py-4">P {{$payment->Remaining_Balance}}</td>
-                    <td class="px-6 py-4"> {{$payment->due_date}}</td>
-                    <td class="px-6 py-4">
-                        <div>
-                            <span class="text-gray-400 font-bold">Interest Rate:</span>
-                            <span class="ml-2 text-blue-500">{{ number_format($loan->InterestRate, 0) }}%</span>
-                        </div>
-                        @php
-                            $balanceAdded = $payment->Remaining_Balance * ($loan->InterestRate / 100);
-                        @endphp
-                        <div>
-                            <span class="text-gray-400  font-bold">Due Penalty:</span>
-                            <span class="ml-2 text-green-500">
-                                + P{{ number_format($balanceAdded, 2) }}
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        @endforeach
-    @endforeach
-</tbody>
+                                @foreach ($borrowerinfo as $borinfo)
+                                    @foreach ($borinfo->loans as $loan)
+                                        @foreach ($loan->payments as $payment)
+                                        <tr>
+                                            <td class="px-6 py-4">{{$loan->loanNumber}}</td>
+                                            <td class="px-6 py-4">P {{$payment->Remaining_Balance}}</td>
+                                            <td class="px-6 py-4"> {{$payment->due_date}}</td>
+                                            <td class="px-6 py-4">
+                                                <div>
+                                                    <span class="text-gray-400 font-bold">Interest Rate:</span>
+                                                    <span class="ml-2 text-blue-500">{{ number_format($loan->InterestRate, 0) }}%</span>
+                                                </div>
+                                                @php
+                                                $balanceAdded = $payment->Remaining_Balance * ($loan->InterestRate / 100);
+                                                @endphp
+                                                <div>
+                                                    <span class="text-gray-400  font-bold">Due Penalty:</span>
+                                                    <span class="ml-2 text-green-500">
+                                                        + P{{ number_format($balanceAdded, 2) }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    @endforeach
+                                @endforeach
+                            </tbody>
 
                         </table>
                     </div>       
@@ -290,24 +304,18 @@
                                 <label for="Balance"
                                     class="text-center mb-2 text-base font-bold text-rose-400">REMAINING
                                     BALANCE</label>
-                                    <input type="text" name="Balance" value="{{ optional($Loan->loans->first()?->payments->last())->Remaining_Balance ?? '' }}"
-    class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-    readonly>
+                                    <input type="text" name="Balance" value="{{ optional($Loan->loans->first()?->payments->last())->Remaining_Balance ?? '' }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
                             </div>
                             <div class="flex flex-col">
                                 <label for="PayAmount" class="text-center mb-2 text-base font-bold text-sky-400">Pay
                                     Amount</label>
-                                    <input type="text" name="PayAmount" pattern="\d+(\.\d+)?" value="{{ old('Pay Amount') }}"
-    class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-    required>
+                                    <input type="text" name="PayAmount" pattern="\d+(\.\d+)?" value="{{ old('Pay Amount') }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
                             </div>
                             <x-input-error :messages="$errors->get('PayAmount')" class="mt-2" />
                             <div class="flex flex-col">
                                 <label for="Money" class="text-center mb-2 text-base font-bold text-green-400">Money
                                     Given</label>
-                                    <input type="text" name="Money" pattern="\d+(\.\d+)?" value="{{ old('Money') }}"
-    class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
-    required>
+                                    <input type="text" name="Money" pattern="\d+(\.\d+)?" value="{{ old('Money') }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
                             </div>
 
                         </div>
@@ -320,6 +328,58 @@
                         <button data-modal-hide="large-modal" type="button"
                             class="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
                     </div>
+                </div>
+            </div>
+        </div>
+<!-- ///////////// for comaker -->
+        <div id="large-modal2" tabindex="-1"
+            class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+            <div class="relative w-full max-w-4xl max-h-full">
+                <!-- Modal content -->
+                <div class="relative bg-gray-50  rounded-lg shadow dark:bg-gray-700">
+                    <!-- Modal header -->
+                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                            Comaker Information
+                        </h3>
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                            data-modal-hide="large-modal2">
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                            <span class="sr-only">Close modal</span>
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <div class="p-10 md:p-10 space-y-10 dark:bg-gray-900 shadow-sm sm:rounded-lg mx-auto"
+                        style="margin-left: 5%; margin-right: 5%;">
+                        <div class="grid gap-6 mb-5 md:grid-cols-2 content-center">
+                            <div class="flex flex-col">
+                                <label class="text-center mb-2 text-base font-bold text-green-400">NAME: </label>
+                                    <input type="text"  value="{{ optional($Loan->loans->first())->cmName }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
+                            </div>
+                            <div class="flex flex-col">
+                                <label class="text-center mb-2 text-base font-bold text-green-400">ADDRESS: </label>
+                                    <input type="text"  value="{{ optional($Loan->loans->first())->cmAddress }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                            </div>
+                            
+                            <div class="flex flex-col">
+                                <label class="text-center mb-2 text-base font-bold text-green-400">CONTACT NUMBER</label>
+                                    <input type="text" value="{{ optional($Loan->loans->first())->cmContact }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <label class="text-center mb-2 text-base font-bold text-green-400">EMAIL ADDRESS</label>
+                                    <input type="text" value="{{ optional($Loan->loans->first())->cmEmail }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="align-content: center flex items-center p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600"> </div>
                 </div>
             </div>
         </div>
@@ -401,5 +461,8 @@
 </div>
 
 
+<div id="{{'tooltip-default-'. $borinfo->lid}}" role="tooltip" class="text-center absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-purple-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-purple-700"> View Comaker
+    <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
 </x-app-layout>
 

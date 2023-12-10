@@ -75,11 +75,15 @@
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    <div class="flex items-center">{{ __('Loan Amount') }}<a href="#">
+                                    <div class="flex items-center">{{ __('Loan Details') }}<a href="#">
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     <div class="flex items-center">{{ __('Date Loan Started') }}<a href="#">
+                                    </div>
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    <div class="flex items-center">{{ __('Status') }}<a href="#">
                                     </div>
                                 </th>
                                 <th scope="col" class="px-6 py-3 flex justify-center">{{ __('ACTION') }}
@@ -92,8 +96,32 @@
                                     class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                     <td class="px-6 py-4">{{$loan->loanNumber}}</td>
                                     <td class="px-6 py-4">{{$loan->borFname}} {{$loan->borMname}} {{$loan->borLname}} {{$loan->borSuffix}}</td>
-                                    <td class="px-6 py-4">{{$loan->LoanAmount}}</td>
+                                    <td class="px-6 py-4">
+                                        <div>
+                                            <span class="text-gray-400 font-bold">Interest Rate:</span>
+                                            <span class="ml-2 text-blue-500">{{ number_format($loan->InterestRate, 0) }}%</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-gray-400  font-bold">Loan Amount:</span>
+                                            <span class="ml-2 text-green-500">P {{$loan->LoanAmount}}</span>
+                                        </div>
+                                    </td>
                                     <td class="px-6 py-4">{{$loan->LoanApplication}}</td>
+                                    <td class="px-6 py-4 font-semibold">
+                                            @if ($loan->loanstatus == "Waiting For Approval")
+                                            <span class="inline-block rounded bg-blue-200/10 text-blue-500 p-1">Waiting For Approval</span>
+                                            @elseif ($loan->loanstatus == "Approved")
+                                            <span class="inline-block rounded bg-green-200/10 text-green-500 p-1">Approved</span>
+                                            @elseif ($loan->loanstatus == "Loan Active")
+                                            <span class="inline-block rounded bg-emerald-200/10 text-green-500 p-1">Loan Active</span>
+                                            @elseif ($loan->loanstatus == "Rejected")
+                                            <span class="inline-block rounded bg-red-200/10 text-red-500 p-1">Rejected</span>
+                                            @elseif ($loan->loanstatus == "PAID")
+                                            <span class="inline-block rounded bg-green-200/10 text-green-500 p-1 font-bold">PAID</span>
+                                            @else
+                                            <span class="inline-block rounded bg-gray-300/10 text-yellow-500 p-1">Not Registered</span>
+                                            @endif
+                                        </td>
                                     <td class="px-6 py-4 flex justify-center">
                                     <a data-tooltip-target="{{'tooltip-default23-'. $loan->bno}}"  class="approved text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-700 dark:hover:bg-blue-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700" href="{{route('borrower-view', ['brno' => $loan->bno]) }}"> View Loan Details
                                             <div id="{{'tooltip-default23-'. $loan->bno}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
