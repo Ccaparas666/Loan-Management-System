@@ -130,6 +130,10 @@ Route::get('/Loan/newloan', [loanInfoController::class, 'newloan'])
 ->middleware(['auth', 'verified'])
 ->name('new-loan');
 
+Route::delete('/loan/delete/{delete}', [loanInfoController::class, 'destroy'])
+   ->middleware(['auth', 'verified'])
+   ->name('loan-delete');
+
 Route::get('/Loan/newloan/{lno}', [loanInfoController::class, 'StatusApprove'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Approve');

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('bno');
             $table->string('approved_by')->nullable();
             $table->string('rejected_by')->nullable();
+            $table->string('created_by')->nullable();
             $table->string('loanNumber', 50);
             
             $table->decimal('LoanAmount', $precision = 8, $scale = 2);

@@ -19,6 +19,14 @@
                                 text: "{{session('error')}}",
                                 });                               
                             </script>
+                            @elseif (session()->has('paySuccess'))
+                           <script>
+                                Swal.fire({
+                                icon: "success",
+                                title: "Payment Successful!",
+                                text: "{{session('paySuccess')}}",
+                                });                               
+                            </script>
                             @endif
                            
             @foreach ($borrowerinfo as $borinfo)
@@ -265,17 +273,28 @@
                                         <div class="flex items-center">{{ __('Payment Date') }}</div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        <div class="flex items-center">{{ __('ReferenceNumber') }}</div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Payment Amount') }}</div>
                                     </th>              
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Remaining Balance') }}</div>
                                     </th>
+                                    
                                 </tr>
                                 
                             </thead>
                             
                             <tbody>
-                                
+                            @foreach ($transactionHistory as $transaction)
+                            <tr>
+                                <td class="px-6 py-4">{{ $transaction->PaymentDate }}</td>
+                                <td class="px-6 py-4">{{ $transaction->ReferenceNumber }}</td>
+                                <td class="px-6 py-4">{{ $transaction->PaymentAmount }}</td>
+                                <td class="px-6 py-4">{{ $transaction->RemainingBalance }}</td>
+                            </tr>
+                            @endforeach
                             </tbody>
                         </table>               
                             
@@ -431,7 +450,8 @@
                         </script> 
                          <script>
                             new DataTable('#history', {
-                                responsive: true
+                                responsive: true,
+                                order: [[0, 'desc']]
                             });
                         </script> 
 

@@ -4,7 +4,12 @@ namespace App\Helpers;
 
 class Helper
 {
+    public static function generateUniqueReference() {
+        // Generate a unique reference number logic goes here
+        return 'REF-' . uniqid();
+    }
 
+    
     public static function OfficerIDgenerator($model, $trow, $length = 4, $prefix){
         $data = $model::orderBy('ono','desc')->first();
         if(!$data){

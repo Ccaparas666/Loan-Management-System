@@ -8,6 +8,7 @@ use App\Models\borrowerinfo;
 use App\Models\paymentInfo;
 use App\Models\officerInfo;
 use App\Models\User;
+use App\Models\Transaction_History;
 use App\Helpers\Helper;
 use Psy\Readline\Hoa\Console;
 use Illuminate\Validation\Rule;
@@ -306,11 +307,30 @@ class loanInfoController extends Controller
             $latestPayment = $payments->last();
             $latestPayment->Remaining_Balance = $Remaining_Balance;
             $latestPayment->save();
+            
+            $Transaction = new Transaction_History();
+            
+            $Transaction->PaymentDate = now();
+            $Transaction->PaymentAmount = $payAmount;
+            $Transaction->RemainingBalance = $Remaining_Balance;
+            
+            // Generate or obtain a unique reference number
+            $Transaction->ReferenceNumber = Helper::generateUniqueReference();
+            
+            // Assign the actual borrower ID
+            $Transaction->borrower_id = $borrowerinfo->bno;
+            
+            if (!$Transaction->save()) {
+                return redirect()->back()->with('error', 'Failed to record the transaction.');
+            }
+            $Transaction->save();
+           
 
             // Loan Status Update
 
 
-            return redirect()->back()->with('success', 'Payment successful! Change: ' . $changeAmount);
+            return redirect()->back()->with('paySuccess', 'Change: ' .  $changeAmount);
+            
         }
 
         // If the form is not submitted, continue with your existing code to display the payment information
@@ -374,8 +394,13 @@ class loanInfoController extends Controller
         $loanInfo->cmAddress = $request->xcAddress;
 
         $accountnumber = $request->xsearch;
-
+        $createdBy = auth()->user()->name;
+        $loanInfo->created_by = $createdBy;
         $loanInfo->save();
+
+        
+
+        
 
         $email = $request->xemail;
         $sendMailData = [
@@ -428,6 +453,16 @@ class loanInfoController extends Controller
     public function destroy(string $id)
     {
         //
+        try {
+            $loanInfo = loanInfo::findOrFail($id);     
+            if ($loanInfo->payments()->exists()) {
+                return redirect()->back()->with('error', 'Cannot delete Loan. The Loan is currently Active');
+            }
+            $loanInfo->delete();
+            return redirect()->back()->with('delete', 'Loan Successfully Deleted');
+        } catch (QueryException $e) {
+            return redirect()->back()->with('error', 'Loan not found');
+        }
     }
 
 

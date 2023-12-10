@@ -126,7 +126,7 @@
                                                     {{ $loan->loanNumber }}</td>
                                                 <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}}
                                                     {{$loan->borMname}} {{$loan->borSuffix}}</td>
-                                                <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
+                                                <td class="px-6 py-4">P {{ number_format($loan->LoanAmount, 2) }}</td>
                                                 <td class="px-6 py-4">{{$loan->approved_by}}</td>
                                                 <td class="px-6 py-4">{{ $loan->loan_approval_date }}</td>
                                                 <td class="px-6 py-4">

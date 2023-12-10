@@ -8,6 +8,7 @@ use App\Models\paymentInfo;
 use App\Models\loanInfo;
 use App\Helpers\Helper;
 use App\Models\officerInfo;
+use App\Models\Transaction_History;
 use Illuminate\Validation\Rule;
 use Illuminate\Database\QueryException; 
 class borrowerInfoController extends Controller
@@ -85,7 +86,7 @@ class borrowerInfoController extends Controller
     $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
 
     
-
+    $transactionHistory = Transaction_History::where('borrower_id', $id)->get();
     $latestDueDate = null;
 
 // Check if borrower information is available
@@ -103,7 +104,7 @@ if ($borrowerinfo->isNotEmpty()) {
     }
 }
 
-    return view('borrower.view', compact('borrowerinfo', 'loanStatus', 'Loan', 'latestDueDate'));
+    return view('borrower.view', compact('borrowerinfo', 'loanStatus', 'Loan', 'latestDueDate','transactionHistory'));
 }
 
     /**

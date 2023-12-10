@@ -41,6 +41,44 @@
                 </div>
                 
             </div>
+                        @if (session()->has('success'))
+                            <script>
+                                Swal.fire({
+                                icon: "success",
+                                title: "Borrower Approved",
+                                text: "{{session('success')}}",
+
+                                });
+                            </script>
+                           
+                        @elseif(session()->has('reject'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Borrower Rejected",
+                                text: "{{session('reject')}}",
+
+                                });
+                            </script>
+                         @elseif(session()->has('error'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Loan Registered is Active",
+                                text: "{{session('error')}}",
+
+                                });
+                            </script>
+                        @elseif(session()->has('delete'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Loan Deleted",
+                                text: "{{session('delete')}}",
+
+                                });
+                            </script>
+                        @endif
             
                 @csrf
                 <!-- /////////////////////// -->
@@ -95,7 +133,7 @@
         <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
     </div>
 </td>
-                                       <td  class="px-6 py-4"> 
+                                       <td  class="px-6 py-4 text-center"> 
                                         
                                             
                                             <a data-tooltip-target="{{'tooltip-default-'. $loan->loanNumber}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="#">
@@ -109,19 +147,46 @@
                                             </div>
                                             </a>
                                             
-                                            <form data-tooltip-target="{{'tooltip-default1-'. $loan->loanNumber}}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" method="POST" action="#" 
-                                            onclick="return confirm('Are you sure you want to delete this record?')"> @csrf
-                                                @method('delete')
-                                                <button>
-                                                    <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
-                                                    </svg>
-                                                    <div id="{{'tooltip-default1-'. $loan->loanNumber}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-red-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-red-800">
-                                                        Delete This Loan
-                                                        <div class="tooltip-arrow" data-popper-arrow></div>
-                                                    </div>
-                                                </button>
-                                            </form>
+                                            <form data-tooltip-target="{{'tooltip-default1-'. $loan->loanNumber}}"
+                                                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
+                                                    method="POST" action="{{ route('loan-delete', ['delete' => $loan->lid]) }}"  onsubmit="return submitForm(this);"> 
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button>
+                                                        <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z" />
+                                                        </svg>
+                                                        <div id="{{'tooltip-default1-'. $loan->loanNumber}}" role="tooltip"
+                                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-red-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-red-800">
+                                                            Delete This Loan
+                                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                                        </div>
+                                                    </button>
+
+                                                    <script>
+                                                    function submitForm(form) {
+
+                                                        Swal.fire({
+                                                            title: 'Are you sure you want to delete this Loan Record?',
+                                                            text: "You won't be able to revert this!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, delete it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+
+                                                                form.submit();
+                                                            }
+
+                                                        });
+                                                        return false;
+                                                    }
+                                                </script>
+                                                </form>
                                         </td>
 
                                    </tr>

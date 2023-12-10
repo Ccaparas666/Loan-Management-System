@@ -54,6 +54,24 @@
 
                                 });
                             </script>
+                         @elseif(session()->has('error'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Loan Registered is Active",
+                                text: "{{session('error')}}",
+
+                                });
+                            </script>
+                        @elseif(session()->has('delete'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "Loan Deleted",
+                                text: "{{session('delete')}}",
+
+                                });
+                            </script>
                         @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900 dark:text-gray-100 ">
@@ -109,16 +127,16 @@
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $loan->loanNumber }}</td>
                                         <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
-                                        <td class="px-6 py-4">{{ $loan->LoanAmount }}</td>
+                                        <td class="px-6 py-4">P {{ number_format($loan->LoanAmount, 2) }}</td>
                                         <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
-                                        <td class="px-6 py-4">Verified information</td>
+                                        <td class="px-6 py-4">{{$loan->created_by}}</td>
                                         <td class="px-6 py-4">
                                             <div class="mb-2">
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
                                                 <span class="ml-2 text-blue-500 dark:text-blue-300">{{ number_format($loan->InterestRate, 0) }}%</span>
                                             </div>
                                             <div>
-                                                <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
+                                                <span class="text-gray-600 dark:text-gray-400 font-bold">First Balance:</span>
                                                 <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
                                             </div>
                                         </td>
@@ -157,7 +175,7 @@
                                                 </a>
                                                 <a data-tooltip-target="{{'tooltip-default-'. $loan->loanNumber}}"
                                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
-                                                    href="#">
+                                                    href= "{{route('borrower-edit', ['brno' => $loan->bno]) }}">
                                                     <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                         <path
@@ -171,10 +189,11 @@
                                                         <div class="tooltip-arrow" data-popper-arrow></div>
                                                     </div>
                                                 </a>
-                                        
+
                                                 <form data-tooltip-target="{{'tooltip-default1-'. $loan->loanNumber}}"
                                                     class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
-                                                    method="POST" action="#" onclick="return confirm('Are you sure you want to delete this record?')"> @csrf
+                                                    method="POST" action="{{ route('loan-delete', ['delete' => $loan->lid]) }}"  onsubmit="return submitForm(this);"> 
+                                                    @csrf
                                                     @method('delete')
                                                     <button>
                                                         <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true"
@@ -188,7 +207,34 @@
                                                             <div class="tooltip-arrow" data-popper-arrow></div>
                                                         </div>
                                                     </button>
+
+                                                    <script>
+                                                    function submitForm(form) {
+
+                                                        Swal.fire({
+                                                            title: 'Are you sure you want to delete this Loan Record?',
+                                                            text: "You won't be able to revert this!",
+                                                            icon: 'warning',
+                                                            showCancelButton: true,
+                                                            confirmButtonColor: '#3085d6',
+                                                            cancelButtonColor: '#d33',
+                                                            confirmButtonText: 'Yes, delete it!'
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+
+                                                                form.submit();
+
+
+
+
+                                                            }
+
+                                                        });
+                                                        return false;
+                                                    }
+                                                </script>
                                                 </form>
+                                                
                                            
                                         </td>
                                     </tr>
