@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\borrowerinfo;
 use App\Models\officerInfo;
 use App\Models\loanInfo;
+use App\Models\Transaction_History;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -53,6 +54,8 @@ class DashboardController extends Controller
         $approvedCount = loanInfo::where('loanstatus', 'Approved')->count();
         $rejectedCount = loanInfo::where('loanstatus', 'Rejected')->count();
 
-        return view('dashboard', compact('borrowerCount', 'activeCount', 'newLoanCount', 'approvedCount', 'rejectedCount','AccountCount','LoanCount'));
+        $transactionHistory = Transaction_History::with('borrower')->get();
+
+        return view('dashboard', compact('borrowerCount', 'activeCount', 'newLoanCount', 'approvedCount', 'rejectedCount','AccountCount','LoanCount','transactionHistory'));
     }
 }
