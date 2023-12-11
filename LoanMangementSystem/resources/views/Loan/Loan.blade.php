@@ -100,17 +100,15 @@
 
                                         <td class="px-6 py-4 font-semibold">
                                             @if ($loan->loanstatus == "Waiting For Approval")
-                                            <span class="inline-block rounded bg-blue-200/10 text-blue-500 p-1">Waiting For Approval</span>
+                                            <span class="inline-block p-1 inline-block bg-gray-200 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 border border-blue-500">Waiting For Approval</span>
                                             @elseif ($loan->loanstatus == "Approved")
-                                            <span class="inline-block rounded bg-green-200/10 text-green-500 p-1">Approved</span>
+                                            <span class="inline-block p-1 bg-green-200 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Approved</span>
                                             @elseif ($loan->loanstatus == "Loan Active")
-                                            <span class="inline-block rounded bg-emerald-200/10 text-green-500 p-1">Loan Active</span>
+                                            <span class="inline-block bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Loan Active</span>
                                             @elseif ($loan->loanstatus == "Rejected")
-                                            <span class="inline-block rounded bg-red-200/10 text-red-500 p-1">Rejected</span>
+                                            <span class="inline-block bg-red-200 p-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-red-400 border border-red-500">Rejected</span>
                                             @elseif ($loan->loanstatus == "PAID")
-                                            <span class="inline-block rounded bg-green-200/10 text-green-500 p-1 font-bold">PAID</span>
-                                            @else
-                                            <span class="inline-block rounded bg-gray-300/10 text-yellow-500 p-1">Not Registered</span>
+                                            <span class="text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500 font-bold">PAID</span>
                                             @endif
                                         </td>
                                         <!-- <td class="px-6 py-4">
