@@ -20,28 +20,27 @@
                         <div class="text-center">
                             <label for="Name" class="font-bold block">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{
                                 $borinfo->borLname }} {{ $borinfo->borSuffix }}</label>
-                            <label for="Accountnumber" class="block mt-2">Account No. <span class="font-bold text-purple-500">{{
+                            <label for="Accountnumber" class="block mt-2">Loan Status <span class="font-bold text-purple-500">{{
                                     $borinfo->borAccount }}</span></label>
                             @if ($loanStatus == "Waiting For Approval")
-                            <label for="loanStatus" class="block mt-2">Account No. <span
+                            <label for="loanStatus" class="block mt-2">Loan Status <span
                                     class="font-bold inline-block rounded bg-blue-200/10 text-blue-500 p-1">{{ $loanStatus
                                     }}</span></label>
                             @elseif ($loanStatus == "Approved")
-                            <label for="loanStatus" class="block mt-2">Account No. <span
+                            <label for="loanStatus" class="block mt-2">Loan Status <span
                                     class="font-bold inline-block rounded bg-green-200/10 text-green-500 p-1">{{ $loanStatus
                                     }}</span></label>
                             @elseif ($loanStatus == "Loan Active")
-                            <label for="loanStatus" class="block mt-2">Account No. <span
+                            <label for="loanStatus" class="block mt-2">Loan Status <span
                                     class="font-bold inline-block rounded bg-emerald-200/10 text-green-500 p-1">{{ $loanStatus
                                     }}</span></label>
                             @elseif ($loanStatus == "Rejected")
-                            <label for="loanStatus" class="block mt-2">Account No. <span
+                            <label for="loanStatus" class="block mt-2">Loan Status <span
                                     class="font-bold inline-block rounded bg-red-200/10 text-red-500 p-1">{{ $loanStatus
                                     }}</span></label>
                             @else
-                            <label for="loanStatus" class="block mt-2">Account No. <span
-                                    class="font-bold inline-block rounded bg-gray-300/10 text-gray-500 p-1">No Loan Registered
-                                    Yet</span></label>
+                            <label for="loanStatus" class="block mt-2">Loan Status <span
+                                    class="font-bold inline-block rounded bg-gray-300/10 text-yellow-500 p-1">Not Registered</span></label>
                             @endif
             
                         </div>

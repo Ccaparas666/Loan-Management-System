@@ -65,7 +65,7 @@
                                         <div class="flex items-center">{{ __('Email') }}<a href="#"></div>
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        <div class="flex items-center">{{ __('Gender') }}<a href="#"></div>
+                                        <div class="flex items-center">{{ __('Status') }}<a href="#"></div>
                                     </th>
                                     
                                  
@@ -85,7 +85,35 @@
                                         <td class="px-6 py-4">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{ $borinfo->borLname }} {{ $borinfo->borSuffix }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borContact }}</td>
                                         <td class="px-6 py-4">{{ $borinfo->borEmail }}</td>
-                                        <td class="px-6 py-4">{{ $borinfo->borGender }}</td>
+                                        <td class="px-6 py-4">
+                                        @php
+                                            $loanStatus = $borinfo->loans->first()->loanstatus ?? 'Not Registered';
+                                            $statusColor = '';
+
+                                            switch ($loanStatus) {
+                                                case 'Waiting For Approval':
+                                                    $statusColor = 'blue';
+                                                    break;
+                                                case 'Approved':
+                                                    $statusColor = 'green';
+                                                    break;
+                                                case 'Loan Active':
+                                                    $statusColor = 'emerald';
+                                                    break;
+                                                case 'Rejected':
+                                                    $statusColor = 'red';
+                                                    break;
+                                                default:
+                                                    $statusColor = 'yellow';
+                                                    break;
+                                            }
+                                        @endphp
+
+                                        <span class="inline-block p-1 rounded bg-{{ $statusColor }}-200/10 text-{{ $statusColor }}-500 font-medium text-[12px] leading-none">
+                                                {{ $loanStatus }}
+                                            </span>
+                                        </td>
+
                                         <td class="px-6 py-4 flex justify-center">
                                         <a data-tooltip-target="{{'tooltip-default23-'. $borinfo->bno}}"  class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-green-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-700" href="{{route('borrower-view', ['brno' => $borinfo->bno]) }}"> 
                                             <svg class="w-[19px] h-[19px] text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
@@ -178,6 +206,7 @@
                         
                         <script>
                             new DataTable('#example', {
+                                "order": [[0, 'desc']],
                                 responsive: true
                             });
 

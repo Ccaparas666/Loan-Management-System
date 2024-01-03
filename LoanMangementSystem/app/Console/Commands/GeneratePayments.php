@@ -31,25 +31,47 @@ class GeneratePayments extends Command
      {
          $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
              ->where('paymentInfo.due_date', '<', now())
-             ->select('loanInfo.*', 'paymentInfo.Remaining_Balance') // Include Remaining_Balance in the selection
+             ->select('loanInfo.*', 'paymentInfo.Remaining_Balance')
              ->distinct()
              ->get();
      
          foreach ($dueLoans as $loan) {
-
-            $Interest = $loan->InterestRate/100;
-            $remainingBalance = $loan->Remaining_Balance;
-
-            $balance = ($Interest *  $remainingBalance) + $remainingBalance;
-             $payment = new paymentInfo();
-             $payment->loan_id = $loan->lid; // Assuming 'lid' is the primary key of the loanInfo table
-             $payment->remaining_balance = $balance; // Initial remaining balance is the full loan amount
-             $payment->due_date = Carbon::now()->addMonth(); // Initial due date is one month from now
-             $payment->save();
-         }
+             // Get the latest due date and balance for this loan ID
+             $latestPayment = PaymentInfo::where('loan_id', $loan->lid)
+                 ->orderBy('due_date', 'desc')
+                 ->first();
      
+             if ($latestPayment) {
+                 $latestDueDate = $latestPayment->due_date;
+                 $latestBalance = $latestPayment->Remaining_Balance;
+     
+                 // Check if today's date is after the latest due date
+                 if (Carbon::now()->gt($latestDueDate)) {
+                     // Create a new payment record with the updated balance and due date
+                     $Interest = $loan->InterestRate / 100;
+                     $remainingBalance = $latestBalance;
+     
+                     // Calculate the updated balance with accumulated interest
+                     $updatedBalance = ($Interest * $remainingBalance) + $remainingBalance;
+     
+                     $payment = new PaymentInfo();
+                     $payment->loan_id = $loan->lid;
+                     $payment->remaining_balance = $updatedBalance;
+                     $payment->due_date = Carbon::now()->addMonth();
+                     $payment->save();
+                 }
+             }
+         }
+         \Log::info('Generate Payments Command started at ' . now());
+
+    // ... your existing logic ...
+
+    \Log::info('Generate Payments Command completed at ' . now());
          $this->info('Payments generated successfully.');
      }
+     
+
+
 
  
     

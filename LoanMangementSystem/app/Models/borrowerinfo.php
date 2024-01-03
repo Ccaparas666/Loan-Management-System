@@ -44,4 +44,6 @@ class borrowerinfo extends Model
     }
 
     
+
+    
 }

@@ -23,14 +23,14 @@ class loanInfoController extends Controller
     public function index(Request $request)
     {
         $loansettings = loansettings::all()->sortBy('interest');
-     $search = $request->search;
-    $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
+        $search = $request->search;
+        $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
-    $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
+        $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
 
-    $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
+        $data = borrowerinfo::where('borAccount', 'Like', $search)->get();
 
-    return view('Loan.index', compact('loanInfo', 'data', 'search', 'genId', 'loansettings'));
+        return view('Loan.index', compact('loanInfo', 'data', 'search', 'genId', 'loansettings'));
     }
 
 
@@ -103,9 +103,9 @@ class loanInfoController extends Controller
             ];
             
             $payment = new paymentInfo();
-            $payment->loan_id = $loan->lid; // Assuming 'lid' is the primary key of the loanInfo table
-            $payment->remaining_balance = $loan->LoanAmount; // Initial remaining balance is the full loan amount
-            $payment->due_date = Carbon::now()->addMonth(); // Initial due date is one month from now
+            $payment->loan_id = $loan->lid; 
+            $payment->remaining_balance = $loan->LoanAmount; 
+            $payment->due_date = Carbon::now()->addMonth(); 
             $payment->save();
             
             // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));

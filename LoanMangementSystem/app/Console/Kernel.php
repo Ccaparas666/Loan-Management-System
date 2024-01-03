@@ -11,10 +11,10 @@ class Kernel extends ConsoleKernel
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
-    {
-        // $schedule->command('inspire')->hourly();
-        $schedule->command('generate:payments')->runInBackground();
-    }
+{
+    // $schedule->command('generate:payments')->everyMinute();
+    $schedule->command('generate:payments')->dailyAt('00:13');
+}
 
     /**
      * Register the commands for the application.

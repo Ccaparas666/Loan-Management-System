@@ -16,7 +16,8 @@ class borrowerInfoController extends Controller
      */
     public function index(Request $request)
     {
-        $borrowerinfo = borrowerinfo::all();
+        $borrowerinfo = BorrowerInfo::all();
+           
         return view('borrower.index', compact('borrowerinfo'));    
     }
 
@@ -75,7 +76,9 @@ class borrowerInfoController extends Controller
      */
     public function show(string $id)
 {
-    $borrowerinfo = BorrowerInfo::with('loans.payments')->where('bno', $id)->get();
+    $borrowerinfo = BorrowerInfo::with(['loans.payments' => function ($query) {
+        $query->orderBy('due_date', 'desc'); 
+    }])->where('bno', $id)->get();
 
     $loanStatus = optional($borrowerinfo->first()->loans->first())->loanstatus;
 
