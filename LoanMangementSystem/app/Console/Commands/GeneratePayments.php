@@ -14,7 +14,7 @@ class GeneratePayments extends Command
      *
      * @var string
      */
-    protected $signature = 'generate:payments';
+    protected $signature = 'generate:pay';
 
     /**
      * The console command description.
@@ -63,10 +63,6 @@ class GeneratePayments extends Command
              }
          }
          \Log::info('Generate Payments Command started at ' . now());
-
-    // ... your existing logic ...
-
-    \Log::info('Generate Payments Command completed at ' . now());
          $this->info('Payments generated successfully.');
      }
      
