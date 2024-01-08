@@ -87,7 +87,7 @@
                                         <td class="px-6 py-4">{{ $borinfo->borEmail }}</td>
                                         <td class="px-6 py-4">
                                         @php
-                                            $loanStatus = $borinfo->loans->first()->loanstatus ?? 'Not Registered';
+                                            $loanStatus = $borinfo->loanstatus ?? 'Not Registered';
                                             $statusColor = '';
 
                                             switch ($loanStatus) {

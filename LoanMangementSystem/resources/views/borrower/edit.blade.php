@@ -14,7 +14,7 @@
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-10 text-gray-900 dark:text-gray-100">
                         @foreach ($borrowerinfo as $borinfo)
-                        <form method="POST" action="{{ route('borrower-update',['brno' => $borinfo->bno]) }}">
+                        <form method="POST" action="{{ route('borrower-update',['brno' => $borinfo->bno]) }}" enctype="multipart/form-data">
                             @csrf
                             @method('patch')
 
@@ -86,7 +86,7 @@
                                 </div>
                             </div>
                             <div class="grid gap-6 mb-6 md:grid-cols-3">
-                                <div class="col-span-2">
+                                <div class="">
                                     <label for="Address"
                                         class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300 font-bold">ADDRESS</label>
                                     <input type="text" name="Address" value="{{ $borinfo->borAddress }}"
@@ -94,13 +94,18 @@
                                         required>
                                     <x-input-error :messages="$errors->get('Address')" class="mt-2" />
                                 </div>
-                                <div class="col-span-1">
+                                <div class="">
                                     <label for="contact"
                                         class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300 font-bold">CONTACT NUMBER</label>
-                                    <input type="text" name="Contact" value="{{ $borinfo->borContact }}"
+                                    <input type="text" name="Contact" maxlength="11" value="{{ $borinfo->borContact }}"
                                         class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         placeholder="e.g 09123456789" required>
                                     <x-input-error :messages="$errors->get('Contact')" class="mt-2" />
+                                </div>
+                                <div class="">
+                                    <label for="borPicture" class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300 font-bold">Profile Picture</label>
+                                    <input name="borPicture" accept="image/*" value="{{ $borinfo->borPicture }}" id="borPicture" type="file" class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                    <x-input-error :messages="$errors->get('borPicture')" class="mt-2" />
                                 </div>
                             </div>
                             <div class="flex justify-center">

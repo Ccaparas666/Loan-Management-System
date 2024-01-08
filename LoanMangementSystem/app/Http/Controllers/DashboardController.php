@@ -49,10 +49,10 @@ class DashboardController extends Controller
         $borrowerCount = borrowerinfo::count();
         $AccountCount = officerInfo::count();
         $LoanCount = loanInfo::count();
-        $activeCount = loanInfo::where('loanstatus', 'Loan Active')->count();
-        $newLoanCount = loanInfo::where('loanstatus', 'Waiting For Approval')->count();
-        $approvedCount = loanInfo::where('loanstatus', 'Approved')->count();
-        $rejectedCount = loanInfo::where('loanstatus', 'Rejected')->count();
+        $activeCount = borrowerinfo::where('loanstatus', 'Loan Active')->count();
+        $newLoanCount = borrowerinfo::where('loanstatus', 'Waiting For Approval')->count();
+        $approvedCount = borrowerinfo::where('loanstatus', 'Approved')->count();
+        $rejectedCount = borrowerinfo::where('loanstatus', 'Rejected')->count();
 
         $transactionHistory = Transaction_History::with('borrower')->get();
 

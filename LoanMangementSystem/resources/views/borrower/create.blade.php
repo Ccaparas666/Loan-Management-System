@@ -30,7 +30,7 @@
                     @endif -->
                     
                     <br /><br>
-                    <form method="POST" action="{{ route('borrower-store') }}">
+                    <form method="POST" action="{{ route('borrower-store') }}" enctype="multipart/form-data" >
                         @csrf
                     
                         <div class="grid gap-6 mb-6 md:grid-cols-4">
@@ -105,6 +105,11 @@
                                     class="w-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="e.g 09123456789" required>
                                 <x-input-error :messages="$errors->get('Contact')" class="mt-2" />
+                            </div>
+                            <div>
+                            <x-input-error :messages="$errors->get('borPicture')" class="mt-2" />
+                                <label class="block mb-2 text-sm font-bold text-blue-700 dark:text-blue-300" for="borPicture">Profile Picture</label>
+                                <input name="borPicture" class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="borPicture" type="file">
                             </div>
                         </div>
                     

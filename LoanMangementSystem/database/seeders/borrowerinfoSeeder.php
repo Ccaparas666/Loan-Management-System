@@ -13,6 +13,6 @@ class borrowerinfoSeeder extends Seeder
     public function run(): void
     {
         //
-        \App\Models\borrowerinfo::factory(100)->create();
+        \App\Models\borrowerinfo::factory(10)->create();
     }
 }

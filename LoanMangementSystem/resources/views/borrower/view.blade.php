@@ -32,17 +32,50 @@
             @foreach ($borrowerinfo as $borinfo)
             <div class="flex flex-row space-x-4">
                 <div class="basis-2/5 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <button data-modal-target="large-modal2" data-modal-toggle="large-modal2" data-tooltip-target="{{'tooltip-default-'. $borinfo->lid}}" class="mt-2 absolute top-0 right-0 flex items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
-                    <svg class="w-5 h-5 text-gray-50 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"></path>
-    </svg>
+                <!-- <div class="flex items-center justify-center mt-4">
+                    <div class="w-48 h-48 bg-gray-200 border-2 border-purple-500 rounded-full overflow-hidden flex items-center justify-center ">
+                        <img src="{{ asset($borinfo->borPicture) }}" alt="Profile Picture"
+                            class="w-full h-full object-cover rounded-full">
+                    </div>
+                </div> -->
 
-    
+                <div x-data="{ open: false }" class="relative flex items-center justify-center mt-4">
+                <div class="w-48 h-48 sm:w-32 sm:h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 bg-gray-200 border-2 border-purple-500 rounded-full overflow-hidden flex items-center justify-center">
+        <img x-on:click="open = true" src="{{ asset($borinfo->borPicture) }}" alt="Profile Picture" class="w-full h-full object-cover rounded-full cursor-pointer">
+    </div>
+
+    <!-- Modal -->
+    <div x-show="open" x-on:click.outside="open = false" class="fixed inset-0 overflow-y-auto z-50">
+        <div class="flex items-center justify-center min-h-screen">
+            <div class="bg-black bg-opacity-75 absolute inset-0"></div>
+            <div class="relative p-4 bg-white dark:bg-gray-800 rounded-lg">
+                <img src="{{ asset($borinfo->borPicture) }}" alt="Profile Picture" class="w-full h-full object-cover rounded-lg max-w-full max-h-full">
+                <button @click="open = false" class="absolute top-0 right-0 p-2 m-4 text-white bg-purple-700 hover:bg-purple-800 rounded-full focus:outline-none focus:ring focus:border-purple-300" style="z-index: 60;">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <button data-modal-target="large-modal2" data-modal-toggle="large-modal2"
+                        data-tooltip-target="{{'tooltip-default-'. $borinfo->lid}}"
+                        class="mt-2 absolute top-0 right-0 flex items-center text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 focus:outline-none dark:focus:ring-purple-800">
+                        <svg class="w-5 h-5 text-gray-50 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z">
+                            </path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2 12s3-8 10-8 10 8 10 8-3 8-10 8-10-8-10-8z"></path>
+                        </svg>
                     
-                            </button>
-                        <div class="text-center mt-10">
+                    
+                    
+                    </button>
+                    <div class="p-6 text-gray-900 dark:text-gray-100">
+                        <div class="text-center ">
                         
                             <label for="Name" class="font-bold block">{{ $borinfo->borFname }} {{ $borinfo->borMname }} {{
                                 $borinfo->borLname }} {{ $borinfo->borSuffix }}</label>
@@ -135,7 +168,7 @@
                                     </svg>
                                     Pay Loan
                                         </button>
-                        
+                                        
                                
                         
                             </div>
@@ -151,9 +184,9 @@
                                     UPDATE
                                 </a> 
 
-                                <a href="@if ($loanStatus == 'Rejected'){{ route('rejected-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
-                                           @elseif ($loanStatus == 'Waiting For Approval'){{ route('new-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
-                                           @elseif ($loanStatus == 'Approved'){{ route('approved-loan', ['search' => $borinfo->loans->first()->loanNumber]) }}
+                                <a href="@if ($loanStatus == 'Rejected'){{ route('rejected-loan', ['search' => $borinfo->loans->last()->loanNumber]) }}
+                                           @elseif ($loanStatus == 'Waiting For Approval'){{ route('new-loan', ['search' => $borinfo->loans->last()->loanNumber]) }}
+                                           @elseif ($loanStatus == 'Approved'){{ route('approved-loan', ['search' => $borinfo->loans->last()->loanNumber]) }}
                                            @endif"
                                     class="flex items-center text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 focus:outline-none dark:focus:ring-yellow-800">
                                     <svg class="w-5 h-5 mr-2 text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +220,11 @@
                                         <path
                                             d="M64 32C46.3 32 32 46.3 32 64v64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V384h80c68.4 0 127.7-39 156.8-96H352c17.7 0 32-14.3 32-32s-14.3-32-32-32h-.7c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16h.7c17.7 0 32-14.3 32-32s-14.3-32-32-32H332.8C303.7 71 244.4 32 176 32H64zm190.4 96H96V96h80c30.5 0 58.2 12.2 78.4 32zM96 192H286.9c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16H96V192zm158.4 96c-20.2 19.8-47.9 32-78.4 32H96V288H254.4z" />
                                     </svg>
+                                    @if ($loanStatus == "PAID")
+                                    Re-Apply Loan
+                                    @else
                                     Apply Loan
+                                    @endif
                                 </a>
                             </div>
                             
@@ -228,7 +265,7 @@
                                         @foreach ($loan->payments as $payment)
                                         <tr>
                                             <td class="px-6 py-4">{{$loan->loanNumber}}</td>
-                                            <td class="px-6 py-4">P {{$payment->Remaining_Balance}}</td>
+                                            <td class="px-6 py-4">₱ {{$payment->Remaining_Balance}}</td>
                                             <td class="px-6 py-4"> {{$payment->due_date}}</td>
                                             <td class="px-6 py-4">
                                                 <div>
@@ -307,6 +344,7 @@
         
         <form method="POST" action="{{ route('Route-Payment', ['bno' => $borinfo->bno]) }}">
         @csrf
+        
         <div id="large-modal" tabindex="-1"
             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative w-full max-w-4xl max-h-full">
@@ -332,11 +370,16 @@
                     <div class="p-10 md:p-10 space-y-10 dark:bg-gray-900 shadow-sm sm:rounded-lg mx-auto"
                         style="margin-left: 5%; margin-right: 5%;">
                         <div class="grid gap-6 mb-5 md:grid-cols-1 content-center">
+                       
+                            <div class="flex flex-col">
+                                <label for="PaymentDate" class="text-center mb-2 text-base font-bold text-rose-400">PAYMENT DATE</label>
+                                <input type="text" id="PaymentDate" name="PaymentDate" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly required>
+                            </div>
                             <div class="flex flex-col">
                                 <label for="Balance"
-                                    class="text-center mb-2 text-base font-bold text-rose-400">REMAINING
-                                    BALANCE</label>
-                                    <input type="text" name="Balance" value="{{ optional($Loan->loans->first()?->payments->last())->Remaining_Balance ?? '' }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
+                                    class="text-center mb-2 text-base font-bold text-rose-400">REMAINING BALANCE</label>
+                                    <input type="text" name="Balance" value="₱ {{ isset($loan) ? optional($loan->latestPaymentForLoan($loan->lid))->Remaining_Balance : '' }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
+
                             </div>
                             <div class="flex flex-col">
                                 <label for="PayAmount" class="text-center mb-2 text-base font-bold text-sky-400">Pay
@@ -363,6 +406,7 @@
                 </div>
             </div>
         </div>
+       
 <!-- ///////////// for comaker -->
         <div id="large-modal2" tabindex="-1"
             class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -445,6 +489,7 @@
                         
                         <script>
                             new DataTable('#example2', {
+                                "order": [[0, 'desc']],
                                 responsive: true
                             });
                         </script> 
@@ -454,6 +499,13 @@
                                 order: [[0, 'desc']]
                             });
                         </script> 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                        <script>
+                                        flatpickr("#PaymentDate", {
+                                            dateFormat: "M d, Y",
+                                            defaultDate: new Date(),
+                                        });
+                                    </script>
 
 
         <script>

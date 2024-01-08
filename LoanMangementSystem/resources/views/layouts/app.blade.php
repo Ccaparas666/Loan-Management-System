@@ -7,7 +7,7 @@
         
         
         <title>Loan Management System</title>
-
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
         <!-- tablescript -->
         
         <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"> -->
@@ -25,6 +25,10 @@
        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+        <!-- date script -->
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
     </head>
     <body class="font-sans antialiased">
@@ -128,5 +132,6 @@
                     </div>
                 </div>
             </div>
+            
     </body>
 </html>

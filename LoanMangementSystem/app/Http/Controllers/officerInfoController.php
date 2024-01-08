@@ -99,6 +99,21 @@ class officerInfoController extends Controller
 
         $OfficerInfo->save();
         event(new Registered($user));
+// activity log
+activity()
+    ->causedBy($user)
+    ->performedOn($OfficerInfo)
+    ->withProperties([
+        'officer_id' => $OfficerInfo->offId,
+        'officer_name' => $name,
+        'officer_email' => $request->xemail,
+        'role' => $request->Role,
+        // Add more relevant properties
+    ])
+    ->log('created account');
+
+
+
         return redirect()->route('officer')->with('success', 'Account Successfully Created');
     }
 

@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('rejected_by')->nullable();
             $table->string('created_by')->nullable();
             $table->string('loanNumber', 50);
-            
+            $table->string('Reason')->nullable();
             $table->decimal('LoanAmount', $precision = 8, $scale = 2);
             $table->decimal('InterestRate', $precision = 8, $scale = 2);
             $table->date('LoanApplication')->nullable();
             $table->date('loan_approval_date')->nullable();
             $table->date('cash_release_date')->nullable();
-            $table->string('loanstatus')->default('Waiting For Approval');
+            // $table->string('loanstatus')->default('Waiting For Approval');
             $table->string('cmName');
             $table->string('cmContact');
             $table->string('cmEmail', 100);

@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 class loanInfo extends Model
 {
     use HasFactory;
+    
     protected $primaryKey = 'lid';
 
     protected $table = 'loanInfo';
@@ -22,11 +24,12 @@ class loanInfo extends Model
         'LoanApplication',
         'loan_approval_date',
         'cash_release_date',
-        'loanstatus',
+        // 'loanstatus',
         'cmName',
         'cmContact',
         'cmEmail',
         'cmAddress',
+        'Reason'
     ];
     // 'LoanTerm',
     public function borrowerinfo()
@@ -37,5 +40,20 @@ class loanInfo extends Model
 public function payments()
 {
     return $this->hasMany(paymentInfo::class, 'loan_id', 'lid');
+}
+
+public function latestPaymentForLoan($loanId)
+{
+    return $this->payments()
+        ->where('loan_id', $loanId)
+        ->latest('created_at')
+        ->first();
+}
+
+public static function latestLoanForBorrower($bno)
+{
+    return static::where('bno', $bno)
+        ->latest('created_at')
+        ->first();
 }
 }

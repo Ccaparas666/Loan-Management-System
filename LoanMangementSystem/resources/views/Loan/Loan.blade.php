@@ -83,8 +83,8 @@
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                             {{ $loan->loanNumber }}</td>
-                                        <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
-                                        <td class="px-6 py-4">P {{ number_format($loan->LoanAmount, 2) }}</td>
+                                        <td class="px-6 py-4">{{$loan->borrowerinfo->borLname}}, {{$loan->borrowerinfo->borFname}} {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
+                                        <td class="px-6 py-4">₱ {{ number_format($loan->LoanAmount, 2) }}</td>
                                         <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
                                         <td class="px-6 py-4"></td>
                                         <td class="px-6 py-4">
@@ -94,20 +94,20 @@
                                             </div>
                                             <div>
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
-                                                <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
+                                                <span class="ml-2 text-purple-500 dark:text-purple-300">₱{{ number_format($loan->monthlyPayment, 2) }}</span>
                                             </div>
                                         </td>
 
                                         <td class="px-6 py-4 font-semibold">
-                                            @if ($loan->loanstatus == "Waiting For Approval")
+                                            @if ($loan->borrowerinfo->loanstatus == "Waiting For Approval")
                                             <span class="inline-block p-1 inline-block bg-gray-200 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 border border-blue-500">Waiting For Approval</span>
-                                            @elseif ($loan->loanstatus == "Approved")
+                                            @elseif ($loan->borrowerinfo->loanstatus == "Approved")
                                             <span class="inline-block p-1 bg-green-200 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Approved</span>
-                                            @elseif ($loan->loanstatus == "Loan Active")
+                                            @elseif ($loan->borrowerinfo->loanstatus == "Loan Active")
                                             <span class="inline-block bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Loan Active</span>
-                                            @elseif ($loan->loanstatus == "Rejected")
+                                            @elseif ($loan->borrowerinfo->loanstatus == "Rejected")
                                             <span class="inline-block bg-red-200 p-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-red-400 border border-red-500">Rejected</span>
-                                            @elseif ($loan->loanstatus == "PAID")
+                                            @elseif ($loan->borrowerinfo->loanstatus == "Loan Active" && $loan->remaining_balance < 0)
                                             <span class="text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500 font-bold">PAID</span>
                                             @endif
                                         </td>

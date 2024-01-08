@@ -20,19 +20,17 @@ class borrowerinfoFactory extends Factory
     {
        
         return [
-            //
-            'borAccount' => Helper::AccountNumberGenerator(new borrowerinfo, 'borAccount', 5, 'BAC'),
-            'borFname' => fake()->firstName(),
-            'borMname' => fake()->randomLetter(),
-            'borLname' => fake()->lastName(),
-            'borSuffix' => fake()->suffix(),
-            'borCOntact' => fake()->phoneNumber(),
-            'borEmail' => fake()->unique()->safeEmail(),
-            'borAddress' => fake()->address(),
-            'borDob' => fake()->date(),
-            'borGender' => fake()->randomElement(array ('male', 'female')),
-          
-            
+            'borAccount' => $this->faker->unique()->regexify('[A-Z0-9]{5}'),
+            'borFname' => $this->faker->firstName(),
+            'borMname' => $this->faker->randomLetter(),
+            'borLname' => $this->faker->lastName(),
+            'borSuffix' => $this->faker->suffix(),
+            'borContact' => $this->faker->phoneNumber(),
+            'borEmail' => $this->faker->unique()->safeEmail(),
+            'borAddress' => $this->faker->address(),
+            'borDob' => $this->faker->date(),
+            'loanstatus' => 'Not Registered',
+            'borGender' => $this->faker->randomElement(['male', 'female']),
         ];
     }
 }

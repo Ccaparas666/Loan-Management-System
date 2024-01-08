@@ -71,7 +71,7 @@ class GeneratePayments extends Command
                         $payment = new PaymentInfo();
                         $payment->loan_id = $dueLoan->lid;
                         $payment->remaining_balance = $updatedBalance;
-                        $payment->due_date = Carbon::now()->addMonth();
+                        $payment->due_date = Carbon::parse($latestDueDate)->addMonth();
                         $payment->save();
 
                         $email = $dueLoan->borEmail;
@@ -86,8 +86,15 @@ class GeneratePayments extends Command
                             'dueDate' => $latestDueDate->toDateString(),
                             'loanStatus' => $dueLoan->loanstatus,
                         ];
-
-                        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                        try {
+                            // Attempt to send the email
+                             // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                        } catch (\Exception $e) {
+                            // Log the error or handle it as needed
+                            \Log::error('Email sending failed: ' . $e->getMessage());
+                            // You can customize this part based on your error handling strategy
+                        }
+                       
                     }
                 }
             }

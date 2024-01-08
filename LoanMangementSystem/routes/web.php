@@ -7,7 +7,7 @@ use App\Http\Controllers\loanInfoController;
 use App\Http\Controllers\officerInfoController;
 use App\Http\Controllers\loansettingsController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\activityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,9 +23,15 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/activity', [activityController::class, 'index'])
+->middleware(['auth', 'verified'])
+->name('activity');
 
 
 Route::get('/borrower', [borrowerInfoController::class, 'index'])
@@ -118,7 +124,7 @@ Route::delete('/Interest/delete/{int}', [loansettingsController::class, 'destroy
    ->middleware(['auth', 'verified'])
    ->name('interest-delete');
    
-Route::patch('/Interest/Update/{int}', [loansettingsController::class, 'update'])
+Route::get('/Interest/Update/{int}', [loansettingsController::class, 'update'])
    ->middleware(['auth', 'verified'])
    ->name('update-interest'); 
 
@@ -138,7 +144,7 @@ Route::get('/Loan/newloan/{lno}', [loanInfoController::class, 'StatusApprove'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Approve');
 
-Route::get('/Loan/newloan/reject/{lno}', [loanInfoController::class, 'StatusReject'])
+Route::post('/Loan/newloan/reject/{lno}', [loanInfoController::class, 'StatusReject'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Reject');
 
@@ -150,7 +156,7 @@ Route::get('/Loan/approved', [loanInfoController::class, 'approved'])
 ->middleware(['auth', 'verified'])
 ->name('approved-loan');
 
-Route::get('/Loan/approved/{lno}', [loanInfoController::class, 'Released'])
+Route::match(['get', 'post'], '/Loan/approved/{lno}', [loanInfoController::class, 'Released'])
 ->middleware(['auth', 'verified'])
 ->name('loan-Release');
 

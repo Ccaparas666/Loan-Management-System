@@ -137,7 +137,7 @@
                                     @if($loansettings->isNotEmpty())
                                     <form action="{{route('update-interest', ['int' => $settings->lsid]) }}" class="p-4 md:p-5">
                                     @csrf
-                                    @method('PATCH')
+                                    @method('patch')
                                         <div class="grid gap-4 mb-4 grid-cols-2">
                                             <div class="col-span-2">
                                                 <label for="interest"

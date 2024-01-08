@@ -60,25 +60,6 @@
             Dear {{ $mailData['BorrowerName'] }}<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
-        @if ($mailData['emailType'] === 'PaymentReceipt')
-            <p>
-                We have received your payment for your loan with LendWise. Thank you for your prompt payment!
-            </p>
-            <p>
-                <strong>Payment Details:</strong><br>
-                <strong>Borrower Name:</strong> {{ $mailData['BorrowerName'] }}<br>
-                <strong>Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
-                <strong>Loan Number:</strong> {{ $mailData['loanNumber'] }}<br>
-                <strong>Payment Amount:</strong> PHP {{ $mailData['paymentAmount'] }}<br>
-                <strong>Payment Date:</strong> {{ $mailData['paymentDate'] }}<br>
-                <strong>Remaining Balance:</strong> PHP {{ $mailData['remainingBalance'] }}<br>
-            </p>
-            @if ($mailData['remainingBalance'] <= 0) 
-                <p>Congratulations! Your loan is fully paid.</p>
-            @else
-                <p>Please note that there is still a remaining balance of PHP {{ $mailData['remainingBalance'] }}.</p>
-            @endif
-        @endif
 
         @if ($mailData['loanStatus'] === 'In Process')
         <p>
@@ -89,11 +70,10 @@
             <strong>Application Details:</strong><br>
             <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
             <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
-            <strong>Loan Amount:</strong>PHP {{ $mailData['loanAmount'] }}<br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
             <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
         </p>
-         @endif
-        @if ($mailData['loanStatus'] === 'Approved')
+        @elseif ($mailData['loanStatus'] === 'Approved')
         <p>
             Congratulations! Your loan application has been approved. You can expect further instructions and details
             regarding your approved loan shortly.
@@ -102,11 +82,10 @@
             <strong>Application Details:</strong><br>
             <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
             <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
-            <strong>Loan Amount:</strong>PHP {{ $mailData['loanAmount'] }}<br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
             <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
         </p>
-         @endif
-        @if ($mailData['loanStatus'] === 'Rejected')
+        @elseif ($mailData['loanStatus'] === 'Rejected')
         <p>
             We regret to inform you that your loan application has been rejected. If you have any questions or concerns,
             please contact our customer support for assistance.
@@ -115,11 +94,10 @@
             <strong>Application Details:</strong><br>
             <strong>Borrower Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
             <strong>Loan Number:</strong>{{ $mailData['loanNumber'] }} <br>
-            <strong>Loan Amount:</strong>PHP {{ $mailData['loanAmount'] }}<br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
             <strong>Application Status:</strong> {{ $mailData['loanStatus'] }}
         </p>
-        @endif
-        @if ($mailData['emailType'] === 'PaymentReminder')
+        @elseif ($mailData['emailType'] === 'PaymentReminder')
 
         <p>
             This is a friendly reminder about the latest update on your loan with LendWise.
@@ -129,13 +107,10 @@
             <strong>Borrower Name:</strong> {{ $mailData['BorrowerName'] }}<br>
             <strong>Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
             <strong>Loan Number:</strong> {{ $mailData['loanNumber'] }}<br>
-            <strong>Loan Amount:</strong>PHP {{ $mailData['loanAmount'] }}<br>
-            <strong>Remaining Balance:</strong>PHP {{ $mailData['remainingBalance'] }}<br>
+            <strong>Loan Amount:</strong> {{ $mailData['loanAmount'] }}<br>
+            <strong>Remaining Balance:</strong> {{ $mailData['remainingBalance'] }}<br>
             <strong>Due Date:</strong> {{ $mailData['dueDate'] }}<br>
         </p>
-        
-       
-
         @endif
 
 

@@ -114,15 +114,15 @@
                             <tbody id="Content">
                             @foreach ($loanInfo as $loan)
                                
-                               @if ($loan->loanstatus == "Rejected")
+                               @if ($loan->borrowerinfo->loanstatus == "Rejected")
                                
                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                            {{ $loan->loanNumber }}</td>
-                                       <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}} {{$loan->borMname}} {{$loan->borSuffix}}</td>
-                                       <td class="px-6 py-4">Reasons list</td>
+                                       <td class="px-6 py-4">{{$loan->borrowerinfo->borLname}}, {{$loan->borrowerinfo->borFname}} {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
+                                       <td class="px-6 py-4">{{$loan->Reason}}</td>
                                        <td class="px-6 py-4">{{$loan->rejected_by}}</td>
-                                       <td class="px-6 py-4 text-red-500 font-semibold dark:text-red"><h1 class="inline-block p-1 rounded bg-red-200/10 text-red-500 font-medium text-[12px] leading-none">{{ $loan->loanstatus }}</h1></td>
+                                       <td class="px-6 py-4 text-red-500 font-semibold dark:text-red"><h1 class="inline-block p-1 rounded bg-red-200/10 text-red-500 font-medium text-[12px] leading-none">{{ $loan->borrowerinfo->loanstatus }}</h1></td>
                                        <td class="px-6 py-4">
     <div class="mb-2">
         <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
@@ -130,7 +130,7 @@
     </div>
     <div>
         <span class="text-gray-600 dark:text-gray-400 font-bold">Due Balance:</span>
-        <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
+        <span class="ml-2 text-purple-500 dark:text-purple-300">₱{{ number_format($loan->monthlyPayment, 2) }}</span>
     </div>
 </td>
                                        <td  class="px-6 py-4 text-center"> 

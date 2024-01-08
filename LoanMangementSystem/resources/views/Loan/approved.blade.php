@@ -117,16 +117,16 @@
 
                                             @foreach ($loanInfo as $loan)
 
-                                            @if ($loan->loanstatus == "Approved" || $loan->loanstatus == "Loan Active")
+                                            @if ($loan->borrowerinfo->loanstatus == "Approved" || $loan->borrowerinfo->loanstatus == "Loan Active")
 
                                             <tr
                                                 class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                                 <td scope="row"
                                                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                                     {{ $loan->loanNumber }}</td>
-                                                <td class="px-6 py-4">{{$loan->borLname}}, {{$loan->borFname}}
-                                                    {{$loan->borMname}} {{$loan->borSuffix}}</td>
-                                                <td class="px-6 py-4">P {{ number_format($loan->LoanAmount, 2) }}</td>
+                                                <td class="px-6 py-4">{{$loan->borrowerinfo->borLname}}, {{$loan->borrowerinfo->borFname}}
+                                                    {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
+                                                <td class="px-6 py-4">₱ {{ number_format($loan->LoanAmount, 2) }}</td>
                                                 <td class="px-6 py-4">{{$loan->approved_by}}</td>
                                                 <td class="px-6 py-4">{{ $loan->loan_approval_date }}</td>
                                                 <td class="px-6 py-4">
@@ -136,16 +136,16 @@
                                             </div>
                                             <div>
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">First Balance:</span>
-                                                <span class="ml-2 text-purple-500 dark:text-purple-300">P{{ number_format($loan->monthlyPayment, 2) }}</span>
+                                                <span class="ml-2 text-purple-500 dark:text-purple-300">₱{{ number_format($loan->monthlyPayment, 2) }}</span>
                                             </div>
                                         </td>
-                                                @if ($loan->loanstatus == "Approved")
-                                                <td class="px-6 py-4">{{ $loan->loanstatus }} waiting for cash release
+                                                @if ($loan->borrowerinfo->loanstatus == "Approved")
+                                                <td class="px-6 py-4">{{ $loan->borrowerinfo->loanstatus }} waiting for cash release
                                                 </td>
                                                 <td class="px-6 py-4 text-center">
-                                                    <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}"
+                                                    <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}" data-modal-target="Release-Modal-{{ $loan->lid }}" data-modal-toggle="Release-Modal-{{ $loan->lid }}"
                                                         class="Released text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
-                                                        href="{{route('loan-Release', ['lno' => $loan->lid]) }}">
+                                                        > 
                                                         <svg class="w-[19px] h-[19px] text-gray-200 dark:text-white"
                                                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                             fill="none" viewBox="0 0 20 16">
@@ -153,7 +153,7 @@
                                                                 stroke-linejoin="round" stroke-width="2"
                                                                 d="M5 2a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1M2 5h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z" />
                                                         </svg>
-                                                        <div id="{{'tooltip-default-'. $loan->lid}}" role="tooltip"
+                                                        <div id="{{'tooltip-default-'. $loan->lid}}" role="tooltip" 
                                                             class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-green-700">
                                                             For Cash Release
                                                             <div class="tooltip-arrow" data-popper-arrow></div>
@@ -179,11 +179,39 @@
                                                         </div>
                                                     </a>
                                                 </td>
-                                                @elseif($loan->loanstatus == "Loan Active")
+                                                @elseif($loan->borrowerinfo->loanstatus == "Loan Active")
                                                 <td class="px-6 py-4 text-green-500 font-semibold dark:text-green">
                                                     <h1
                                                         class="inline-block p-1 rounded bg-emerald-200/10 text-emerald-500 font-medium text-[12px] leading-none">
-                                                        {{ $loan->loanstatus }}</h1>
+                                                        {{ $loan->borrowerinfo->loanstatus }}</h1>
+                                                </td>
+                                                <td class="px-6 py-4 text-center">
+                                                    <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}" href="{{route('borrower-view', ['brno' => $loan->bno]) }}"
+                                                        class="text-white bg-teal-500/75 hover:bg-teal-700/75 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-teal-400/75 dark:hover:bg-teal-800/75 focus:outline-none dark:focus:ring-teal-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700">
+                                                        <svg class="w-[19px] h-[19px] test"
+                                                            xmlns="http://www.w3.org/2000/svg" height="1em"
+                                                            viewBox="0 0 384 512">
+                                                            <style>
+                                                                .test {
+                                                                    fill: #fffff2
+                                                                }
+                                                            </style>
+                                                            <path
+                                                                d="M64 32C46.3 32 32 46.3 32 64v64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V384h80c68.4 0 127.7-39 156.8-96H352c17.7 0 32-14.3 32-32s-14.3-32-32-32h-.7c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16h.7c17.7 0 32-14.3 32-32s-14.3-32-32-32H332.8C303.7 71 244.4 32 176 32H64zm190.4 96H96V96h80c30.5 0 58.2 12.2 78.4 32zM96 192H286.9c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16H96V192zm158.4 96c-20.2 19.8-47.9 32-78.4 32H96V288H254.4z" />
+                                                        </svg>
+
+                                                        <div id="{{'tooltip-default3-'. $loan->lid}}" role="tooltip"
+                                                            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-green-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-teal-700">
+                                                            Pay Loan
+                                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                                        </div>
+                                                    </a>
+                                                </td>
+                                                @elseif($loan->borrowerinfo->loanstatus == "Loan Active")
+                                                <td class="px-6 py-4 text-green-500 font-semibold dark:text-green">
+                                                    <h1
+                                                        class="inline-block p-1 rounded bg-emerald-200/10 text-emerald-500 font-medium text-[12px] leading-none">
+                                                        {{ $loan->borrowerinfo->loanstatus }}</h1>
                                                 </td>
                                                 <td class="px-6 py-4 text-center">
                                                     <a data-tooltip-target="{{'tooltip-default3-'. $loan->lid}}" href="{{route('borrower-view', ['brno' => $loan->bno]) }}"
@@ -217,22 +245,84 @@
                                         </tbody>
 
 
-
+                                       
 
 
                                     </table>
-                                    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-                                        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-                                        crossorigin="anonymous"></script>
-                                    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+                                    
+                                    <!--  -->
 
+
+                                </div>
+
+
+
+
+                            </form>
+                            @foreach ($loanInfo as $loan)
+                                @if ($loan->borrowerinfo->loanstatus == "Approved" || $loan->borrowerinfo->loanstatus == "Loan Active")
+                                <form method="POST" action="{{route('loan-Release', ['lno' => $loan->lid]) }}">
+                                            @csrf
+                                            <div id="Release-Modal-{{ $loan->lid }}" tabindex="-1"
+                                                class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                                <div class="relative w-full max-w-4xl max-h-full">
+                                                    <!-- Modal content -->
+                                                    <div class="relative bg-gray-50  rounded-lg shadow dark:bg-gray-700">
+                                                        <!-- Modal header -->
+                                                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                            <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                                                                Transaction
+                                                            </h3>
+                                                            <button type="button"
+                                                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                                                data-modal-hide="Release-Modal-{{ $loan->lid }}">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                    viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                        </div>
+                                                        <!-- Modal body -->
+                                                        <div class="p-10 md:p-10 space-y-10 dark:bg-gray-900 shadow-sm sm:rounded-lg mx-auto" style="margin-left: 5%; margin-right: 5%;">
+                                                            <div class="grid gap-6 mb-5 md:grid-cols-1 content-center">
+                                                            <div class="flex flex-col">
+                                                                <label for="Balance" class="text-center mb-2 text-base font-bold text-rose-400">RELEASE DATE</label>
+                                                                <input type="text" id="releaseDate" name="ReleaseDate"
+                                                                    class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5"
+                                                                    readonly required>
+                                                            </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div
+                                                            class="align-content: center flex items-center p-4 md:p-5 space-x-3 rtl:space-x-reverse border-t border-gray-200 rounded-b dark:border-gray-600">
+                                                            <button data-modal-hide="Release-Modal" type="submit"
+                                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">PAY</button>
+                                                            <button data-modal-hide="Release-Modal" type="button"
+                                                                class="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                @endif
+                            @endforeach
+                            
+
+                                        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+                                    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
                                     <script
                                         src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
                                     <script>
-                                        new DataTable('#example', {
-                                            responsive: true
-                                        });
+                                        $(document).ready(function () {
+                                                $('#example').DataTable({
+                                                    responsive: true
+                                                });
+                                            });
 
                                     </script>
                                     <script>
@@ -244,33 +334,13 @@
                                             $('#example').DataTable().search(searchValue !== null ? searchValue : '').draw();
                                         });
                                     </script>
+                                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
                                     <script>
-                                        $('.Released').on('click', function (e) {
-                                            e.preventDefault();
-                                            var self = $(this);
-                                            Swal.fire({
-                                                title: "is Cash Released?",
-                                                showCancelButton: true,
-                                                confirmButtonText: "Yes",
-
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    location.href = self.attr('href');
-                                                }
-                                            });
-
+                                        flatpickr("#releaseDate", {
+                                            dateFormat: "M d, Y",
+                                            defaultDate: new Date(),
                                         });
-
-                                        
                                     </script>
-
-
-                                </div>
-
-
-
-
-                            </form>
                         </div>
                     </div>
                 </div>

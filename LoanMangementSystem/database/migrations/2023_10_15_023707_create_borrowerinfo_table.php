@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('borContact', 20);
             $table->string('borEmail', 100)->unique();
             $table->date('borDob');
-            // $table->boolean('notification');
+            $table->string('loanstatus')->default('Not Registered');
             $table->string('borAddress', 100);
             $table->string('borGender', 15);
+            $table->string('borPicture')->nullable();
             $table->timestamps();
         });
     }

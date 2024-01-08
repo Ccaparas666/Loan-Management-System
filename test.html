@@ -1,44 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Payment</title>
-    <!-- Include the Tailwind CSS stylesheet -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Picker Example</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-<body class="bg-gray-200 h-screen flex items-center justify-center">
+<body>
 
-<!-- Pay Loan Button -->
-<button id="payLoanButton" class="bg-blue-500 text-white px-4 py-2 rounded focus:outline-none">Pay Loan</button>
+<table>
+  <tr>
+    <td style="width:40%;padding-left:10%"><span>Borrower Account Number:</span></td>
+    <td style="width:60%;padding:0 5% 0 5%"><span>PARASAT</span></td>
+  </tr>
+  <tr>
+    <td style="width:40%;padding-left:10%"><span>Biller Name</span></td>
+    <td style="width:60%;padding:0 5% 0 5%"><span>PARASAT</span></td>
+  </tr>
+  <tr>
+    <td style="width:40%;padding-left:10%"><span>Biller Name</span></td>
+    <td style="width:60%;padding:0 5% 0 5%"><span>PARASAT</span></td>
+  </tr>
+  <tr>
+    <td style="width:40%;padding-left:10%"><span>Biller Name</span></td>
+    <td style="width:60%;padding:0 5% 0 5%"><span>PARASAT</span></td>
+  </tr>
+</table>
 
-<!-- Pay Loan Modal -->
-<div id="payLoanModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center">
-    <div class="bg-white p-8 rounded shadow-md w-1/3">
-        <!-- Modal Content -->
-        <h2 class="text-2xl font-bold mb-4">Pay Loan</h2>
-        <!-- Payment Form -->
-        <form action="{{ route('process.payment') }}" method="post">
-            @csrf
-            <label for="amount" class="block mb-2">Amount:</label>
-            <input type="number" name="amount" id="amount" class="w-full px-4 py-2 border rounded mb-4">
+<table>
+  <tr>
+      <td><strong>Application Details:</strong></td>
+  </tr>
+  <tr>
+      <td><strong>Borrower Account Number:</strong></td>
+      <td>{{ $mailData['accountnumber'] }}</td>
+  </tr>
+  <tr>
+      <td><strong>Loan Number:</strong></td>
+      <td>{{ $mailData['loanNumber'] }}</td>
+  </tr>
+  <tr>
+      <td><strong>Loan Amount:</strong></td>
+      <td>{{ $mailData['loanAmount'] }}</td>
+  </tr>
+  <tr>
+      <td><strong>Application Status:</strong></td>
+      <td>{{ $mailData['loanStatus'] }}</td>
+  </tr>
+</table>
 
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit Payment</button>
-        </form>
-        <!-- Close Modal Button -->
-        <button id="closeModal" class="mt-4 text-gray-500">Close</button>
-    </div>
-</div>
-
-<!-- JavaScript for Modal Interaction -->
-<script>
-    document.getElementById('payLoanButton').addEventListener('click', function () {
-        document.getElementById('payLoanModal').classList.remove('hidden');
-    });
-
-    document.getElementById('closeModal').addEventListener('click', function () {
-        document.getElementById('payLoanModal').classList.add('hidden');
-    });
-</script>
 </body>
 </html>
+
+href="{{route('loan-Reject', ['lno' => $loan->lid]) }}"
