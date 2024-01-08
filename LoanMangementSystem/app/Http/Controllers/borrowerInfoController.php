@@ -219,19 +219,42 @@ if ($borrowerinfo->isNotEmpty()) {
             
         ]);
 
+        // if ($request->hasFile('borPicture')) {
+        //     // Process and save the new profile picture
+        //     $image = $request->file('borPicture');
+        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
+        //     $image->move(public_path('uploads'), $imageName);
+    
+        //     // Remove the old profile picture file
+        //     if (file_exists(public_path($borrowerinfo->borPicture))) {
+        //         unlink(public_path($borrowerinfo->borPicture));
+        //     }
+    
+        //     $borrowerinfo->borPicture = 'uploads/' . $imageName;
+        // }
+
+
         if ($request->hasFile('borPicture')) {
             // Process and save the new profile picture
             $image = $request->file('borPicture');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads'), $imageName);
-    
+        
             // Remove the old profile picture file
-            if (file_exists(public_path($borrowerinfo->borPicture))) {
-                unlink(public_path($borrowerinfo->borPicture));
+            $oldFilePath = public_path($borrowerinfo->borPicture);
+        
+            if (file_exists($oldFilePath)) {
+                try {
+                    unlink($oldFilePath);
+                } catch (\Exception $e) {
+                    // Log or handle the exception as needed
+                    \Log::error("Error deleting file: " . $e->getMessage());
+                }
             }
-    
+        
             $borrowerinfo->borPicture = 'uploads/' . $imageName;
         }
+        
     
        
 

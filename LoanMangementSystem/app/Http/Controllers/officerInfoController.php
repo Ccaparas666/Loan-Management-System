@@ -110,7 +110,7 @@ activity()
         'role' => $request->Role,
         // Add more relevant properties
     ])
-    ->log('created account');
+    ->log('created account by )' . auth()->user()->name);
 
 
 
@@ -192,6 +192,11 @@ activity()
                 'is_admin' => $request->Role == '1' ? 1 : 0,
             ]);
         }
+
+        activity()
+        ->performedOn($officerInfo)
+        ->causedBy(auth()->user())
+        ->log('Updated officer information by '  . auth()->user()->name);
         return redirect()->route('officer')->with('success', 'Account Updated');
     }
 
@@ -204,7 +209,7 @@ activity()
         $email = $datafinder->offEmail ?? null;
         $user = User::where('email', 'LIKE', $email)->first();
 
-        $OfficerInfo = officerInfo::where('ono', $id);
+        $OfficerInfo = officerInfo::where('ono', $id)->first();
 
 
         $user->delete();
@@ -213,6 +218,12 @@ activity()
 
 
         $OfficerInfo->delete();
+
+         // Log the delete activity
+    activity()
+    ->performedOn($OfficerInfo)
+    ->causedBy(auth()->user())
+    ->log('Deleted officer account by ' . auth()->user()->name);
         return redirect()->route('officer')->with('success', 'Account Deleted');
     }
 }

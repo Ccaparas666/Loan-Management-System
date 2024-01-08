@@ -69,9 +69,9 @@
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Loan Details') }}</div>
                                     </th>
-                                    <th scope="col" class="px-6 py-3">
+                                    <!-- <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Status') }}<a href="#"></div>
-                                    </th>
+                                    </th> -->
                                     <!-- <th scope="col" class="px-6 py-3 flex justify-center">{{ __('ACTION') }}</th> -->
                                     
                                 </tr>
@@ -86,7 +86,7 @@
                                         <td class="px-6 py-4">{{$loan->borrowerinfo->borLname}}, {{$loan->borrowerinfo->borFname}} {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
                                         <td class="px-6 py-4">₱ {{ number_format($loan->LoanAmount, 2) }}</td>
                                         <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
-                                        <td class="px-6 py-4"></td>
+                                        <td class="px-6 py-4">{{$loan->created_by}}</td>
                                         <td class="px-6 py-4">
                                             <div class="mb-2">
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>
@@ -98,7 +98,7 @@
                                             </div>
                                         </td>
 
-                                        <td class="px-6 py-4 font-semibold">
+                                        <!-- <td class="px-6 py-4 font-semibold">
                                             @if ($loan->borrowerinfo->loanstatus == "Waiting For Approval")
                                             <span class="inline-block p-1 inline-block bg-gray-200 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 border border-blue-500">Waiting For Approval</span>
                                             @elseif ($loan->borrowerinfo->loanstatus == "Approved")
@@ -110,7 +110,7 @@
                                             @elseif ($loan->borrowerinfo->loanstatus == "Loan Active" && $loan->remaining_balance < 0)
                                             <span class="text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500 font-bold">PAID</span>
                                             @endif
-                                        </td>
+                                        </td> -->
                                         <!-- <td class="px-6 py-4">
                                         
                                             

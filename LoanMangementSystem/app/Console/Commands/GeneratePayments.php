@@ -89,6 +89,8 @@ class GeneratePayments extends Command
                         try {
                             // Attempt to send the email
                              // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                             activity()->log('Payments generated successfully.');
+
                         } catch (\Exception $e) {
                             // Log the error or handle it as needed
                             \Log::error('Email sending failed: ' . $e->getMessage());

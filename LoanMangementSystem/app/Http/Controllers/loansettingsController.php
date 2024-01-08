@@ -45,6 +45,10 @@ class loansettingsController extends Controller
     $loansettings = new loansettings();
     $loansettings->interest = $request->xinterest;
     $loansettings->save();
+    activity()
+    ->causedBy(auth()->user())
+    ->performedOn($loansettings)
+    ->log('Added New Interest Rate by ' . auth()->user()->name);
 
     return back()->with('success', ' New Interest Rate Added');
 }
@@ -106,6 +110,14 @@ class loansettingsController extends Controller
                     'interest' => $request->xinterest,
                 ]
             );
+            $loanSettings = loansettings::findOrFail($id);
+
+    // Log the update activity
+    activity()
+        ->causedBy(auth()->user())
+        ->performedOn($loanSettings)
+        ->log('Updated Interest Rate by ' . auth()->user()->name);
+
     
         return back()->with('success', ' Interest Rate Updated');
     }
@@ -121,7 +133,12 @@ class loansettingsController extends Controller
         }
     
         $loanSettings->delete();
-        
+        activity()
+        ->causedBy(auth()->user())
+        ->performedOn($loanSettings)
+        ->log('Deleted Interest Rate by '. auth()->user()->name);
+
+    $loanSettings->delete();
         return back()->with('success', 'Interest Rate Deleted');
     }
 }
