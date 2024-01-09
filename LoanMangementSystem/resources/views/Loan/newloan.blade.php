@@ -174,7 +174,7 @@
                                                 </button>
                                                 <a data-tooltip-target="{{'tooltip-default-'. $loan->loanNumber}}"
                                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
-                                                    href= "{{route('borrower-edit', ['brno' => $loan->bno]) }}">
+                                                    href= "{{route('loan-edit', ['lno' => $loan->lid]) }}">
                                                     <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true"
                                                         xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                         <path

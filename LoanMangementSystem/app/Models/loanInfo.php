@@ -14,6 +14,8 @@ class loanInfo extends Model
 
     protected $table = 'loanInfo';
 
+    protected $dates = ['LoanApplication'];
+
     protected $fillable =[
         
         'bno',

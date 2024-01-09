@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LoanInfo;
 use Barryvdh\DomPDF\Facade;
 
-
+use App\Models\borrowerinfo;
 use Illuminate\Http\Request;
 
 class ReportsController extends Controller
@@ -32,6 +32,9 @@ $pdf = Pdf::loadView('activity.loan', ['loans' => $loans]);
     public function index()
     {
         //
+        $loans = LoanInfo::with('borrowerinfo','payments')->get();
+           
+        return view('activity.loan', compact('loans'));    
     }
 
     /**

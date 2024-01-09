@@ -681,14 +681,69 @@ public function RoutePayment(Request $request, $bno)
     public function edit(string $id)
     {
         //
+        
+        $loanInfo = loanInfo::where('lid', $id)->get();
+        $loansettings = loansettings::all()->sortBy('interest');
+        return view('loan.edit', compact('loanInfo','loansettings'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $lid)
     {
         //
+        $request->validate([
+            'xLoanAmount' => ['required', 'numeric', 'min:0.01', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'xcFullname' => 'required',
+            'xcContact' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{11}$/',
+                'starts_with:09',
+                Rule::unique('borrowerinfo', 'borContact'),
+                Rule::unique('loanInfo', 'cmContact')->ignore($lid, 'lid'),
+                Rule::unique('officerInfo', 'offContact'),
+            ],
+        
+            'xcEmail' => [
+                Rule::unique('borrowerinfo', 'borEmail'),
+                Rule::unique('loanInfo', 'cmEmail')->ignore($lid, 'lid'),
+                Rule::unique('users', 'email'),
+            ],
+            'xcAddress' => 'required',
+        ]);
+        
+
+        $loanInfo = loanInfo::findOrFail($lid);
+        $interestRateWithoutPercentage = filter_var($request->xInterest, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $loanInfo->fill([
+             'InterestRate' => $interestRateWithoutPercentage,
+            'LoanAmount' => $request->xLoanAmount,
+            'cmName' => $request->xcFullname,
+            'cmContact' => $request->xcContact,
+            'cmEmail' => $request->xcEmail,
+            'cmAddress' => $request->xcAddress,
+            'LoanApplication' => $request->xLoanDate,
+        ]);
+
+
+        
+        $loanInfo->save();
+        $user = auth()->user();
+        // $logMessage = "Borrower updated by {$user->name}";
+        
+        // activity()
+        //     ->performedOn($loanInfo)
+        //     ->causedBy($user)
+        //     ->log($logMessage);
+      
+        return redirect()->back()->with('success', 'Loan Successfully Updated' );
+
+
+
+
+
     }
 
     /**

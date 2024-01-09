@@ -35,7 +35,7 @@ Route::get('/activity', [activityController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('activity');
 
-Route::get('/Reports', [ReportsController::class, 'generateLoanReport'])
+Route::get('/Reports', [ReportsController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('activity.generateLoanReport'); 
 
@@ -137,6 +137,13 @@ Route::get('/Interest/Update/{int}', [loansettingsController::class, 'update'])
 
 
 /////////////////
+Route::get('/Loan/edit/{lno}', [loanInfoController::class, 'edit'])
+->middleware(['auth', 'verified'])
+->name('loan-edit');
+
+Route::patch('/Loan/edit/{lid}', [loanInfoController::class, 'update'])
+    ->middleware(['auth', 'verified'])
+    ->name('loan-update');
 
 
 Route::get('/Loan/newloan', [loanInfoController::class, 'newloan'])
