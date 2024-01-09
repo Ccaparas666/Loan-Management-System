@@ -8,6 +8,8 @@ use App\Http\Controllers\officerInfoController;
 use App\Http\Controllers\loansettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\activityController;
+use App\Http\Controllers\ReportsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +34,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 Route::get('/activity', [activityController::class, 'index'])
 ->middleware(['auth', 'verified'])
 ->name('activity');
+
+Route::get('/Reports', [ReportsController::class, 'generateLoanReport'])
+    ->middleware(['auth', 'verified'])
+    ->name('activity.generateLoanReport'); 
+
 
 
 Route::get('/borrower', [borrowerInfoController::class, 'index'])

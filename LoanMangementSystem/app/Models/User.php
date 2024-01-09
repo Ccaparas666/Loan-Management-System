@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
+use illuminate\Database\Eloquent\Casts\Attribute;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -46,7 +47,9 @@ class User extends Authenticatable
     ];
 
     
-
+public function role(): Attribute{
+   return new Attribute( get: fn($value)=> ["user","editor","admin"][$value],);
+}
 
     
 }
