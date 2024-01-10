@@ -172,7 +172,7 @@
                                
                         
                             </div>
-                            @elseif ($loanStatus == "Rejected" || $loanStatus == "Waiting For Approval" || $loanStatus == "Approved")
+                            @elseif ($loanStatus == "Waiting For Approval" || $loanStatus == "Approved")
                             <div class="grid gap-6 m-4 md:grid-cols-2">
                                 <a href="{{route('borrower-edit', ['brno' => $borinfo->bno]) }}"
                                     class="flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
@@ -220,7 +220,7 @@
                                         <path
                                             d="M64 32C46.3 32 32 46.3 32 64v64c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l0 64v96c0 17.7 14.3 32 32 32s32-14.3 32-32V384h80c68.4 0 127.7-39 156.8-96H352c17.7 0 32-14.3 32-32s-14.3-32-32-32h-.7c.5-5.3 .7-10.6 .7-16s-.2-10.7-.7-16h.7c17.7 0 32-14.3 32-32s-14.3-32-32-32H332.8C303.7 71 244.4 32 176 32H64zm190.4 96H96V96h80c30.5 0 58.2 12.2 78.4 32zM96 192H286.9c.7 5.2 1.1 10.6 1.1 16s-.4 10.8-1.1 16H96V192zm158.4 96c-20.2 19.8-47.9 32-78.4 32H96V288H254.4z" />
                                     </svg>
-                                    @if ($loanStatus == "PAID")
+                                    @if ($loanStatus == "PAID" || $loanStatus == "Rejected")
                                     Re-Apply Loan
                                     @else
                                     Apply Loan
@@ -418,7 +418,7 @@
                     <!-- Modal header -->
                     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                         <h3 class="text-xl font-medium text-gray-900 dark:text-white">
-                            Comaker Information
+                            Co-Maker Information
                         </h3>
                         <button type="button"
                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
@@ -548,7 +548,7 @@
 </div>
 
 
-<div id="{{'tooltip-default-'. $borinfo->lid}}" role="tooltip" class="text-center absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-purple-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-purple-700"> View Comaker
+<div id="{{'tooltip-default-'. $borinfo->lid}}" role="tooltip" class="text-center absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-purple-600 rounded-lg shadow-sm opacity-0 tooltip dark:bg-purple-700"> View Co-Maker
     <div class="tooltip-arrow" data-popper-arrow></div>
 </div>
 </x-app-layout>

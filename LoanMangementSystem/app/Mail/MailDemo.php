@@ -58,6 +58,9 @@ class MailDemo extends Mailable
                 $subject = 'Your Loan Application is Under Review';
                 break;
 
+            case 'PaymentReminder':
+                $subject = 'Payment Update Reminder';
+                break;
             // Add more cases for other loan statuses as needed
 
             default:

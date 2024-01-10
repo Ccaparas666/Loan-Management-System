@@ -137,7 +137,8 @@
             </tr>
             <tr>
                 <td><strong>Interest Rate:</strong></td>
-                <td>{{ rtrim(number_format($mailData['InterestRate'], 2), '0') }}%</td>
+                <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
+                
             </tr>
             <tr>
                 <td><strong>Payment Reference Number:</strong></td>
@@ -282,7 +283,7 @@
                 </tr>
                 <tr>
                     <td><strong>Interest Rate:</strong></td>
-                    <td>{{ $mailData['InterestRate'] }}%</td>
+                    <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
                 </tr>
                 <tr>
                     <td><strong>Loan Balance:</strong></td>
@@ -344,14 +345,13 @@
                     <td><strong>Loan Number:</strong></td>
                     <td>{{ $mailData['loanNumber'] }}</td>
                 </tr>
+
                 <tr>
                     <td><strong>Loan Amount:</strong></td>
                     <td>PHP {{ $mailData['loanAmount'] }}</td>
                 </tr>
-                <tr>
-                    <td><strong>Interest Rate:</strong></td>
-                    <td>{{ rtrim(number_format($mailData['InterestRate'], 2), '0') }}%</td>
-                </tr>
+             
+                <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
                 <tr>
                     <td><strong>Loan Status:</strong></td>
                     <td style="background-color: #ff3333; color: #fff;">{{ $mailData['loanStatus'] }}</td>
@@ -367,15 +367,70 @@
             <p>
                 This is a friendly reminder about the latest update on your loan with LendWise.
             </p>
-            <p>
-                <strong>Loan Details:</strong><br>
-                <strong>Borrower Name:</strong> {{ $mailData['BorrowerName'] }}<br>
-                <strong>Account Number:</strong> {{ $mailData['accountnumber'] }}<br>
-                <strong>Loan Number:</strong> {{ $mailData['loanNumber'] }}<br>
-                <strong>Loan Amount:</strong>PHP {{ $mailData['loanAmount'] }}<br>
-                <strong>Remaining Balance:</strong>PHP {{ $mailData['remainingBalance'] }}<br>
-                <strong>Due Date:</strong> {{ $mailData['dueDate'] }}<br>
-            </p>
+            <table border="1">
+                <tr>
+                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Loan Update Details:</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Borrower Name:</strong></td>
+                    <td>{{ $mailData['BorrowerName'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Account Number:</strong></td>
+                    <td>{{ $mailData['accountnumber'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Loan Number:</strong></td>
+                    <td>{{ $mailData['loanNumber'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Interest Rate:</strong></td>
+                    <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
+                </tr>
+                <tr>
+                    <td><strong>Balance:</strong></td>
+                    <td>PHP {{ number_format($mailData['LoanBalance'], 2) }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Due Balance Added:</strong></td>
+                    <td>{{ $mailData['BalanceAdded'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>New Balance:</strong></td>
+                    <td>PHP {{ number_format($mailData['remainingBalance'], 2) }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Due Date:</strong></td>
+                    <td>{{ \Carbon\Carbon::parse($mailData['dueDate'])->format('M-d-Y') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>New Due Date:</strong></td>
+                    <td>{{ \Carbon\Carbon::parse($mailData['updateDue'])->format('M-d-Y') }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Loan Status:</strong></td>
+                    <td style="background-color: #0F985C; color: #fff;">{{ $mailData['loanstatus'] }}</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Co-Maker Details:</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>Name:</strong></td>
+                    <td>{{ $mailData['Comaker'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Contact Number:</strong></td>
+                    <td>{{ $mailData['cmContact'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Email Address:</strong></td>
+                    <td>{{ $mailData['cmEmail'] }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Address:</strong></td>
+                    <td>{{ $mailData['cmAddress'] }}</td>
+                </tr>
+            </table>
 
 
 

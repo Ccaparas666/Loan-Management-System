@@ -77,7 +77,7 @@
                            <script>
                                 Swal.fire({
                                 icon: "error",
-                                title: "Borrower Already Registered",
+                                title: "Borrower Has Exist Loan",
                                 text: "{{session('errorFound')}}",
                                 });                               
                             </script>

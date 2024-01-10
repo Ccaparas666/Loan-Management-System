@@ -72,14 +72,15 @@ class loanInfoController extends Controller
             }
         
             // Check loan status
-            if ($borrowerinfo->loanstatus != 'Not Registered' && $borrowerinfo->loanstatus != 'PAID') {
-                return redirect()->route('Loan')->with('errorFound', 'Borrower already registered for a loan');
+            if ($borrowerinfo->loanstatus != 'Not Registered' && $borrowerinfo->loanstatus != 'PAID' && $borrowerinfo->loanstatus != 'Rejected') {
+                return redirect()->route('Loan')->with('errorFound', 'Borrower Has Existing Loan');
             } elseif ($borrowerinfo->loanstatus == 'PAID') {
                 $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
                 $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
-        
-            return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Re-Apply');
+            
+                return redirect()->route('Loan', compact('loanInfo', 'search', 'genId', 'borrowerinfo'))->with('success', 'Borrower Re-Apply');
             }
+            
         
             // The rest of your code
             $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');

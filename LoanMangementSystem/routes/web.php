@@ -9,7 +9,7 @@ use App\Http\Controllers\loansettingsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\activityController;
 use App\Http\Controllers\ReportsController;
-
+use App\Http\Controllers\PDFController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +25,7 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])

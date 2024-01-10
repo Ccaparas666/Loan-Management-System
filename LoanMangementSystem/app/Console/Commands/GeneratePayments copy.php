@@ -91,8 +91,8 @@ class GeneratePayments extends Command
                             'remainingBalance' => $updatedBalance,
                             'dueDate' => $latestDueDate->toDateString(),
                             'updateDue' => $latestDueDate->addMonth()->toDateString(),
-                            'loanStatus' => 'PaymentReminder',
-                            'loanstatus' => $dueLoan->borrowerInfo->loanstatus,
+                            'loanStatus' => $dueLoan->borrowerInfo->loanstatus,
+
                             'Comaker' => $dueLoan->cmName,
                             'cmContact' => $dueLoan->cmContact,
                             'cmEmail' => $dueLoan->cmEmail,
