@@ -134,20 +134,47 @@ class loanInfoController extends Controller
             return back()->with('error', 'Loan Not Approved Try Again');
         }
         $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
+
+         //Borrower Details
+         $BorrowerName = $loan->borrowerinfo->borFname . ' ' .  $loan->borrowerinfo->borLname;
+
+         // Loan Details
+         $InterestRate = $loan->InterestRate;
+         $Reason = $request->reason;
+
+         // Loan Details
+        $interestRate1 = $loan->InterestRate / 100;
+        $LoanBalance = (($loan->LoanAmount * $interestRate1) + $loan->LoanAmount);
+
+
         if ($loan && $loan->borrowerinfo) {
             $loan->loan_approval_date = Carbon::now();
             $loan->save();
             $sendMailData = [
-                'BorrowerName' => $loan->borrowerinfo->borFname,
-                'accountnumber' => $loan->borrowerinfo->borAccount,
-                'loanNumber' => $loan->loanNumber,
-                'loanAmount' => $loan->LoanAmount,
-                'loanStatus' => 'Approved',
-                'emailType' => 'LoanStatusUpdate',
+            
+
+
+            //Borrower Details
+            'BorrowerName' => $BorrowerName,
+            //Loan Details
+            'accountnumber' => $loan->borrowerinfo->borAccount,
+            'loanNumber' => $loan->loanNumber,
+            'InterestRate' =>  $InterestRate ,
+            'loanAmount' => $loan->LoanAmount,
+            'LoanBalance' => $LoanBalance,
+            'loanStatus' => 'Approved',
+            //Co-Maker Details
+            'Comaker' => $loan->cmName,
+            'cmContact' => $loan->cmContact,
+            'cmEmail' => $loan->cmEmail,
+            'cmAddress' => $loan->cmAddress,
+
+            'emailType' => 'LoanStatusUpdate',
             ];
             
             // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
              // Log the approval activity
+            //  dd($sendMailData);
             $user = auth()->user();
         $logMessage = "Loan {$loan->loanNumber} approved by {$approvedBy}";
 
@@ -185,16 +212,29 @@ class loanInfoController extends Controller
         }
 
         $loan = loanInfo::with('borrowerinfo')->where('lid', $id)->first();
+
+        
+        //Borrower Details
+        $BorrowerName = $loan->borrowerinfo->borFname . ' ' .  $loan->borrowerinfo->borLname;
+
+        // Loan Details
+        $InterestRate = $loan->InterestRate;
+        $Reason = $request->reason;
+
         if ($loan && $loan->borrowerinfo) {
             $sendMailData = [
-                'BorrowerName' => $loan->borrowerinfo->borFname,
+                'BorrowerName' =>   $BorrowerName, 
                 'accountnumber' => $loan->borrowerinfo->borAccount,
                 'loanNumber' => $loan->loanNumber,
+                'InterestRate' =>  $InterestRate,
                 'loanAmount' => $loan->LoanAmount,
                 'loanStatus' => 'Rejected',
+                'Reason' =>  $Reason,
                 'emailType' => 'LoanStatusUpdate',
             ];
 
+
+            // dd($sendMailData);
             // FacadesMail::to($loan->borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         } else {
 
@@ -486,9 +526,14 @@ public function RoutePayment(Request $request, $bno)
         // Get the specific loan associated with the borrower
         $loanInfo = $latestLoan;
 
+        //Borrower Details
+       
+        $ReferenceNumber = Helper::generateUniqueReference();
+        
         if ($Remaining_Balance <= 0) {
             // Get the associated borrower information
             $borrowerInfo = $loanInfo->borrowerinfo;
+            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borFname;
 
             if ($borrowerInfo) {
                 // Set the loan status to 'PAID'
@@ -497,31 +542,47 @@ public function RoutePayment(Request $request, $bno)
                 // Send email notification for FULLY PAID status
                 $sendMailData = [
                     'emailType' => 'PaymentReceipt',
-                    'BorrowerName' => $borrowerInfo->borFname,
+                    'BorrowerName' => $BorrowerName,
                     'accountnumber' => $borrowerInfo->borAccount,
                     'loanNumber' => $loanInfo->loanNumber,
                     'loanAmount' => $loanInfo->LoanAmount,
+                    'InterestRate' => $loanInfo->InterestRate,
                     'loanStatus' => 'PAID',
                     'paymentAmount' => $payAmount,
                     'paymentDate' => now(),
                     'remainingBalance' => $Remaining_Balance,
+                    'ReferenceNumber' =>$ReferenceNumber,
+                    'Comaker' => $loanInfo->cmName,
+                    'cmContact' => $loanInfo->cmContact,
+                    'cmEmail' => $loanInfo->cmEmail,
+                    'cmAddress' => $loanInfo->cmAddress,
                 ];
-
+                // dd($sendMailData);
                 // FacadesMail::to($borrowerInfo->borEmail)->send(new MailDemo($sendMailData));
             }
         } else {
             // Send email notification for PARTIAL PAYMENT
+            $borrowerInfo = $loanInfo->borrowerinfo;
+            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borFname;
+
             $sendMailData = [
                 'emailType' => 'PaymentReceipt',
-                'BorrowerName' => $borrowerinfo->borFname,
+                'BorrowerName' => $BorrowerName,
                 'accountnumber' => $borrowerinfo->borAccount,
                 'loanNumber' => $latestLoan->loanNumber,
+                'InterestRate' => $loanInfo->InterestRate,
                 'paymentAmount' => $payAmount,
+                'due_date' =>  $latestPayment->due_date,
                 'remainingBalance' => $Remaining_Balance,
+                'ReferenceNumber' =>$ReferenceNumber,
                 'paymentDate' => now(),
-                'loanStatus' => '',
+                'loanStatus' => 'Loan Active',
+                'Comaker' => $loanInfo->cmName,
+                'cmContact' => $loanInfo->cmContact,
+                'cmEmail' => $loanInfo->cmEmail,
+                'cmAddress' => $loanInfo->cmAddress,
             ];
-
+            // dd($sendMailData);
             // FacadesMail::to($borrowerinfo->borEmail)->send(new MailDemo($sendMailData));
         }
 
@@ -532,8 +593,10 @@ public function RoutePayment(Request $request, $bno)
         $Transaction->PaymentDate = $formattedDate;
         $Transaction->PaymentAmount = $payAmount;
         $Transaction->RemainingBalance = $Remaining_Balance;
-        $Transaction->ReferenceNumber = Helper::generateUniqueReference();
+        
+        $Transaction->ReferenceNumber =   $ReferenceNumber;
         $Transaction->borrower_id = $borrowerinfo->bno;
+
 
         if (!$Transaction->save()) {
             return redirect()->back()->with('error', 'Failed to record the transaction.');
@@ -625,23 +688,41 @@ public function RoutePayment(Request $request, $bno)
 
 
         $loanInfo->save();
+        //Borrower Details
+        $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borLname;
 
+        // Loan Details
+        $InterestRate = $request->xInterest / 100;
+        $LoanBalance = (($request->xLoanAmount * $InterestRate) + $request->xLoanAmount);
+
+        //Co-Maker Details
+        $CmName = $request->xcFullname;
+        $cmContact = $request->xcContact;
+        $cmEmail = $request->xcEmail;
+        $cmAddress = $request->xcAddress;
         
-
-        
-
         $email = $request->xemail;
         $sendMailData = [
-            'BorrowerName' => $request->xName,
+            //Borrower Details
+            'BorrowerName' => $BorrowerName,
+            //Loan Details
             'accountnumber' => $accountnumber,
             'loanNumber' => $genId,
+            'InterestRate' => $request->xInterest,
             'loanAmount' => $request->xLoanAmount,
-            'loanStatus' => 'In Process', // Set the appropriate status here
+            'LoanBalance' => $LoanBalance,
+            'loanStatus' => 'In Process',
+            //Co-Maker Details
+            'Comaker' => $CmName,
+            'cmContact' => $cmContact,
+            'cmEmail' => $cmEmail,
+            'cmAddress' => $cmAddress,
+
             'emailType' => 'LoanStatusUpdate',
         ];
 
         // FacadesMail::to($email)->send(new MailDemo($sendMailData));
-        // dd($request->xName);
+        // dd($sendMailData);
 
 
         activity()

@@ -128,7 +128,8 @@
                                             {{ $loan->loanNumber }}</td>
                                         <td class="px-6 py-4">{{$loan->borrowerinfo->borLname}}, {{$loan->borrowerinfo->borFname}} {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
                                         <td class="px-6 py-4">₱ {{ number_format($loan->LoanAmount, 2) }}</td>
-                                        <td class="px-6 py-4">{{ $loan->LoanApplication }}</td>
+                                       
+                                        <td>{{ \Carbon\Carbon::parse($loan->LoanApplication)->format('M-d-Y') }}</td>
                                         <td class="px-6 py-4">{{$loan->created_by}}</td>
                                         <td class="px-6 py-4">
                                             <div class="mb-2">

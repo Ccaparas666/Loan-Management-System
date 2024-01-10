@@ -128,7 +128,7 @@
                                                     {{$loan->borrowerinfo->borMname}} {{$loan->borrowerinfo->borSuffix}}</td>
                                                 <td class="px-6 py-4">₱ {{ number_format($loan->LoanAmount, 2) }}</td>
                                                 <td class="px-6 py-4">{{$loan->approved_by}}</td>
-                                                <td class="px-6 py-4">{{ $loan->loan_approval_date }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($loan->loan_approval_date)->format('M-d-Y') }}</td>
                                                 <td class="px-6 py-4">
                                             <div class="mb-2">
                                                 <span class="text-gray-600 dark:text-gray-400 font-bold">Interest Rate:</span>

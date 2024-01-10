@@ -415,7 +415,11 @@
                             <tbody>
                                 @foreach($transactionHistory as $transaction)
                                     <tr>
-                                        <td class="px-6 py-4">{{ $transaction->borrower->borLname }}, {{ $transaction->borrower->borFname }} {{ $transaction->borrower->borMname }} {{ $transaction->borrower->borSuffix }}</td>
+                                        
+                                        <td class="px-6 py-4"> @isset($transaction->borrower)
+                                            {{ $transaction->borrower->borLname }}, {{ $transaction->borrower->borFname }} {{ $transaction->borrower->borMname }} {{ $transaction->borrower->borSuffix }}
+                                            @else
+                                            @endisset</td>
                                         <td class="px-6 py-4">{{ $transaction->PaymentDate }}</td> 
                                         <td class="px-6 py-4">{{ $transaction->ReferenceNumber }}</td>
                                         <td class="px-6 py-4">P {{ number_format($transaction->PaymentAmount, 2) }}</td> 

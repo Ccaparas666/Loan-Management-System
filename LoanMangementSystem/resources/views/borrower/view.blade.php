@@ -266,7 +266,9 @@
                                         <tr>
                                             <td class="px-6 py-4">{{$loan->loanNumber}}</td>
                                             <td class="px-6 py-4">₱ {{$payment->Remaining_Balance}}</td>
-                                            <td class="px-6 py-4"> {{$payment->due_date}}</td>
+                                           
+                                            <td>{{ \Carbon\Carbon::parse($payment->due_date)->format('M-d-Y') }}</td>
+
                                             <td class="px-6 py-4">
                                                 <div>
                                                     <span class="text-gray-400 font-bold">Interest Rate:</span>
