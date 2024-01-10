@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\User;
+use App\Models\BorrowerInfo;
+
+use App\Models\PaymentInfo;
 use PDF;
 
 class PDFController extends Controller
@@ -24,22 +27,52 @@ class PDFController extends Controller
      
         // return $pdf->download('itsolutionstuff.pdf');
 
-        $loans = loanInfo::all(); // Assuming your loan model is named Loan
+        // $loans = loanInfo::all(); // Assuming your loan model is named Loan
 
-        // Data to be passed to the PDF view
+        // // Data to be passed to the PDF view
+        // $data = [
+        //     'title' => 'Loan Report',
+        //     'date' => now()->format('Y-m-d'),
+        //     'loans' => $loans,
+        // ];
+
+        // // Generate PDF using DomPDF
+        // $pdf = PDF::loadView('Reports/myPDF', $data);
+
+        // // You can customize the PDF options if needed
+        // // $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
+
+        // // Return the PDF to the browser or save it to a file
+        // return $pdf->stream('loan_report.pdf');
+
+        $borrowers = BorrowerInfo::with(['loans', 'loans.payments'])->get();
+
         $data = [
-            'title' => 'Loan Report',
-            'date' => now()->format('Y-m-d'),
-            'loans' => $loans,
+            'title' => 'Summary Report',
+            'date' => now(),
+            'borrowers' => $borrowers,
         ];
-
-        // Generate PDF using DomPDF
+    
         $pdf = PDF::loadView('Reports/myPDF', $data);
-
-        // You can customize the PDF options if needed
-        // $pdf->setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
-
-        // Return the PDF to the browser or save it to a file
-        return $pdf->stream('loan_report.pdf');
+    
+        return $pdf->stream('summary_report.pdf');
     }
+
+    public function generateReport()
+{
+    // Retrieve data for the report
+    $borrowers = BorrowerInfo::with('loans')->get();
+
+    $data = [
+        'title' => 'Borrower Report',
+        'date' => now(),
+        'borrowers' => $borrowers,
+    ];
+
+    
+
+    $pdf = PDF::loadView('Reports.report', $data);
+    return $pdf->stream('loan_report.pdf');
+}
+
 }

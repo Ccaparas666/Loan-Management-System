@@ -69,9 +69,9 @@
                                     <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Loan Details') }}</div>
                                     </th>
-                                    <!-- <th scope="col" class="px-6 py-3">
+                                    <th scope="col" class="px-6 py-3">
                                         <div class="flex items-center">{{ __('Status') }}<a href="#"></div>
-                                    </th> -->
+                                    </th>
                                     <!-- <th scope="col" class="px-6 py-3 flex justify-center">{{ __('ACTION') }}</th> -->
                                     
                                 </tr>
@@ -99,19 +99,22 @@
                                             </div>
                                         </td>
 
-                                        <!-- <td class="px-6 py-4 font-semibold">
-                                            @if ($loan->borrowerinfo->loanstatus == "Waiting For Approval")
-                                            <span class="inline-block p-1 inline-block bg-gray-200 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 border border-blue-500">Waiting For Approval</span>
-                                            @elseif ($loan->borrowerinfo->loanstatus == "Approved")
-                                            <span class="inline-block p-1 bg-green-200 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Approved</span>
-                                            @elseif ($loan->borrowerinfo->loanstatus == "Loan Active")
-                                            <span class="inline-block bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Loan Active</span>
-                                            @elseif ($loan->borrowerinfo->loanstatus == "Rejected")
-                                            <span class="inline-block bg-red-200 p-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-red-400 border border-red-500">Rejected</span>
-                                            @elseif ($loan->borrowerinfo->loanstatus == "Loan Active" && $loan->remaining_balance < 0)
-                                            <span class="text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500 font-bold">PAID</span>
-                                            @endif
-                                        </td> -->
+                                        <td class="px-6 py-4 font-semibold">
+                                        @if ($loan->loanstatus == "Waiting For Approval")
+    <span class="inline-block p-1 inline-block bg-gray-200 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 border border-blue-500">Waiting For Approval</span>
+@elseif ($loan->loanstatus == "Approved")
+    <span class="inline-block p-1 bg-green-200 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Approved</span>
+@elseif ($loan->loanstatus == "Loan Active")
+    <span class="inline-block bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500">Loan Active</span>
+@elseif ($loan->loanstatus == "Rejected")
+    <span class="inline-block bg-red-200 p-1 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-red-400 border border-red-500">Rejected</span>
+@elseif ($loan->loanstatus == "PAID")
+    <span class="text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 border border-green-500 font-bold">PAID</span>
+    @else
+    <span class="text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-yellow-400 border border-yellow-500 font-bold">Not Registered</span>
+@endif
+
+                                        </td>
                                         <!-- <td class="px-6 py-4">
                                         
                                             

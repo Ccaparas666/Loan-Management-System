@@ -131,6 +131,9 @@ class loanInfoController extends Controller
             $loan->borrowerInfo->update([
                 'loanstatus' => 'Approved',
             ]); 
+            $loan->update([
+                'loanstatus' => 'Approved',
+            ]); 
         } else {
             return back()->with('error', 'Loan Not Approved Try Again');
         }
@@ -201,12 +204,18 @@ class loanInfoController extends Controller
                 ]
             );
 
+            
+
             $loan = LoanInfo::findOrFail($id);    
         ///////////////////////////
         if ($loan->borrowerInfo) {
             $loan->borrowerInfo->update([
                 'loanstatus' => 'Rejected',
                 'Reason' => $request->reason,
+            ]); 
+
+            $loan->update([
+                'loanstatus' => 'Rejected',
             ]); 
         } else {
             return back()->with('error', 'Loan Not Approved Try Again');
@@ -328,6 +337,10 @@ class loanInfoController extends Controller
             $loan->borrowerInfo->update([
                 'loanstatus' => 'Loan Active',
             ]); 
+
+            $loan->update([
+                'loanstatus' => 'Loan Active',
+            ]); 
         } 
 
         }
@@ -347,17 +360,30 @@ class loanInfoController extends Controller
     public function paid()
     {
 
-        $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')
-            ->get();
-        if ($loanInfo->isNotEmpty()) {
-            $loanInfo = $loanInfo->map(function ($loan) {
-                $interestRate = $loan->InterestRate / 100;
-                $amount = $loan->LoanAmount;
-                $loan->monthlyPayment = (($amount * $interestRate) + $amount);
-                return $loan;
-            });
-        }
-        return view('Loan.Loan', compact('loanInfo'));
+        // $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')
+        //     ->get();
+        // if ($loanInfo->isNotEmpty()) {
+        //     $loanInfo = $loanInfo->map(function ($loan) {
+        //         $interestRate = $loan->InterestRate / 100;
+        //         $amount = $loan->LoanAmount;
+        //         $loan->monthlyPayment = (($amount * $interestRate) + $amount);
+        //         return $loan;
+        //     });
+        // }
+        // return view('Loan.Loan', compact('loanInfo'));
+
+        $loanInfo = LoanInfo::with('borrowerinfo')->get();
+
+    if ($loanInfo->isNotEmpty()) {
+        $loanInfo = $loanInfo->map(function ($loan) {
+            $interestRate = $loan->InterestRate / 100;
+            $amount = $loan->LoanAmount;
+            $loan->monthlyPayment = (($amount * $interestRate) + $amount);
+            return $loan;
+        });
+    }
+
+    return view('Loan.Loan', compact('loanInfo'));
     }
 
     public function payment()
@@ -539,6 +565,7 @@ public function RoutePayment(Request $request, $bno)
             if ($borrowerInfo) {
                 // Set the loan status to 'PAID'
                 $borrowerInfo->update(['loanstatus' => 'PAID']);
+                $loanInfo->update(['loanstatus' => 'PAID']);
 
                 // Send email notification for FULLY PAID status
                 $sendMailData = [
@@ -686,7 +713,7 @@ public function RoutePayment(Request $request, $bno)
 
     // Update borrower status
     $borrowerInfo->update(['loanstatus' => 'Waiting For Approval']);
-
+    $loanInfo->update(['loanstatus' => 'Waiting For Approval']);
 
         $loanInfo->save();
         //Borrower Details

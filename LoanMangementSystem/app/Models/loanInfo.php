@@ -26,7 +26,7 @@ class loanInfo extends Model
         'LoanApplication',
         'loan_approval_date',
         'cash_release_date',
-        // 'loanstatus',
+        'loanstatus',
         'cmName',
         'cmContact',
         'cmEmail',

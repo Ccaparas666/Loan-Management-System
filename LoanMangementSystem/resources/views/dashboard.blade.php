@@ -157,7 +157,7 @@
                         </div>
             
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                            <div class="grid grid-cols-4 gap-3 mb-2">
+                            <div class="grid grid-cols-5 gap-3 mb-2">
                             <dl class="bg-orange-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
                                 <dt
                                     class="w-8 h-8 rounded-full bg-green-100 dark:bg-gray-500 text-green-600 dark:text-green-300 text-sm font-medium flex items-center justify-center mb-1">
@@ -187,6 +187,12 @@
                                 {{$rejectedCount}}
                                 </dt>
                                 <dd class="text-red-600 dark:text-red-300 text-sm font-medium">Rejected</dd>
+                            </dl>
+                            <dl class="bg-red-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
+                                <dt class="w-8 h-8 rounded-full bg-green-100 dark:bg-gray-500 text-green-600 dark:text-green-300 text-sm font-medium flex items-center justify-center mb-1">
+                                {{$PaidCount}}
+                                </dt>
+                                <dd class="text-green-600 dark:text-green-300 text-sm font-medium">Paid</dd>
                             </dl>
                             </div>
                             <button data-collapse-toggle="more-details" type="button"
@@ -288,7 +294,7 @@
         const getChartOptions = (chartData) => {
             return {
                 series: chartData,
-                colors: ["#008000", "#FFA500", "#0000FF", "#FF0000"],
+                colors: ["#008000", "#FFA500", "#0000FF", "#FF0000","#008000"],
                 chart: {
                     height: "380px",
                     width: "100%",
@@ -321,7 +327,7 @@
                         bottom: -20,
                     },
                 },
-                labels: ["Active", "New Loan", "Approved", "Rejected"],
+                labels: ["Active", "New Loan", "Approved", "Rejected","Paid"],
                 legend: {
                     show: true,
                     position: "bottom",
@@ -364,7 +370,7 @@
         };
 
         if (document.getElementById("radial-chart") && typeof ApexCharts !== 'undefined') {
-            var chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions([{{$activeCount}}, {{$newLoanCount}}, {{$approvedCount}}, {{$rejectedCount}}]));
+            var chart = new ApexCharts(document.querySelector("#radial-chart"), getChartOptions([{{$activeCount}}, {{$newLoanCount}}, {{$approvedCount}}, {{$rejectedCount}},{{$PaidCount}}]));
             chart.render();
 
             

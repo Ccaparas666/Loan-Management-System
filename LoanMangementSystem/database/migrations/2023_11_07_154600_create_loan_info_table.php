@@ -24,7 +24,7 @@ return new class extends Migration
             $table->date('LoanApplication')->nullable();
             $table->date('loan_approval_date')->nullable();
             $table->date('cash_release_date')->nullable();
-            // $table->string('loanstatus')->default('Waiting For Approval');
+            $table->string('loanstatus')->default('Not Registered');
             $table->string('cmName');
             $table->string('cmContact');
             $table->string('cmEmail', 100);

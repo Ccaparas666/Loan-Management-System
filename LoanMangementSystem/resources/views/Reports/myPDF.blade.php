@@ -1,10 +1,7 @@
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Loan Management System - Loan Report</title>
+    <title>Loan Management System - Summary Report</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         body {
@@ -33,30 +30,40 @@
 <body>
     <h1>{{ $title }}</h1>
     <p>{{ $date }}</p>
-    <p>This report provides information about loans in the system.</p>
+    <p>This report provides a summary of borrowers and their loan details.</p>
   
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Borrower Name</th>
-                <th>Account Number</th>
-                <th>Loan Number</th>
-                <th>Loan Amount</th>
-                <th>Interest Rate</th>
-                <th>Loan Status</th>
+                <th>Borrower ID</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Gender</th>
+                <th>Loans</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($loans as $loan)
+            @foreach($borrowers as $borrower)
             <tr>
-                <td>{{ $loan->id }}</td>
-                <td>{{ $loan->borrower_name }}</td>
-                <td>{{ $loan->account_number }}</td>
-                <td>{{ $loan->loan_number }}</td>
-                <td>{{ $loan->loan_amount }}</td>
-                <td>{{ $loan->interest_rate }}</td>
-                <td>{{ $loan->loan_status }}</td>
+                <td>{{ $borrower->bno }}</td>
+                <td>{{ $borrower->borFname }} {{ $borrower->borLname }}</td>
+                <td>{{ $borrower->borContact }}</td>
+                <td>{{ $borrower->borEmail }}</td>
+                <td>{{ $borrower->borAddress }}</td>
+                <td>{{ $borrower->borGender }}</td>
+                <td>
+                    @if($borrower->loans->count() > 0)
+                        <ul>
+                            @foreach($borrower->loans as $loan)
+                                <li>Loan Number: {{ $loan->loanNumber }}, Amount: {{ $loan->LoanAmount }}, Status: {{ $loan->loanstatus }}</li>
+                            @endforeach
+                        </ul>
+                    @else
+                        No loans found.
+                    @endif
+                </td>
             </tr>
             @endforeach
         </tbody>
