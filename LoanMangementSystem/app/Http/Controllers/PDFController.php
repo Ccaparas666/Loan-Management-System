@@ -61,7 +61,8 @@ class PDFController extends Controller
     public function generateReport()
 {
     // Retrieve data for the report
-    $borrowers = BorrowerInfo::with('loans')->get();
+     $borrowers = BorrowerInfo::with('loans.payments')->get();
+
 
     $data = [
         'title' => 'Borrower Report',

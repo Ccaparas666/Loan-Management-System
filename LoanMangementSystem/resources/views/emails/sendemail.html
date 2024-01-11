@@ -114,6 +114,64 @@
             Dear {{ $mailData['BorrowerName'] }},<br>
             We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
         </p>
+        @if$mailData['emailType'] === 'paymentDueReminder'
+        <h1>Loan Reminder</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            This is a friendly reminder that your loan with LendWise is due soon.
+        </p>
+
+        <table border="1">
+            <tr>
+                <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Loan Reminder:</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Borrower Name:</strong></td>
+                <td>{{ $mailData['BorrowerName'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Borrower Account Number:</strong></td>
+                <td>{{ $mailData['accountnumber'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Loan Number:</strong></td>
+                <td>{{ $mailData['loanNumber'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Interest Rate:</strong></td>
+                <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
+            </tr>
+            <tr>
+                <td><strong>Loan Balance:</strong></td>
+                <td>PHP {{ $mailData['LoanBalance'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Due Date:</strong></td>
+                <td>{{ \Carbon\Carbon::parse($mailData['dueDate'])->format('M-d-Y') }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Co-Maker Details:</strong>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Co-Maker:</strong></td>
+                <td>{{ $mailData['Comaker'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Co-Maker's Contact:</strong></td>
+                <td>{{ $mailData['cmContact'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Co-Maker's Email:</strong></td>
+                <td>{{ $mailData['cmEmail'] }}</td>
+            </tr>
+            <tr>
+                <td><strong>Co-Maker's Address:</strong></td>
+                <td>{{ $mailData['cmAddress'] }}</td>
+            </tr>
+        </table>
+
+        @endif
         @if ($mailData['emailType'] === 'PaymentReceipt')
         <p>
             We acknowledge receipt of your recent payment for your loan with LendWise. Your timely payment is greatly
@@ -138,7 +196,7 @@
             <tr>
                 <td><strong>Interest Rate:</strong></td>
                 <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
-                
+
             </tr>
             <tr>
                 <td><strong>Payment Reference Number:</strong></td>
@@ -283,7 +341,7 @@
                 </tr>
                 <tr>
                     <td><strong>Interest Rate:</strong></td>
-                    <td>{{ $mailData['InterestRate'] }}%</td>
+                    <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
                 </tr>
                 <tr>
                     <td><strong>Loan Balance:</strong></td>
@@ -345,11 +403,13 @@
                     <td><strong>Loan Number:</strong></td>
                     <td>{{ $mailData['loanNumber'] }}</td>
                 </tr>
-             
+
                 <tr>
-                    <td><strong>Interest Rate:</strong></td>
-                    <td>{{ rtrim(number_format($mailData['InterestRate'], 2), '0') }}%</td>
+                    <td><strong>Loan Amount:</strong></td>
+                    <td>PHP {{ $mailData['loanAmount'] }}</td>
                 </tr>
+
+                <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
                 <tr>
                     <td><strong>Loan Status:</strong></td>
                     <td style="background-color: #ff3333; color: #fff;">{{ $mailData['loanStatus'] }}</td>
@@ -367,7 +427,8 @@
             </p>
             <table border="1">
                 <tr>
-                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Loan Update Details:</strong></td>
+                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Loan Update
+                            Details:</strong></td>
                 </tr>
                 <tr>
                     <td><strong>Borrower Name:</strong></td>
@@ -410,7 +471,8 @@
                     <td style="background-color: #0F985C; color: #fff;">{{ $mailData['loanstatus'] }}</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Co-Maker Details:</strong></td>
+                    <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Co-Maker Details:</strong>
+                    </td>
                 </tr>
                 <tr>
                     <td><strong>Name:</strong></td>

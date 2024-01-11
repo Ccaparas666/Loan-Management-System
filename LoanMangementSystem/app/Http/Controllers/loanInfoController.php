@@ -15,8 +15,11 @@ use Illuminate\Validation\Rule;
 use Carbon\Carbon;
 use Mail;
 use App\Mail\MailDemo;
+use App\Mail\CoMakerMail;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+
 
 
 use App\Models\loansettings;
@@ -730,6 +733,7 @@ public function RoutePayment(Request $request, $bno)
         $cmAddress = $request->xcAddress;
         
         $email = $request->xemail;
+        $coemail = $request->xcEmail;
         $sendMailData = [
             //Borrower Details
             'BorrowerName' => $BorrowerName,
@@ -749,9 +753,34 @@ public function RoutePayment(Request $request, $bno)
             'emailType' => 'LoanStatusUpdate',
         ];
 
-        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
-        // dd($sendMailData);
+        $sendCoMaker = [
+            //Borrower Details
+            'BorrowerName' => $BorrowerName,
+            'BorrowerContact' => $borrowerInfo->borContact,
+            'BorrowerEmail' => $borrowerInfo->borEmail,
+            'BorrowerAddress' => $borrowerInfo->borAddress,
+            
 
+            //Loan Details
+            'InterestRate' => $request->xInterest,
+            'loanAmount' => $request->xLoanAmount,
+            'LoanBalance' => $LoanBalance,
+            'loanStatus' => 'In Process',
+            'accountnumber' => $accountnumber,
+            'loanNumber' => $genId,
+
+            //Co-Maker Details
+            'Comaker' => $CmName,
+            'cmContact' => $cmContact,
+            'cmEmail' => $cmEmail,
+            'cmAddress' => $cmAddress,
+
+            'emailType' => 'LoanApply',
+        ];
+        // FacadesMail::to($coemail)->send(new CoMakerMail($sendCoMaker));
+        // FacadesMail::to($email)->send(new MailDemo($sendMailData));
+        
+// dd(  $sendCoMaker );
 
         activity()
         ->performedOn($loanInfo)
