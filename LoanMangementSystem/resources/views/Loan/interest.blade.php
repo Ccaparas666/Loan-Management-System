@@ -51,7 +51,7 @@
                                                     <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z" />       
                                                 </svg>
                                             <div id="{{'tooltip-default-'. $settings->lsid}}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-blue-700 rounded-lg shadow-sm opacity-0 tooltip dark:bg-blue-700">
-                                                Update Interest Rate
+                                                Update Interest Rate 
                                                 <div class="tooltip-arrow" data-popper-arrow></div>
                                             </div>
                                             </a>
