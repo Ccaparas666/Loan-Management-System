@@ -1,70 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Loan Management System - Borrower Report</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-        h1 {
-            color: #007BFF;
-            background-color: #f8f9fa;
-            padding: 20px;
-            text-align: center;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Summary</title>
 </head>
 <body>
-    <h1>{{ $title }}</h1>
-    <p>{{ $date }}</p>
-    <p>This report provides information about borrowers and their loan history.</p>
-  
-    @foreach($borrowers as $borrower)
-        <h2>Borrower Information</h2>
-       
+   <!-- Reports/myPDF.blade.php -->
 
-        <h2>Loan History</h2>
-        @if($borrower->loans->count() > 0)
-        <table style="width: 100%; table-layout: fixed;" class="table table-bordered">
+<!-- Use $borrowers instead of $borrower -->
+@foreach($borrowers as $borrower)
+    <p>{{ $borrower->borFname }} {{ $borrower->borLname }}</p>
+    <!-- Add your borrower information display here -->
+    <!-- Example: -->
+    <ul>
+        <li>Borrower's name: {{ $borrower->borFname }} {{ $borrower->borLname }}</li>
+        <li>Borrower's contact details: {{ $borrower->borContact }}</li>
+        <!-- Add more details as needed -->
+    </ul>
+
+    <!-- Display loans for this borrower -->
+    @foreach($borrower->loans as $loan)
+        <p>{{ $loan->loanNumber }} - Loan Amount: PHP {{ number_format($loan->LoanAmount, 2) }}</p>
+        <!-- Add your loan information display here -->
+        <!-- Example: -->
+        <ul>
+            <li>Loan Number: {{ $loan->loanNumber }}</li>
+            <li>Loan Amount: PHP {{ number_format($loan->LoanAmount, 2) }}</li>
+            <!-- Add more loan details as needed -->
+        </ul>
+
+        <!-- Display payments for this loan -->
+        @foreach($loan->payments as $payment)
+            <p>Payment - Remaining Balance: PHP {{ number_format($payment->Remaining_Balance, 2) }}</p>
+            <!-- Add your payment information display here -->
+            <!-- Example: -->
+            <ul>
+                <li>Remaining Balance: PHP {{ number_format($payment->Remaining_Balance, 2) }}</li>
+                <li>Due Date: {{ $payment->due_date }}</li>
+                <!-- Add more payment details as needed -->
+            </ul>
+        @endforeach
+    @endforeach
+@endforeach
+
+<table border="1">
     <thead>
-        <tr> 
-            <th style="width: 10%;">Loan Date</th>
-            <th style="width: 10%;">Name</th>
-            <th style="width: 15%;">Account No.</th>
-            <th style="width: 15%;">Loan No.</th>
-          
-            <th style="width: 15%;">Loan Amount</th>
+        <tr>
+            <th>Loan Number</th>
+            <th>Borrower Name</th>
+            <th>Remaining Balance</th>
+            <th>Next Due Date</th>
         </tr>
     </thead>
     <tbody>
-        @foreach($borrower->loans as $loan)
-            <tr>
-                <td>{{ $loan->lid }}</td>
-                <td>{{ $loan->loanNumber }}</td>
-                <td>PHP {{ number_format($loan->LoanAmount, 2) }}</td>
-                <td>{{ $loan->InterestRate }}%</td>
-                <td>{{ $loan->loanstatus }}</td>
-            </tr>
+        @foreach($borrowers as $borrower)
+            @foreach($borrower->loans as $loan)
+                @if($loan->loanstatus === 'active') <!-- Assuming 'active' is the status for an active loan -->
+                    <tr>
+                        <td>{{ $loan->loanNumber }}</td>
+                        <td>{{ $borrower->borFname }} {{ $borrower->borLname }}</td>
+                        <td>PHP {{ number_format(optional($loan->payments->last())->Remaining_Balance ?? 0, 2) }}</td>
+                        <td>{{ optional($loan->payments->last())->due_date ?? 'N/A' }}</td>
+                    </tr>
+                @endif
+            @endforeach
         @endforeach
     </tbody>
 </table>
 
-        @else
-            <p>No previous loans found for this borrower.</p>
-        @endif
+<!-- Table showing payment history for each loan -->
+<h2>Payment History</h2>
+
+@foreach($borrowers as $borrower)
+    @foreach($borrower->loans as $loan)
+        <h3>Loan Number: {{ $loan->loanNumber }}</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Payment Date</th>
+                    <th>Payment Amount</th>
+                    <th>Remaining Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($loan->payments as $payment)
+                    <tr>
+                        <td>{{ $payment->due_date }}</td>
+                        <td>PHP {{ number_format($payment->PaymentAmount, 2) }}</td>
+                        <td>PHP {{ number_format($payment->Remaining_Balance, 2) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endforeach
+@endforeach
+
+<!-- Reports/myPDF.blade.php -->
+
+<!-- Loan Summary -->
+<h2>Loan Summary</h2>
+
+<!-- Total Number of Loans -->
+<p>Total Number of Loans: {{ $borrowers->flatMap->loans->count() }}</p>
+
+<!-- Total Loan Balance -->
+<p>Total Loan Balance: PHP {{ number_format($borrowers->flatMap->loans->flatMap->payments->sum('Remaining_Balance'), 2) }}</p>
+
+<!-- Average Loan Amount -->
+<p>Average Loan Amount: PHP {{ number_format($borrowers->flatMap->loans->avg('LoanAmount'), 2) }}</p>
+
+<!-- Highest Loan Amount -->
+<p>Highest Loan Amount: PHP {{ number_format($borrowers->flatMap->loans->max('LoanAmount'), 2) }}</p>
+
+<!-- Lowest Loan Amount -->
+<p>Lowest Loan Amount: PHP {{ number_format($borrowers->flatMap->loans->min('LoanAmount'), 2) }}</p>
+
+<!-- Loan Status Breakdown -->
+<h3>Loan Status Breakdown</h3>
+<ul>
+    @foreach($borrowers->flatMap->loans->groupBy('loanstatus') as $status => $statusLoans)
+        <li>{{ $status }}: {{ $statusLoans->count() }} loans</li>
+    @endforeach
+</ul>
+
+
+    <h1>Important Dates:</h1>
+    <!-- Relevant dates go here -->
+
+    <h1>Graphs or Charts (optional):</h1>
+    <!-- Visualization goes here -->
+
+    <h1>Terms and Conditions:</h1>
+    <!-- Terms and conditions go here -->
+
+    <h1>Contact Information:</h1>
+    <!-- Contact information goes here -->
+
+    <footer>
+        <!-- Footer content goes here -->
+    </footer>
 </body>
 </html>

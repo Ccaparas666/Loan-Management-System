@@ -14,10 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        borrowerinfo::factory()
-            ->count(20)
-            ->hasPosts(1)
-            ->create();
+        // borrowerinfo::factory()
+        //     ->count(20)
+        //     ->hasPosts(1)
+        //     ->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

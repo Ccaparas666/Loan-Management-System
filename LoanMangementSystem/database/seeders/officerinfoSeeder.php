@@ -13,6 +13,6 @@ class officerinfoSeeder extends Seeder
     public function run(): void
     {
         //
-        \App\Models\officerInfo::factory(50)->create();
+        // \App\Models\officerInfo::factory(50)->create();
     }
 }
