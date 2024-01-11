@@ -667,6 +667,29 @@ public function RoutePayment(Request $request, $bno)
     public function store(Request $request, borrowerinfo $user)
     {
 
+        // $request->validate([
+        //     'xLoanAmount' => ['required', 'numeric', 'min:0.01', 'regex:/^\d+(\.\d{1,2})?$/'],
+        //     'xcFullname' => 'required',
+        //     'xcContact' => [
+        //         'required',
+        //         'string',
+        //         'regex:/^[0-9]{11}$/',
+        //         'starts_with:09',
+        //         Rule::unique('borrowerinfo', 'borContact'),
+        //         Rule::unique('loanInfo', 'cmContact'),
+        //         Rule::unique('officerInfo', 'offContact'),
+        //     ],
+            
+        //     'xcEmail' => [
+        //         Rule::unique('borrowerinfo', 'borEmail'),
+        //         Rule::unique('loanInfo', 'cmEmail'),
+        //         Rule::unique('users', 'email'),
+        //     ],
+        //     'xcAddress' => 'required',
+            
+        // ]);
+
+
         $request->validate([
             'xLoanAmount' => ['required', 'numeric', 'min:0.01', 'regex:/^\d+(\.\d{1,2})?$/'],
             'xcFullname' => 'required',
@@ -676,18 +699,21 @@ public function RoutePayment(Request $request, $bno)
                 'regex:/^[0-9]{11}$/',
                 'starts_with:09',
                 Rule::unique('borrowerinfo', 'borContact'),
-                Rule::unique('loanInfo', 'cmContact'),
                 Rule::unique('officerInfo', 'offContact'),
+                Rule::unique('loanInfo', 'cmContact')->where(function ($query) {
+                    return $query->where('loanstatus', '!=', 'PAID');
+                }),
             ],
-            
             'xcEmail' => [
                 Rule::unique('borrowerinfo', 'borEmail'),
-                Rule::unique('loanInfo', 'cmEmail'),
                 Rule::unique('users', 'email'),
+                Rule::unique('loanInfo', 'cmEmail')->where(function ($query) {
+                    return $query->where('loanstatus', '!=', 'PAID');
+                }),
             ],
             'xcAddress' => 'required',
-            
         ]);
+        
 
         
 
@@ -743,7 +769,7 @@ public function RoutePayment(Request $request, $bno)
             'InterestRate' => $request->xInterest,
             'loanAmount' => $request->xLoanAmount,
             'LoanBalance' => $LoanBalance,
-            'loanStatus' => 'In Process',
+            'loanStatus' => 'Processing',
             //Co-Maker Details
             'Comaker' => $CmName,
             'cmContact' => $cmContact,
@@ -765,7 +791,7 @@ public function RoutePayment(Request $request, $bno)
             'InterestRate' => $request->xInterest,
             'loanAmount' => $request->xLoanAmount,
             'LoanBalance' => $LoanBalance,
-            'loanStatus' => 'In Process',
+            'loanStatus' => 'Processing',
             'accountnumber' => $accountnumber,
             'loanNumber' => $genId,
 

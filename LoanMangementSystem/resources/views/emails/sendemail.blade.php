@@ -109,12 +109,8 @@
 
 <body>
     <div id="container" class="bg-light p-4">
-        <h1>Your Loan Application Status</h1>
-        <p>
-            Dear {{ $mailData['BorrowerName'] }},<br>
-            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
-        </p>
-        @if ($mailData['emailType'] === 'paymentDueReminder')
+        
+        <!-- @if ($mailData['emailType'] === 'paymentDueReminder')
         <h1>Loan Reminder</h1>
         <p>
             Dear {{ $mailData['BorrowerName'] }},<br>
@@ -171,8 +167,13 @@
             </tr>
         </table>
 
-        @endif
+        @endif -->
         @if ($mailData['emailType'] === 'PaymentReceipt')
+        <h1>Your Loan Payment Receipt</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
+        </p>
         <p>
             We acknowledge receipt of your recent payment for your loan with LendWise. Your timely payment is greatly
             appreciated!
@@ -255,7 +256,12 @@
             @endif
             @endif
 
-            @if ($mailData['loanStatus'] === 'In Process')
+            @if ($mailData['loanStatus'] === 'Processing')
+            <h1>Your Loan Application Status</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
+        </p>
 
             <p>
                 We are pleased to inform you that your loan application is currently in process. Our dedicated team is
@@ -315,6 +321,11 @@
 
             @endif
             @if ($mailData['loanStatus'] === 'Approved')
+            <h1>Your Loan Application Status</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
+        </p>
             <p>
                 Good news! Your loan application is approved. Visit our office at
                 <a href="https://maps.app.goo.gl/yp9kkhiKJQySbN49A" target="_blank"
@@ -375,12 +386,16 @@
 
             <p>
                 <strong>Due Date Reminder:</strong><br>
-                Your loan payment is scheduled to start on the cash release date. Please make sure to mark the due dates
-                on your calendar and ensure sufficient funds are available in your account.
+                Your loan payment is scheduled to start on the cash release date.
             </p>
 
             @endif
             @if ($mailData['loanStatus'] === 'Rejected')
+            <h1>Your Loan Application Status</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            
+        </p>
             <p style="margin-top: 20px;">
                 We regret to inform you that your loan application has been rejected. If you have any questions or need
                 further assistance, feel free to visit our office at:
@@ -408,7 +423,7 @@
                     <td><strong>Loan Amount:</strong></td>
                     <td>PHP {{ $mailData['loanAmount'] }}</td>
                 </tr>
-
+                <td><strong>Interest Rate:</strong></td>
                 <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
                 <tr>
                     <td><strong>Loan Status:</strong></td>
@@ -421,7 +436,11 @@
             </table>
             @endif
             @if ($mailData['emailType'] === 'PaymentReminder')
-
+            <h1>Loan Update Status</h1>
+        <p>
+            Dear {{ $mailData['BorrowerName'] }},<br>
+            We hope this email finds you well. Thank you for choosing LendWise for your financial needs.
+        </p>
             <p>
                 This is a friendly reminder about the latest update on your loan with LendWise.
             </p>
@@ -496,6 +515,79 @@
 
             @endif
 
+            @if ($mailData['emailType'] === 'paymentDueReminder')
+            <h1>Loan Payment Due Reminder</h1>
+            <p>
+                Dear {{ $mailData['BorrowerName'] }},
+            </p>
+            
+            <p>
+                We hope this email finds you well. We would like to remind you that your loan with LendWise is due soon, and we
+                appreciate your prompt attention to this matter.
+            </p>
+            
+            <p><strong>Here are some important details:</strong></p>
+            <table border="1">
+        <tr>
+            <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Loan Update Details:</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Borrower Name:</strong></td>
+            <td>{{ $mailData['BorrowerName'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Account Number:</strong></td>
+            <td>{{ $mailData['accountnumber'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Loan Number:</strong></td>
+            <td>{{ $mailData['loanNumber'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Loan Status:</strong></td>
+            <td class="{{ $mailData['loanstatus'] === 'Loan Active' ? 'loan-active-status' : ($mailData['loanstatus'] === 'PAID' ? 'paid-status' : '') }}">
+                {{ $mailData['loanstatus'] }}
+            </td>
+        </tr>
+        
+        <tr>
+            <td><strong>Interest Rate:</strong></td>
+            <td>{{ rtrim(rtrim(number_format($mailData['InterestRate'], 2), '0'), '.') }}%</td>
+        </tr>
+        <tr>
+            <td><strong>Loan Balance:</strong></td>
+            <td>PHP {{ $mailData['LoanBalance'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Due Date:</strong></td>
+            <td>{{ \Carbon\Carbon::parse($mailData['dueDate'])->format('M-d-Y') }}</td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="background-color: #0d71b4fd; color: #fff;"><strong>Co-Maker Details:</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Co-Maker:</strong></td>
+            <td>{{ $mailData['Comaker'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Co-Maker's Contact:</strong></td>
+            <td>{{ $mailData['cmContact'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Co-Maker's Email:</strong></td>
+            <td>{{ $mailData['cmEmail'] }}</td>
+        </tr>
+        <tr>
+            <td><strong>Co-Maker's Address:</strong></td>
+            <td>{{ $mailData['cmAddress'] }}</td>
+        </tr>
+    </table>
+    <p>
+        We kindly ask you to ensure that the payment is made by the due date to avoid any late fees or penalties.
+    </p>
+            @endif
+
             <p style="margin-top: 20px;">
                 If you have any questions or need further assistance, please visit our office at
                 <a href="https://maps.app.goo.gl/yp9kkhiKJQySbN49A" target="_blank"
@@ -503,6 +595,13 @@
                     Zone 8, Zayas Lourdes College
                 </a>.
             </p>
+            <p>
+                you can also reach us at:
+            </p>
+            
+            <p>
+            <strong>Phone:</strong> <a style="color: #007BFF; text-decoration: underline;">0912 234 5678</a>
+        </p>
     </div>
 </body>
 

@@ -41,6 +41,10 @@ class CoMakerMail extends Mailable
             case 'LoanUpdate':
                 $subject = 'Loan Update Reminder: Borrower Payment Due';
                 break;
+
+                case 'LoanRemind':
+                    $subject = 'Loan Due Date Soon Reminder';
+                    break;
             // Add more cases for other loan statuses as needed
 
             default:

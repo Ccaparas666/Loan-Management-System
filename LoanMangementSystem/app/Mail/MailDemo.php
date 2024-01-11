@@ -54,13 +54,17 @@ class MailDemo extends Mailable
                 $subject = 'Successful Payment: Your Loan is Now Paid Off';
                 break;
         
-            case 'In Process':
+            case 'Processing':
                 $subject = 'Your Loan Application is Under Review';
                 break;
 
             case 'PaymentReminder':
                 $subject = 'Payment Update Reminder';
                 break;
+
+                case 'paymentDueReminder':
+                    $subject = 'Payment Due Loan Reminder';
+                    break;
             // Add more cases for other loan statuses as needed
 
             default:

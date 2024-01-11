@@ -437,21 +437,21 @@
                         <div class="grid gap-6 mb-5 md:grid-cols-2 content-center">
                             <div class="flex flex-col">
                                 <label class="text-center mb-2 text-base font-bold text-green-400">NAME: </label>
-                                    <input type="text"  value="{{ optional($Loan->loans->first())->cmName }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
+                                    <input type="text"  value="{{ optional($Loan->loans->last())->cmName }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" readonly>
                             </div>
                             <div class="flex flex-col">
                                 <label class="text-center mb-2 text-base font-bold text-green-400">ADDRESS: </label>
-                                    <input type="text"  value="{{ optional($Loan->loans->first())->cmAddress }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                                    <input type="text"  value="{{ optional($Loan->loans->last())->cmAddress }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
                             </div>
                             
                             <div class="flex flex-col">
                                 <label class="text-center mb-2 text-base font-bold text-green-400">CONTACT NUMBER</label>
-                                    <input type="text" value="{{ optional($Loan->loans->first())->cmContact }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                                    <input type="text" value="{{ optional($Loan->loans->last())->cmContact }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
                             </div>
 
                             <div class="flex flex-col">
                                 <label class="text-center mb-2 text-base font-bold text-green-400">EMAIL ADDRESS</label>
-                                    <input type="text" value="{{ optional($Loan->loans->first())->cmEmail }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
+                                    <input type="text" value="{{ optional($Loan->loans->last())->cmEmail }}" class="font-bold text-center bg-gray-200 border border-blue-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5" required>
                             </div>
 
                         </div>

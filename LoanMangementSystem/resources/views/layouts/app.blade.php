@@ -8,6 +8,7 @@
         
         <title>Loan Management System</title>
         <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+       
         <!-- tablescript -->
         
         <!-- <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css"> -->

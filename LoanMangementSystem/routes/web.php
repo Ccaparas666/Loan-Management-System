@@ -27,7 +27,8 @@ Route::get('/', function () {
 });
 
 Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
-Route::get('/generate-report', [PDFController::class, 'generateReport']);
+Route::get('/generate-report', [PDFController::class, 'generateReport'])->name('generate-report');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
