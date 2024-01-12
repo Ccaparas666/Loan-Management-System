@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
-
+use App\Models\Transaction_History;
 
 class borrowerinfo extends Model
 {
@@ -58,6 +58,17 @@ class borrowerinfo extends Model
     {
         return $this->hasMany(LoanInfo::class, 'bno', 'bno');
     }
+
+    public function transactionHistories()
+{
+    return $this->hasMany(Transaction_History::class, 'borrower_id', 'bno');
+}
+
+
+public function calculateTotalPaymentAmount()
+{
+    return $this->loans->flatMap->payments->sum('PaymentAmount');
+}
 
     
 

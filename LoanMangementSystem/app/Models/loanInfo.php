@@ -58,4 +58,14 @@ public static function latestLoanForBorrower($bno)
         ->latest('created_at')
         ->first();
 }
+
+public function calculateBalance()
+{
+    if ($this->payments->isEmpty()) {
+        return $this->LoanAmount; // If no payments, return the original loan amount
+    }
+
+    // Calculate the balance based on payments
+    return $this->LoanAmount - $this->payments->sum('Remaining_Balance');
+}
 }

@@ -34,6 +34,8 @@
             
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900 dark:text-gray-100 ">
+                <form method="POST" action="{{ route('generate-report') }}" id="vedformid">
+                @csrf
                 <div>
                     <div date-rangepicker class="flex items-center">
                         <div class="relative">
@@ -44,7 +46,7 @@
                                         d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                 </svg>
                             </div>
-                            <input name="start" type="text"
+                            <input name="start" id="start" type="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Select date start">
                         </div>
@@ -57,13 +59,13 @@
                                         d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                 </svg>
                             </div>
-                            <input name="end" type="text"
+                            <input name="end" id="end" type="text"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Select date end">
                                 
                         </div>
                         <div>
-                        <a href="{{ route('generate-report') }}" type="button" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 ms-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Generate Report</a>
+                        <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 ms-5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Generate Report</button>
                         </div>
                     </div>
 
@@ -71,6 +73,7 @@
 
                     
                 </div>
+                </form>
 
                 <br>
                 <div >
@@ -246,7 +249,30 @@
                             });
                           
                         </script>
-                       
+                       <script>
+    $(document).ready(function () {
+        $('[date-rangepicker]').on('change', 'input[name="start"], input[name="end"]', function () {
+            var startDate = $('input[name="start"]').val();
+            var endDate = $('input[name="end"]').val();
+
+            // Make an AJAX request to the PDFController
+            $.ajax({
+                type: 'GET',
+                url: '/generate-report', // Adjust the URL if necessary
+                data: { start: startDate, end: endDate },
+                success: function (data) {
+                    // Handle the response from the controller (e.g., open the PDF)
+                    console.log(data);
+                    // Optionally, you can open the PDF in a new window or tab
+                    window.open('/generate-report', '_blank');
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    });
+</script>
                        
                     </div>
 

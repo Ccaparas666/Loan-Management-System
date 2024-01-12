@@ -27,7 +27,7 @@ Route::get('/', function () {
 });
 
 Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
-Route::get('/generate-report', [PDFController::class, 'generateReport'])->name('generate-report');
+Route::match(['get', 'post'], '/generate-report', [PDFController::class, 'generateReport'])->name('generate-report');
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -41,6 +41,10 @@ Route::get('/activity', [activityController::class, 'index'])
 Route::get('/Reports', [ReportsController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('activity.generateLoanReport'); 
+
+   Route::match(['get', 'post'], 'Loan-Pdf', [PDFController::class, 'FindDate'])
+->middleware(['auth', 'verified'])
+->name('Loan-PDF');
 
 
 
