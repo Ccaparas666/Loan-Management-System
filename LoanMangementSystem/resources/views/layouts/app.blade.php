@@ -25,6 +25,7 @@
         @vite(['resources/css/app.css','resources/js/app.js'])
        
         <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.css" rel="stylesheet" />
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script> -->
         <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
         <!-- date script -->
@@ -81,7 +82,7 @@
             </main>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.1.1/flowbite.min.js"></script>
+       
         
         <!-- Main modal -->
             <div id="crud-modal" tabindex="-1" aria-hidden="true"

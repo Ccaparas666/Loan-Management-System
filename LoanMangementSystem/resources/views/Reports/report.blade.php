@@ -5,51 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Summary</title>
     <style>
-         * { font-family: DejaVu Sans, sans-serif; }
-
-         body {
-           
-            font-size: 12px;
+        * {
+            font-family: DejaVu Sans, sans-serif;
+            
         }
-         
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
 
-    th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
-    }
+      
 
-    th {
-        background-color: #f2f2f2;
-    }
+        body {
+            font-size: 12px;
+            background-image: url('https://img.freepik.com/free-photo/blue-abstract-gradient-wave-wallpaper_53876-108364.jpg'); /* Replace with the path to your background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+           
+        }
 
-    tbody tr:nth-child(even) {
-        background-color: #f9f9f9; /* Light gray for even rows */
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    tbody tr:nth-child(odd) {
-        background-color: #ffffff; /* White for odd rows */
-    }
+        th,
+        td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
-    td strong {
-         /* Dark blue or any other color you choose */
-    font-weight: bold;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-td.total-cell {
-    background-color: rgba(200, 200, 200, 0.9); /* Slightly dark background color for total cells */
-   /* Text color for total cells on dark background */
-}
-</style>
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+            /* Light gray for even rows */
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #ffffff;
+            /* White for odd rows */
+        }
+
+        td strong {
+            /* Dark blue or any other color you choose */
+            font-weight: bold;
+        }
+
+        td.total-cell {
+            background-color: rgba(200, 200, 200, 0.9);
+            /* Slightly dark background color for total cells */
+            /* Text color for total cells on dark background */
+            color: #333;
+        }
+    </style>
 </head>
 <body>
 
-<h2>Borrowers Summary </h2>
+<h1 style="text-align: center; color: #3498db;">LendWise</h1>
+    <h2 style="text-align: center;">Borrowers Summary</h2>
 
 @foreach($borrowers as $index => $borrower)
     <h3>Name: {{ $borrower->borFname }} {{ $borrower->borLname }}</h3>
@@ -156,7 +171,7 @@ td.total-cell {
 
 
 
-<h2>Loan Breakdown Summary</h2>
+<h1 style="text-align: center; color: #3498db;">Loan Breakdown Summary</h1>
 
 <table border="1">
     <thead>
@@ -176,8 +191,8 @@ td.total-cell {
         <th>Total Balance</th>
         <th>Total Paid</th>
         <th>Total Loan Amount</th>
-        <th>Total Loan Register</th>
-        <th>Total Borrowers</th>
+        <th>Loan Registered</th>
+        <th>Borrower's</th>
     </tr>
 </thead>
 <tbody>
