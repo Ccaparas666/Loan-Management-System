@@ -351,3 +351,24 @@
 </body>
 </html>
 
+
+
+<h3>Payment History</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Payment Date</th>
+            <th>Paid Amount</th>
+            <th>Reference Number</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($borrower->loans as $loan)
+    
+        <tr>
+            <td>{{ $transactionHistory->PaymentDate ?? '' }}</td>
+            <td>Php {{ number_format($transactionHistory->PaymentAmount ?? 0, 2) }}</td>
+            <td>{{ $transactionHistory->ReferenceNumber ?? '' }}</td>
+        </tr>
+   
+@endforeach

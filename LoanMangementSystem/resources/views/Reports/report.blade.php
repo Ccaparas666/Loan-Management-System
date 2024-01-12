@@ -5,68 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loan Summary</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    th {
+        background-color: #f2f2f2;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Light gray for even rows */
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #ffffff; /* White for odd rows */
+    }
+</style>
 </head>
 <body>
 
-<h2>Loan Summary</h2>
+<h2>Borrowers Summary </h2>
 
-@foreach($borrowers as $borrower)
+@foreach($borrowers as $index => $borrower)
     <h3>Name: {{ $borrower->borFname }} {{ $borrower->borLname }}</h3>
     <p>Account No.: {{ $borrower->borAccount }}</p>
 
+    
+
     <table>
+    <thead>
+        <tr>
+            <th>Loan Date</th>
+            <th>Loan No.</th>
+            <th>Loan Amount</th>
+            <th>Remaining Balance</th>
+            <th>Loan Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($borrower->loans as $loan)
+            <tr>
+                <td>{{ $loan->LoanApplication }}</td>
+                <td>{{ $loan->loanNumber }}</td>
+                <td>Php {{ number_format($loan->LoanAmount, 2) }}</td>
+                <td>Php {{ number_format($loan->payments->sum('Remaining_Balance'), 2) }}</td>
+                <td>{{ $loan->loanstatus }}</td>
+            </tr>
+        @endforeach
+      
+          <!-- Total Row per Borrower -->
+          <tr>
+            <td colspan="2"><strong>Total</strong></td>
+            <td><strong>Php {{ number_format($borrower->loans->sum('LoanAmount'), 2) }}</strong></td>
+            <td><strong>Php {{ number_format($borrower->loans->flatMap->payments->sum('Remaining_Balance'), 2) }}</strong></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Payment History</h3>
+<table>
         <thead>
             <tr>
-                <th>Loan Date</th>
-                <th>Loan No.</th>
-                <th>Loan Amount</th>
-                <th>Balance</th>
-                <th>Payment</th>
+                <th>Payment Date</th>
+                <th>Paid Amount</th>
+                <th>Reference Number</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($borrower->loans as $loan)
+            @foreach ($borrower->transactionHistories as $transactionHistory)
                 <tr>
-                    <td>{{ $loan->LoanApplication }}</td>
-                    <td>{{ $loan->loanNumber }}</td>
-                    <td>Php {{ number_format($loan->LoanAmount, 2) }}</td>
-                    <td>Php {{ number_format($loan->payments->sum('Remaining_Balance'), 2) }}</td>
-                    <td>
-                        @foreach ($borrower->transactionHistories as $transactionHistory)
-                        <p>Php {{ $transactionHistory->PaymentAmount }}</p>
-                        @endforeach
-                    </td>
+                    <td>{{ $transactionHistory->PaymentDate ?? '' }}</td>
+                    <td>Php {{ number_format($transactionHistory->PaymentAmount ?? 0, 2) }}</td>
+                    <td>{{ $transactionHistory->ReferenceNumber ?? '' }}</td>
                 </tr>
             @endforeach
 
             <!-- Total Row -->
             <tr>
-                <td colspan="2"><strong>Total</strong></td>
-                <td><strong>Php {{ number_format($borrower->loans->sum('LoanAmount'), 2) }}</strong></td>
-                <td>Php {{ number_format($loan->payments->sum('Remaining_Balance'), 2) }}</td>
-                
-                <td><strong>@foreach ($loan->payments as $payment)
-        Php {{ number_format($payment->PaymentAmount, 2) }}
-    @endforeach</strong></td>
+                <td colspan="1"><strong>Total</strong></td>
+                <td><strong>Php {{ number_format($borrower->transactionHistories->sum('PaymentAmount') ?? 0, 2) }}</strong></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
+
+
+@if ($index < count($borrowers) - 1)
+        <hr style="margin: 20px 0; border: 1px solid #00f;">
+    @endif
+    
 @endforeach
 
 <!-- All Total -->
@@ -75,24 +111,40 @@
 <table>
     <thead>
         <tr>
-            <th colspan="2">Date Range</th>
+            <th colspan="">Date Range</th>
             <th>Total Amount</th>
             <th>Total Balance</th>
-            <th>Total Payment</th>
+            <th>Total Loan Applied</th>
+           
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td colspan="2">{{ $borrowers->min('loans.0.LoanApplication') }} - {{ $borrowers->max('loans.0.LoanApplication') }}</td>
+            <td colspan="">2024-01-01 - 2024-01-14</td>
             <td>Php {{ number_format($borrowers->flatMap->loans->sum('LoanAmount'), 2) }}</td>
-            
             <td>Php {{ number_format($borrowers->flatMap->loans->flatMap->payments->sum('Remaining_Balance'), 2) }}</td>
-            <!-- <td>P {{ number_format($loan->calculateBalance(), 2) }}</td> -->
-                        <td>Php 0</td>
-
+            <td>{{$totalLoanApplied}}</td>
+            
         </tr>
     </tbody>
 </table>
+<div style="page-break-before:always">&nbsp;</div> 
+<!-- // how to page make this second page -->
+<h2>Loan Summary </h2>
+
+<table>
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody>
 
 </body>
 </html>

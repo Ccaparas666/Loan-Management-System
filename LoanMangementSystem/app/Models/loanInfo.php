@@ -68,4 +68,9 @@ public function calculateBalance()
     // Calculate the balance based on payments
     return $this->LoanAmount - $this->payments->sum('Remaining_Balance');
 }
+
+public function transactionHistories()
+{
+    return $this->hasMany(Transaction_History::class, 'loan_id', 'lid');
+}
 }
