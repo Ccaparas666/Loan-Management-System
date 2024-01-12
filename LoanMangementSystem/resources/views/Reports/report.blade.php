@@ -104,14 +104,15 @@
     @endif
     
 @endforeach
-
+<hr style="margin: 20px 0; border: 1px solid #00f;">
 <!-- All Total -->
-<h3>All Total</h3>
+<h3>Total Break Down</h3>
 
 <table>
     <thead>
         <tr>
             <th colspan="">Date Range</th>
+            <th>Total Paid Amount</th>
             <th>Total Amount</th>
             <th>Total Balance</th>
             <th>Total Loan Applied</th>
@@ -120,7 +121,11 @@
     </thead>
     <tbody>
         <tr>
-            <td colspan="">2024-01-01 - 2024-01-14</td>
+        @php
+    list($startDate, $endDate) = explode(' - ', $dateRange);
+@endphp
+            <td colspan="">{{ \Carbon\Carbon::parse($startDate)->format('M/d/Y') }} - {{ \Carbon\Carbon::parse($endDate)->format('M/d/Y') }}</td>
+            <td>Php {{ number_format($totalPaid, 2) }}</td>
             <td>Php {{ number_format($borrowers->flatMap->loans->sum('LoanAmount'), 2) }}</td>
             <td>Php {{ number_format($borrowers->flatMap->loans->flatMap->payments->sum('Remaining_Balance'), 2) }}</td>
             <td>{{$totalLoanApplied}}</td>
@@ -130,21 +135,49 @@
 </table>
 <div style="page-break-before:always">&nbsp;</div> 
 <!-- // how to page make this second page -->
-<h2>Loan Summary </h2>
+
+
+
+
+<h2>Loan Breakdown Summary</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            
+        </tr>
+    </thead>
+    <tbody>
+       
+    </tbody>
+</table>
 
 <table>
-        <thead>
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-           
-        </tbody>
+<thead>
+    <tr>
+        <th>Monthly</th>
+        <th>Total Balance</th>
+        <th>Total Paid</th>
+        <th>Total Loan Amount</th>
+        <th>Total Loan Register</th>
+    </tr>
+</thead>
+<tbody>
+    @foreach($selectedMonths as $month)
+        <tr>
+            <td>{{ $month }}</td>
+            <td>{{ $monthlyData[$month]['totalBalance'] ?? 0 }}</td>
+            <td>{{ $monthlyData[$month]['totalPaid'] ?? 0 }}</td>
+            <td>{{ $monthlyData[$month]['totalLoanAmount'] ?? 0 }}</td>
+            <td>{{ $monthlyData[$month]['totalLoanApplied'] ?? 0 }}</td>
+        </tr>
+    @endforeach
+</tbody>
 
+</table>
+
+
+
+</table>
 </body>
 </html>

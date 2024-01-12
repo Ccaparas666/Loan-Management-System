@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\User;
 use App\Models\BorrowerInfo;
+use App\Helpers\Helper;
 
 use App\Models\PaymentInfo;
+use Carbon\CarbonPeriod;
 use Carbon\Carbon;
 use PDF;
 
@@ -39,7 +41,17 @@ class PDFController extends Controller
 
         return $pdf->stream('summary_report.pdf');
     }
-
+    public function generateMonthRange($startDate, $endDate)
+    {
+        $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+    
+        $months = [];
+        foreach ($period as $date) {
+            $months[] = $date->format('M Y');
+        }
+    
+        return $months;
+    }
 
     public function generateReport(Request $request)
 {
@@ -50,8 +62,18 @@ class PDFController extends Controller
 // dd($startDate);
     // $borrowers = BorrowerInfo::with(['loans', 'loans.payments'])->get();
 
+    $approvedPayments = loanInfo::where('loanstatus', 'Approved')->get();
+    $pendingApprovalPayments = loanInfo::where('loanstatus', 'Waiting For Approval')->get();
+    // Add similar queries for other statuses
+
+    $approvedCount = $approvedPayments->count();
+    $pendingApprovalCount = $pendingApprovalPayments->count();
+
+
     $startDate = Carbon::createFromFormat('m/d/Y', $request->input('start'))->format('Y-m-d');
 $endDate = Carbon::createFromFormat('m/d/Y', $request->input('end'))->format('Y-m-d');
+
+$dateRange =  $startDate . ' - ' . $endDate;
 
 $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistories'])
     ->whereHas('loans', function ($query) use ($startDate, $endDate) {
@@ -69,7 +91,9 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
 
     if ($borrowers->isEmpty()) {
         // dd('no data');
-        dd($startDate, $endDate);
+
+        return back()->with('error', 'Date Range Not Found');
+        
     }
 
 //     dd ($borrowers);
@@ -81,14 +105,22 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
     $totalBalance = 0;
     $totalPayment = 0;
     $totalLoanApplied = 0;
+    $totalPaid = 0;
     
     foreach ($borrowers as $borrower) {
+        foreach ($borrower->transactionHistories as $transactionHistory) {
+            $totalPaid += $transactionHistory->PaymentAmount;
+        }
         foreach ($borrower->loans as $loan) {
             $totalRecords++;
             $totalLoanAmount += $loan->LoanAmount;
             $totalBalance += $loan->Remaining_Balance;
             // Assuming you have a payment attribute in your loan model
             $totalPayment += $loan->payment;
+             // Assuming you have a relationship with TransactionHistory
+        
+           
+        
             $totalLoanApplied++;
         }
     }
@@ -96,16 +128,119 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
 
     $totalRecords = count($borrowers->flatMap->loans);
 
+   
+
+
+
+    // $yearlyData = [];
+    // foreach ($borrowers as $borrower) {
+    //     foreach ($borrower->transactionHistories as $transactionHistory) {
+    //         $year = Carbon::createFromFormat('Y-m-d H:i:s', $transactionHistory->PaymentDate)->format('Y');
+
+    //         if (!isset($yearlyData[$year])) {
+    //             $yearlyData[$year] = [
+    //                 'totalPaid' => 0,
+    //                 'totalRecords' => 0,
+    //                 'totalLoanAmount' => 0,
+    //                 'totalBalance' => 0,
+    //                 'totalPayment' => 0,
+    //                 'totalLoanApplied' => 0,
+    //             ];
+    //         }
+    //         $yearlyData[$year]['totalPaid'] += $transactionHistory->PaymentAmount;
+    //     }
+
+    //     foreach ($borrower->loans as $loan) {
+    //         $carbonDate = Carbon::createFromFormat('Y-m-d', $loan->LoanApplication);
+    //         $year = $carbonDate->format('Y');
+    //         if (!isset($yearlyData[$year])) {
+    //             $yearlyData[$year] = [
+    //                 'totalPaid' => 0,
+    //                 'totalRecords' => 0,
+    //                 'totalLoanAmount' => 0,
+    //                 'totalBalance' => 0,
+    //                 'totalPayment' => 0,
+    //                 'totalLoanApplied' => 0,
+    //             ];
+    //         }
+    //         $yearlyData[$year]['totalRecords']++;
+    //         $yearlyData[$year]['totalLoanAmount'] += $loan->LoanAmount;
+    //         $yearlyData[$year]['totalBalance'] += $loan->Remaining_Balance;
+    //         $yearlyData[$year]['totalPayment'] += $loan->payment;
+    //         $yearlyData[$year]['totalLoanApplied']++;
+    //     }
+    // }
+  
+
+    $monthlyData = [];
+
+foreach ($borrowers as $borrower) {
+    foreach ($borrower->transactionHistories as $transactionHistory) {
+        $paymentDate = Carbon::createFromFormat('Y-m-d H:i:s', $transactionHistory->PaymentDate);
+
+        // Check if payment date is within the specified range
+        if ($paymentDate->between($startDate, $endDate)) {
+            $monthYear = $paymentDate->format('M Y');
+
+            if (!isset($monthlyData[$monthYear])) {
+                $monthlyData[$monthYear] = [
+                    'totalPaid' => 0,
+                    'totalRecords' => 0,
+                    'totalLoanAmount' => 0,
+                    'totalBalance' => 0,
+                    'totalPayment' => 0,
+                    'totalLoanApplied' => 0,
+                ];
+            }
+            $monthlyData[$monthYear]['totalPaid'] += $transactionHistory->PaymentAmount;
+        }
+    }
+
+    foreach ($borrower->loans as $loan) {
+        $loanApplicationDate = Carbon::createFromFormat('Y-m-d', $loan->LoanApplication);
+
+        // Check if loan application date is within the specified range
+        if ($loanApplicationDate->between($startDate, $endDate)) {
+            $monthYear = $loanApplicationDate->format('M Y');
+
+            if (!isset($monthlyData[$monthYear])) {
+                $monthlyData[$monthYear] = [
+                    'totalPaid' => 0,
+                    'totalRecords' => 0,
+                    'totalLoanAmount' => 0,
+                    'totalBalance' => 0,
+                    'totalPayment' => 0,
+                    'totalLoanApplied' => 0,
+                ];
+            }
+            $monthlyData[$monthYear]['totalRecords']++;
+            $monthlyData[$monthYear]['totalLoanAmount'] += $loan->LoanAmount;
+            $monthlyData[$monthYear]['totalBalance'] += $loan->Remaining_Balance;
+            $monthlyData[$monthYear]['totalPayment'] += $loan->payment;
+            $monthlyData[$monthYear]['totalLoanApplied']++;
+        }
+    }
+}
+    // Your existing code...
+    $selectedMonths = Helper::generateMonthRange($startDate, $endDate);
+
     $data = [
         'title' => 'Summary Report',
         'date' => now(),
         'borrowers' => $borrowers,
-       
+        'totalPaid' => $totalPaid,
         'totalRecords' => $totalRecords,
         'totalLoanAmount' => $totalLoanAmount,
         'totalBalance' => $totalBalance,
         'totalPayment' => $totalPayment,
         'totalLoanApplied' => $totalLoanApplied,
+        'approvedPayments' =>  $approvedPayments,
+        'pendingApprovalPayments' => $pendingApprovalPayments,
+        'approvedCount' => $approvedCount,
+        'pendingApprovalCount' => $pendingApprovalCount,
+        'dateRange' => $dateRange,
+        'monthlyData' => $monthlyData,
+        'selectedMonths' => $selectedMonths, 
     ];
     
     
@@ -115,6 +250,8 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
 
     return $pdf->stream('summary_report.pdf');
 }
+
+
 
 
 public function generateReport1(Request $request)

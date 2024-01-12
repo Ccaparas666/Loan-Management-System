@@ -31,7 +31,16 @@
                         </a>
                     </div>
                 </div>
-            
+                @if(session()->has('error'))
+                            <script>
+                                Swal.fire({
+                                icon: "error",
+                                title: "There is No Record Between The Range Date",
+                                text: "{{session('error')}}",
+
+                                });
+                            </script>
+                            @endif
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-black-900 dark:text-gray-100 ">
                 <form method="POST" action="{{ route('generate-report') }}" id="vedformid">

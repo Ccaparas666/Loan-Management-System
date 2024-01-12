@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Helpers;
-
+use Carbon\CarbonPeriod;
 class Helper
 {
     public static function generateUniqueReference() {
@@ -69,7 +69,21 @@ class Helper
         }
         return $prefix.'-'.$zeros.$last_number;
     }
+
+    public static function generateMonthRange($startDate, $endDate)
+    {
+        $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+
+        $months = [];
+        foreach ($period as $date) {
+            $months[] = $date->format('M Y');
+        }
+
+        return $months;
+    }
+   
   
 }
+
 
 ?>
