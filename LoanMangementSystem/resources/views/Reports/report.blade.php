@@ -160,6 +160,7 @@
         <th>Total Paid</th>
         <th>Total Loan Amount</th>
         <th>Total Loan Register</th>
+        <th>Total Borrowers</th>
     </tr>
 </thead>
 <tbody>
@@ -170,6 +171,7 @@
             <td>{{ $monthlyData[$month]['totalPaid'] ?? 0 }}</td>
             <td>{{ $monthlyData[$month]['totalLoanAmount'] ?? 0 }}</td>
             <td>{{ $monthlyData[$month]['totalLoanApplied'] ?? 0 }}</td>
+            <td>{{ $monthlyData[$month]['totalBorrower'] ?? 0 }}</td>
         </tr>
     @endforeach
 </tbody>

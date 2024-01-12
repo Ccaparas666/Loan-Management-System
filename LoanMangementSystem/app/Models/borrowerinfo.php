@@ -63,7 +63,10 @@ class borrowerinfo extends Model
 {
     return $this->hasMany(Transaction_History::class, 'borrower_id', 'bno');
 }
-
+public function paymentInfos()
+{
+    return $this->hasMany(PaymentInfo::class);
+}
 
 public function calculateTotalPaymentAmount()
 {

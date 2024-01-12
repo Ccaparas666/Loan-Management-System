@@ -106,6 +106,7 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
     $totalPayment = 0;
     $totalLoanApplied = 0;
     $totalPaid = 0;
+    $totalBorrower = 0;
     
     foreach ($borrowers as $borrower) {
         foreach ($borrower->transactionHistories as $transactionHistory) {
@@ -122,54 +123,14 @@ $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistorie
            
         
             $totalLoanApplied++;
+            $totalBorrower++;
         }
     }
     
 
     $totalRecords = count($borrowers->flatMap->loans);
 
-   
 
-
-
-    // $yearlyData = [];
-    // foreach ($borrowers as $borrower) {
-    //     foreach ($borrower->transactionHistories as $transactionHistory) {
-    //         $year = Carbon::createFromFormat('Y-m-d H:i:s', $transactionHistory->PaymentDate)->format('Y');
-
-    //         if (!isset($yearlyData[$year])) {
-    //             $yearlyData[$year] = [
-    //                 'totalPaid' => 0,
-    //                 'totalRecords' => 0,
-    //                 'totalLoanAmount' => 0,
-    //                 'totalBalance' => 0,
-    //                 'totalPayment' => 0,
-    //                 'totalLoanApplied' => 0,
-    //             ];
-    //         }
-    //         $yearlyData[$year]['totalPaid'] += $transactionHistory->PaymentAmount;
-    //     }
-
-    //     foreach ($borrower->loans as $loan) {
-    //         $carbonDate = Carbon::createFromFormat('Y-m-d', $loan->LoanApplication);
-    //         $year = $carbonDate->format('Y');
-    //         if (!isset($yearlyData[$year])) {
-    //             $yearlyData[$year] = [
-    //                 'totalPaid' => 0,
-    //                 'totalRecords' => 0,
-    //                 'totalLoanAmount' => 0,
-    //                 'totalBalance' => 0,
-    //                 'totalPayment' => 0,
-    //                 'totalLoanApplied' => 0,
-    //             ];
-    //         }
-    //         $yearlyData[$year]['totalRecords']++;
-    //         $yearlyData[$year]['totalLoanAmount'] += $loan->LoanAmount;
-    //         $yearlyData[$year]['totalBalance'] += $loan->Remaining_Balance;
-    //         $yearlyData[$year]['totalPayment'] += $loan->payment;
-    //         $yearlyData[$year]['totalLoanApplied']++;
-    //     }
-    // }
   
 
     $monthlyData = [];
@@ -190,6 +151,7 @@ foreach ($borrowers as $borrower) {
                     'totalBalance' => 0,
                     'totalPayment' => 0,
                     'totalLoanApplied' => 0,
+                    'totalBorrower' => 0,
                 ];
             }
             $monthlyData[$monthYear]['totalPaid'] += $transactionHistory->PaymentAmount;
@@ -205,19 +167,27 @@ foreach ($borrowers as $borrower) {
 
             if (!isset($monthlyData[$monthYear])) {
                 $monthlyData[$monthYear] = [
+                    
                     'totalPaid' => 0,
                     'totalRecords' => 0,
                     'totalLoanAmount' => 0,
                     'totalBalance' => 0,
                     'totalPayment' => 0,
                     'totalLoanApplied' => 0,
+                    'totalBorrower' => 0,
                 ];
             }
+           
             $monthlyData[$monthYear]['totalRecords']++;
             $monthlyData[$monthYear]['totalLoanAmount'] += $loan->LoanAmount;
-            $monthlyData[$monthYear]['totalBalance'] += $loan->Remaining_Balance;
+            foreach ($loan->payments as $payment) {
+                $monthlyData[$monthYear]['totalBalance'] += $payment->Remaining_Balance;
+            }
+            
             $monthlyData[$monthYear]['totalPayment'] += $loan->payment;
             $monthlyData[$monthYear]['totalLoanApplied']++;
+            $monthlyData[$monthYear]['totalBorrower']++;
+          
         }
     }
 }
@@ -234,6 +204,7 @@ foreach ($borrowers as $borrower) {
         'totalBalance' => $totalBalance,
         'totalPayment' => $totalPayment,
         'totalLoanApplied' => $totalLoanApplied,
+        'totalBorrower' => $totalBorrower,
         'approvedPayments' =>  $approvedPayments,
         'pendingApprovalPayments' => $pendingApprovalPayments,
         'approvedCount' => $approvedCount,
