@@ -145,7 +145,7 @@
                                         <td class="px-6 py-4 text-blue-500 font-semibold dark:text-blue ">{{ $loan->borrowerinfo->loanstatus }}</td>
                                         <td class="px-6 py-4">
                                         
-                                            
+                                        @if (auth()->user()->is_admin)
                                                 <a data-tooltip-target="{{'tooltip-default-'. $loan->lid}}"
                                                     class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
                                                     href="{{route('loan-Approve', ['lno' => $loan->lid]) }}">
@@ -173,6 +173,7 @@
                                                         <div class="tooltip-arrow" data-popper-arrow></div>
                                                     </div>
                                                 </button>
+                                                @endif
                                                 <a data-tooltip-target="{{'tooltip-default-'. $loan->loanNumber}}"
                                                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700"
                                                     href= "{{route('loan-edit', ['lno' => $loan->lid]) }}">

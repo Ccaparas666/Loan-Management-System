@@ -14,12 +14,12 @@ class AdminMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role): Response
+    public function handle(Request $request, Closure $next)
     {
-        if(Auth::check() && Auth::user->is_admin == $role){
+        if (auth()->check() && auth()->user()->is_admin) {
             return $next($request);
         }
-        return response()->json(["You don`t have permission to access this page"]);
-       
+
+        abort(403, 'Unauthorized action.');
     }
 }

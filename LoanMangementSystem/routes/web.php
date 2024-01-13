@@ -25,26 +25,51 @@ use App\Http\Controllers\PDFController;
 Route::get('/', function () {
     return view('auth/login');
 });
+Route::middleware(['auth', 'verified','admin'])->group(function () {
+    //logs
+    Route::get('/activity', [activityController::class, 'index'])->name('activity');
+    // LoanInfo Table
+    Route::get('/Loan/newloan/{lno}', [loanInfoController::class, 'StatusApprove'])->name('loan-Approve');
+    Route::match(['get', 'post'], '/generate-report', [PDFController::class, 'generateReport'])->name('generate-report');
+    Route::match(['get', 'post'], 'Loan-Pdf', [PDFController::class, 'FindDate'])->name('Loan-PDF');
+    //
+
+    // LOAN OFFICER SETTINGS
+    Route::get('/Officer', [officerInfoController::class, 'index'])->name('officer');
+    Route::get('/Officer/create', function () {return view('Officer.create');})->name('add-officer');
+    Route::post('/Officer/create', [officerInfoController::class, 'store'])->name('Officer-store');
+    Route::get('/Officer/edit/{ofno}', [officerInfoController::class, 'edit'])->name('officer-edit');
+    Route::patch('/Officer/update/{ofno}', [officerInfoController::class, 'update'])->name('officer-update');
+    Route::delete('/Officer/delete/{ofno}', [officerInfoController::class, 'destroy'])->name('officer-delete');
+
+    //Interest Settings
+    Route::get('/Interest', [loansettingsController::class, 'interestdisplay'])->name('interest');
+    Route::delete('/Interest/delete/{int}', [loansettingsController::class, 'destroy'])->name('interest-delete');
+    Route::get('/Interest/Update/{int}', [loansettingsController::class, 'update'])->name('update-interest'); 
+    Route::get('/Loan/interest', [loansettingsController::class, 'Interest'])->name('add-interest');
+
+    //Loan
+    Route::delete('/loan/delete/{delete}', [loanInfoController::class, 'destroy'])->name('loan-delete');
+    Route::post('/Loan/newloan/reject/{lno}', [loanInfoController::class, 'StatusReject'])->name('loan-Reject');
+
+});
+
 
 Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
-Route::match(['get', 'post'], '/generate-report', [PDFController::class, 'generateReport'])->name('generate-report');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::get('/activity', [activityController::class, 'index'])
-->middleware(['auth', 'verified'])
-->name('activity');
+
 
 Route::get('/Reports', [ReportsController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('activity.generateLoanReport'); 
 
-   Route::match(['get', 'post'], 'Loan-Pdf', [PDFController::class, 'FindDate'])
-->middleware(['auth', 'verified'])
-->name('Loan-PDF');
+   
 
 
 
@@ -78,31 +103,7 @@ Route::patch('/borrower/update/{brno}', [borrowerInfoController::class, 'update'
 
 
 
-// LOAN OFFICER SETTINGS
 
-Route::get('/Officer', [officerInfoController::class, 'index'])
-->middleware(['auth', 'verified'])
-->name('officer');
-
-Route::get('/Officer/create', function () {
-    return view('Officer.create');
-})->middleware(['auth', 'verified'])->name('add-officer');
-
-Route::post('/Officer/create', [officerInfoController::class, 'store'])
-->middleware(['auth', 'verified'])
-->name('Officer-store');
-
-Route::get('/Officer/edit/{ofno}', [officerInfoController::class, 'edit'])
-->middleware(['auth', 'verified'])
-->name('officer-edit');
-
-Route::patch('/Officer/update/{ofno}', [officerInfoController::class, 'update'])
-   ->middleware(['auth', 'verified'])
-   ->name('officer-update');
-
-   Route::delete('/Officer/delete/{ofno}', [officerInfoController::class, 'destroy'])
-   ->middleware(['auth', 'verified'])
-   ->name('officer-delete');
 // LOAN
 Route::get('/Loan/match/{brno}', [loanInfoController::class, 'search'])
     ->middleware(['auth', 'verified'])
@@ -130,19 +131,6 @@ Route::get('/Loan/create', [loanInfoController::class, 'getBorrowerInfo'])
 ->name('add-Loan');
 
 
-Route::get('/Interest', [loansettingsController::class, 'interestdisplay'])
-->middleware(['auth', 'verified'])
-->name('interest');
-
-Route::delete('/Interest/delete/{int}', [loansettingsController::class, 'destroy'])
-   ->middleware(['auth', 'verified'])
-   ->name('interest-delete');
-   
-Route::get('/Interest/Update/{int}', [loansettingsController::class, 'update'])
-   ->middleware(['auth', 'verified'])
-   ->name('update-interest'); 
-
-
 /////////////////
 Route::get('/Loan/edit/{lno}', [loanInfoController::class, 'edit'])
 ->middleware(['auth', 'verified'])
@@ -157,17 +145,11 @@ Route::get('/Loan/newloan', [loanInfoController::class, 'newloan'])
 ->middleware(['auth', 'verified'])
 ->name('new-loan');
 
-Route::delete('/loan/delete/{delete}', [loanInfoController::class, 'destroy'])
-   ->middleware(['auth', 'verified'])
-   ->name('loan-delete');
 
-Route::get('/Loan/newloan/{lno}', [loanInfoController::class, 'StatusApprove'])
-->middleware(['auth', 'verified'])
-->name('loan-Approve');
 
-Route::post('/Loan/newloan/reject/{lno}', [loanInfoController::class, 'StatusReject'])
-->middleware(['auth', 'verified'])
-->name('loan-Reject');
+
+
+
 
 Route::get('/Loan/rejected', [loanInfoController::class, 'rejected'])
 ->middleware(['auth', 'verified'])
@@ -186,11 +168,6 @@ Route::get('/Loan/List', [loanInfoController::class, 'paid'])
 ->middleware(['auth', 'verified'])
 ->name('paid-loan');
 
-Route::get('/Loan/interest', [loansettingsController::class, 'Interest'])
-->middleware(['auth', 'verified'])
-->name('add-interest');
-
-
 Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
 ->middleware(['auth', 'verified'])
 ->name('payment');
@@ -198,8 +175,6 @@ Route::get('/Loan/payment', [loanInfoController::class, 'payment'])
 Route::match(['get', 'post'], '/Loan/payment/search', [loanInfoController::class, 'loanSearch'])
     ->middleware(['auth', 'verified'])
     ->name('loan-search');
-
-
 
 ////////// payment
 Route::match(['get', 'post'], '/Loan/payment/{bno}', [loanInfoController::class, 'RoutePayment'])

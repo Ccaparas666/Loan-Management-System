@@ -86,7 +86,7 @@
                                         <td class="px-6 py-4">{{ $OffInfo->offDob }}</td>
                                         <td class="px-6 py-4">{{ $OffInfo->offGender }}</td>
                                         <td class="px-6 py-4 flex justify-center">
-                                            <a data-tooltip-target="{{'tooltip-default1-'. $OffInfo->offId}}"  class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-green-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-700" href="#"> 
+                                            <!-- <a data-tooltip-target="{{'tooltip-default1-'. $OffInfo->offId}}"  class="approved text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-green-700 dark:hover:bg-green-800 focus:outline-none dark:focus:ring-green-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-700" href="#"> 
                                             <svg class="w-[19px] h-[19px] text-gray-50 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                                             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                             <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
@@ -97,7 +97,7 @@
                                                 View Account Details
                                                 <div class="tooltip-arrow" data-popper-arrow></div>
                                             </div>
-                                            </a>
+                                            </a> -->
 
                                             <a data-tooltip-target="{{'tooltip-default3-'. $OffInfo->offId}}"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm  px-3 py-2 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700" href="{{route('officer-edit', ['ofno' => $OffInfo->ono]) }}">
                                                 <svg class="w-[18px] h-[18px] text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
