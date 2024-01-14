@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\loanInfo;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Models\BorrowerInfo;
 use App\Helpers\Helper;
+use App\Models\Transaction_History;
 
 use App\Models\PaymentInfo;
 use Carbon\CarbonPeriod;
@@ -53,174 +55,243 @@ class PDFController extends Controller
         return $months;
     }
 
+    // public function generateReport(Request $request)
+    // {
+    //     $startDate = Carbon::createFromFormat('m/d/Y', $request->input('start'))->format('Y-m-d');
+    //     $endDate = Carbon::createFromFormat('m/d/Y', $request->input('end'))->format('Y-m-d');
+    
+    //     $dateRange =  $startDate . ' - ' . $endDate;
+    
+    //     $monthlyData = [];
+        
+    //     // Fetch payments with remaining balance within the specified date range
+    //     $payments = PaymentInfo::with('loan')  // Eager load the related loan
+    //         ->whereBetween('created_at', [$startDate, $endDate])  // Assuming created_at is the timestamp for payment
+    //         ->get();
+    
+    //     // Fetch transaction histories with payment amount within the specified date range
+    //     $transactionHistories = Transaction_History::whereBetween('PaymentDate', [$startDate, $endDate])->get();
+    
+    //     // Fetch loans with loan amount within the specified date range
+    //     $loans = LoanInfo::whereBetween('cash_release_date', [$startDate, $endDate])->get();
+    
+    //     // Fetch loans with loan status 'Loan Active' and 'Paid' within the specified date range
+    //     $approvedLoans = LoanInfo::where('loanstatus', 'Loan Active')
+    //         ->orWhere('loanstatus', 'Paid')
+    //         ->whereBetween('cash_release_date', [$startDate, $endDate])
+    //         ->get();
+    
+    //     $totalBalance = $payments->sum('Remaining_Balance');
+    //     $totalPaid = $transactionHistories->sum('PaymentAmount');
+    //     $totalLoanAmount = $loans->sum('LoanAmount');
+    //     $loanRegistered = $approvedLoans->count();
+    //     $borrowers = BorrowerInfo::count(); // Assuming you have a BorrowerInfo model
+    
+    //     // Calculate the data for each month
+    //     $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+        
+    //     foreach ($period as $date) {
+    //         $monthYear = $date->format('M Y');
+    
+    //         $monthlyData[$monthYear] = [
+    //             'totalBalance' => 0,
+    //             'totalPaid' => 0,
+    //             'totalLoanAmount' => 0,
+    //             'loanRegistered' => 0,
+    //             'borrowers' => 0,
+    //         ];
+    
+    //         // Calculate total balance for the month
+    //         $monthlyData[$monthYear]['totalBalance'] = $payments
+    //             ->where('created_at', '>=', $date->startOfMonth())
+    //             ->where('created_at', '<=', $date->endOfMonth())
+    //             ->sum('Remaining_Balance');
+    
+    //         // Calculate total paid for the month
+    //         $monthlyData[$monthYear]['totalPaid'] = $transactionHistories
+    //             ->where('PaymentDate', '>=', $date->startOfMonth())
+    //             ->where('PaymentDate', '<=', $date->endOfMonth())
+    //             ->sum('PaymentAmount');
+    
+    //         // Calculate total loan amount for the month
+    //         $monthlyData[$monthYear]['totalLoanAmount'] = $loans
+    //             ->where('cash_release_date', '>=', $date->startOfMonth())
+    //             ->where('cash_release_date', '<=', $date->endOfMonth())
+    //             ->sum('LoanAmount');
+    
+    //         // Calculate loan registered for the month
+    //         $monthlyData[$monthYear]['loanRegistered'] = $approvedLoans
+    //             ->where('cash_release_date', '>=', $date->startOfMonth())
+    //             ->where('cash_release_date', '<=', $date->endOfMonth())
+    //             ->count();
+    
+    //         // Set total borrowers (assuming it's the same for all months)
+    //         $monthlyData[$monthYear]['borrowers'] = $borrowers;
+    //     }
+    
+    //     // Calculate totals for all months
+    //     $totalBalanceAll = collect($monthlyData)->sum('totalBalance');
+    //     $totalPaidAll = collect($monthlyData)->sum('totalPaid');
+    //     $totalLoanAmountAll = collect($monthlyData)->sum('totalLoanAmount');
+    //     $totalLoanRegisteredAll = collect($monthlyData)->sum('loanRegistered');
+    //     $totalBorrowersAll = collect($monthlyData)->sum('borrowers');
+    
+    //     // Include the total row in the monthly data
+    //     $monthlyData['Total'] = [
+    //         'totalBalance' => $totalBalanceAll,
+    //         'totalPaid' => $totalPaidAll,
+    //         'totalLoanAmount' => $totalLoanAmountAll,
+    //         'loanRegistered' => $totalLoanRegisteredAll,
+    //         'borrowers' => $totalBorrowersAll,
+    //     ];
+    
+    //     // Your existing code...
+    //     $selectedMonths = Helper::generateMonthRange($startDate, $endDate);
+    
+    //     $data = [
+    //         'title' => 'Summary Report',
+    //         'date' => now(),
+    //         'monthlyData' => $monthlyData,
+    //         'selectedMonths' => $selectedMonths,
+    //         // Add any other necessary data
+    //     ];
+    
+    //     $pdf = PDF::loadView('Reports.report', $data);
+    
+    //     return $pdf->stream('summary_report.pdf');
+    // }
+
+
     public function generateReport(Request $request)
 {
-    // $startDate = $request->input('start');
-    // $endDate = $request->input('end');
-
-    
-// dd($startDate);
-    // $borrowers = BorrowerInfo::with(['loans', 'loans.payments'])->get();
-
-    $approvedPayments = loanInfo::where('loanstatus', 'Approved')->get();
-    $pendingApprovalPayments = loanInfo::where('loanstatus', 'Waiting For Approval')->get();
-    // Add similar queries for other statuses
-
-    $approvedCount = $approvedPayments->count();
-    $pendingApprovalCount = $pendingApprovalPayments->count();
-
-
     $startDate = Carbon::createFromFormat('m/d/Y', $request->input('start'))->format('Y-m-d');
-$endDate = Carbon::createFromFormat('m/d/Y', $request->input('end'))->format('Y-m-d');
+    $endDate = Carbon::createFromFormat('m/d/Y', $request->input('end'))->format('Y-m-d');
 
-$dateRange =  $startDate . ' - ' . $endDate;
-
-$borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'transactionHistories'])
-    ->whereHas('loans', function ($query) use ($startDate, $endDate) {
-        $query->whereHas('payments', function ($subquery) use ($startDate, $endDate) {
-            $subquery->whereBetween('LoanApplication', [$startDate, $endDate]);
-        });
-    })
-    ->get();
-
-
-
-
-    // dd ( $borrowers1);
-
-
-    if ($borrowers->isEmpty()) {
-        // dd('no data');
-
-        return back()->with('error', 'Date Range Not Found');
-        
-    }
-
-//     dd ($borrowers);
-
-// dd($startDate, $endDate);
-
-    $totalRecords = 0;
-    $totalLoanAmount = 0;
-    $totalBalance = 0;
-    $totalPayment = 0;
-    $totalLoanApplied = 0;
-    $totalPaid = 0;
-    $totalBorrower = 0;
-    
-    foreach ($borrowers as $borrower) {
-        foreach ($borrower->transactionHistories as $transactionHistory) {
-            $totalPaid += $transactionHistory->PaymentAmount;
-        }
-        foreach ($borrower->loans as $loan) {
-            $totalRecords++;
-            $totalLoanAmount += $loan->LoanAmount;
-            $totalBalance += $loan->Remaining_Balance;
-            // Assuming you have a payment attribute in your loan model
-            $totalPayment += $loan->payment;
-             // Assuming you have a relationship with TransactionHistory
-        
-           
-        
-            $totalLoanApplied++;
-            $totalBorrower++;
-        }
-    }
-    
-
-    $totalRecords = count($borrowers->flatMap->loans);
-
-
-  
+    $dateRange =  $startDate . ' - ' . $endDate;
 
     $monthlyData = [];
 
-foreach ($borrowers as $borrower) {
-    foreach ($borrower->transactionHistories as $transactionHistory) {
-        $paymentDate = Carbon::createFromFormat('Y-m-d H:i:s', $transactionHistory->PaymentDate);
+    // Fetch payments with remaining balance within the specified date range
+    // $payments = PaymentInfo::with('loan')  
+    //     ->whereBetween('created_at', [$startDate, $endDate])  
+    //     ->get();
 
-        // Check if payment date is within the specified range
-        if ($paymentDate->between($startDate, $endDate)) {
-            $monthYear = $paymentDate->format('M Y');
+    $latestPaymentsSubquery = PaymentInfo::select('loan_id', DB::raw('MAX(created_at) as latest_created_at'))
+    ->groupBy('loan_id');
 
-            if (!isset($monthlyData[$monthYear])) {
-                $monthlyData[$monthYear] = [
-                    'totalPaid' => 0,
-                    'totalRecords' => 0,
-                    'totalLoanAmount' => 0,
-                    'totalBalance' => 0,
-                    'totalPayment' => 0,
-                    'totalLoanApplied' => 0,
-                    'totalBorrower' => 0,
-                ];
-            }
-            $monthlyData[$monthYear]['totalPaid'] += $transactionHistory->PaymentAmount;
-        }
+$payments = PaymentInfo::with('loan')
+    ->whereBetween('created_at', [$startDate, $endDate])
+    ->joinSub($latestPaymentsSubquery, 'latest_payments', function ($join) {
+        $join->on('paymentInfo.loan_id', '=', 'latest_payments.loan_id')
+            ->on('paymentInfo.created_at', '=', 'latest_payments.latest_created_at');
+    })
+    ->get();
+
+    // Fetch transaction histories with payment amount within the specified date range
+    $transactionHistories = Transaction_History::whereBetween('PaymentDate', [$startDate, $endDate])->get();
+
+    // Fetch loans with loan amount within the specified date range
+    $loans = LoanInfo::whereBetween('cash_release_date', [$startDate, $endDate])->get();
+
+    // Fetch loans with loan status 'Loan Active' and 'Paid' within the specified date range
+    $approvedLoans = LoanInfo::where('loanstatus', 'Loan Active')
+        ->orWhere('loanstatus', 'PAID')
+        ->whereBetween('cash_release_date', [$startDate, $endDate])
+        ->get();
+
+        
+    // Get the distinct borrowers based on the approved loans
+    $distinctBorrowers = $approvedLoans->pluck('bno')->unique();
+
+    $totalBalance = $payments->sum('Remaining_Balance');
+    $totalPaid = $transactionHistories->sum('PaymentAmount');
+    $totalLoanAmount = $loans->sum('LoanAmount');
+    $loanRegistered = $approvedLoans->count();
+    $borrowers = $distinctBorrowers->count(); // Assuming you have a BorrowerInfo model
+
+    // Calculate the data for each month
+    $period = CarbonPeriod::create($startDate, '1 month', $endDate);
+    
+    foreach ($period as $date) {
+        $monthYear = $date->format('M Y');
+
+        $monthlyData[$monthYear] = [
+            'totalBalance' => 0,
+            'totalPaid' => 0,
+            'totalLoanAmount' => 0,
+            'loanRegistered' => 0,
+            'borrowers' => 0,
+        ];
+
+        // Calculate total balance for the month
+        $monthlyData[$monthYear]['totalBalance'] = $payments
+            ->where('created_at', '>=', $date->startOfMonth())
+            ->where('created_at', '<=', $date->endOfMonth())
+            ->sum('Remaining_Balance');
+
+        // Calculate total paid for the month
+        $monthlyData[$monthYear]['totalPaid'] = $transactionHistories
+            ->where('PaymentDate', '>=', $date->startOfMonth())
+            ->where('PaymentDate', '<=', $date->endOfMonth())
+            ->sum('PaymentAmount');
+
+        // Calculate total loan amount for the month
+        $monthlyData[$monthYear]['totalLoanAmount'] = $loans
+            ->where('cash_release_date', '>=', $date->startOfMonth())
+            ->where('cash_release_date', '<=', $date->endOfMonth())
+            ->sum('LoanAmount');
+
+        // Calculate loan registered for the month
+        $monthlyData[$monthYear]['loanRegistered'] = $approvedLoans
+            ->where('cash_release_date', '>=', $date->startOfMonth())
+            ->where('cash_release_date', '<=', $date->endOfMonth())
+            ->count();
+
+        
+        // Calculate distinct borrowers for the month
+        $distinctBorrowers = $approvedLoans
+        ->where('cash_release_date', '>=', $date->startOfMonth())
+        ->where('cash_release_date', '<=', $date->endOfMonth())
+        ->pluck('bno')  // Pluck borrower IDs
+        ->unique()      // Get unique borrower IDs
+        ->count();      // Count distinct borrowers
+
+        $monthlyData[$monthYear]['borrowers'] = $distinctBorrowers;
     }
 
-    foreach ($borrower->loans as $loan) {
-        $loanApplicationDate = Carbon::createFromFormat('Y-m-d', $loan->LoanApplication);
+    // Calculate totals for all months
+    $totalBalanceAll = collect($monthlyData)->sum('totalBalance');
+    $totalPaidAll = collect($monthlyData)->sum('totalPaid');
+    $totalLoanAmountAll = collect($monthlyData)->sum('totalLoanAmount');
+    $totalLoanRegisteredAll = collect($monthlyData)->sum('loanRegistered');
+    $totalBorrowersAll = collect($monthlyData)->sum('borrowers');
 
-        // Check if loan application date is within the specified range
-        if ($loanApplicationDate->between($startDate, $endDate)) {
-            $monthYear = $loanApplicationDate->format('M Y');
+    // Include the total row in the monthly data
+    $monthlyData['Total'] = [
+        'totalBalance' => $totalBalanceAll,
+        'totalPaid' => $totalPaidAll,
+        'totalLoanAmount' => $totalLoanAmountAll,
+        'loanRegistered' => $totalLoanRegisteredAll,
+        'borrowers' => $totalBorrowersAll,
+    ];
 
-            if (!isset($monthlyData[$monthYear])) {
-                $monthlyData[$monthYear] = [
-                    
-                    'totalPaid' => 0,
-                    'totalRecords' => 0,
-                    'totalLoanAmount' => 0,
-                    'totalBalance' => 0,
-                    'totalPayment' => 0,
-                    'totalLoanApplied' => 0,
-                    'totalBorrower' => 0,
-                ];
-            }
-           
-            $monthlyData[$monthYear]['totalRecords']++;
-            $monthlyData[$monthYear]['totalLoanAmount'] += $loan->LoanAmount;
-            foreach ($loan->payments as $payment) {
-                $monthlyData[$monthYear]['totalBalance'] += $payment->Remaining_Balance;
-            }
-            
-            $monthlyData[$monthYear]['totalPayment'] += $loan->payment;
-            $monthlyData[$monthYear]['totalLoanApplied']++;
-            $monthlyData[$monthYear]['totalBorrower']++;
-          
-        }
-    }
-}
     // Your existing code...
     $selectedMonths = Helper::generateMonthRange($startDate, $endDate);
 
     $data = [
         'title' => 'Summary Report',
         'date' => now(),
-        'borrowers' => $borrowers,
-        'totalPaid' => $totalPaid,
-        'totalRecords' => $totalRecords,
-        'totalLoanAmount' => $totalLoanAmount,
-        'totalBalance' => $totalBalance,
-        'totalPayment' => $totalPayment,
-        'totalLoanApplied' => $totalLoanApplied,
-        'totalBorrower' => $totalBorrower,
-        'approvedPayments' =>  $approvedPayments,
-        'pendingApprovalPayments' => $pendingApprovalPayments,
-        'approvedCount' => $approvedCount,
-        'pendingApprovalCount' => $pendingApprovalCount,
-        'dateRange' => $dateRange,
         'monthlyData' => $monthlyData,
-        'selectedMonths' => $selectedMonths, 
+        'selectedMonths' => $selectedMonths,
+        // Add any other necessary data
     ];
-    
-    
-    
 
     $pdf = PDF::loadView('Reports.report', $data);
 
     return $pdf->stream('summary_report.pdf');
 }
+
+    
 
 
 

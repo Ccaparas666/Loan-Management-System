@@ -174,7 +174,7 @@ class GeneratePayments extends Command
                         $payment->loan_id = $dueLoan->lid;
                         $payment->remaining_balance = $updatedBalance;
                         $payment->due_date = Carbon::parse($latestDueDate)->addMonth();
-                        // $payment->save();
+                        $payment->save();
 
                         $email = $dueLoan->borEmail;
                         $coemail = $dueLoan->cmEmail;
@@ -230,8 +230,8 @@ class GeneratePayments extends Command
                         // dd( $sendCoMaker);
                         try {
                             // Attempt to send the email
-                            FacadesMail::to($coemail)->send(new CoMakerMail($sendCoMaker));
-                             FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                            // FacadesMail::to($coemail)->send(new CoMakerMail($sendCoMaker));
+                            //  FacadesMail::to($email)->send(new MailDemo($sendMailData));
                             //  dd($sendCoMaker);
                              activity()->log('Payments generated successfully.');
 

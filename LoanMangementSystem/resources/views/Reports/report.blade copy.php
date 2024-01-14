@@ -172,18 +172,6 @@
 
 
 <h1 style="text-align: center; color: #3498db;">Loan Breakdown Summary</h1>
-
-<table border="1">
-    <thead>
-        <tr>
-            
-        </tr>
-    </thead>
-    <tbody>
-       
-    </tbody>
-</table>
-
 <table>
 <thead>
     <tr>
@@ -191,8 +179,8 @@
         <th>Total Balance</th>
         <th>Total Paid</th>
         <th>Total Loan Amount</th>
-        <th>Total Loan Register</th>
-        <th>Total Borrowers</th>
+        <th>Loan Registered</th>
+        <th>Borrower's</th>
     </tr>
 </thead>
 <tbody>
