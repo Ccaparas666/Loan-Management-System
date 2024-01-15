@@ -171,10 +171,7 @@ class PDFController extends Controller
 
     $monthlyData = [];
 
-    // Fetch payments with remaining balance within the specified date range
-    // $payments = PaymentInfo::with('loan')  
-    //     ->whereBetween('created_at', [$startDate, $endDate])  
-    //     ->get();
+  
 
     $latestPaymentsSubquery = PaymentInfo::select('loan_id', DB::raw('MAX(created_at) as latest_created_at'))
     ->groupBy('loan_id');
@@ -195,9 +192,15 @@ $payments = PaymentInfo::with('loan')
 
     // Fetch loans with loan status 'Loan Active' and 'Paid' within the specified date range
     $approvedLoans = LoanInfo::where('loanstatus', 'Loan Active')
-        ->orWhere('loanstatus', 'PAID')
-        ->whereBetween('cash_release_date', [$startDate, $endDate])
-        ->get();
+    ->orWhere('loanstatus', 'PAID')
+    ->whereBetween('cash_release_date', [$startDate, $endDate])
+    ->with([
+        'borrowerinfo',
+        'transactionHistories' => function ($query) {
+            $query->with(['paymentInfo']);
+        }
+    ])
+    ->get();
 
         
     // Get the distinct borrowers based on the approved loans
@@ -278,13 +281,48 @@ $payments = PaymentInfo::with('loan')
     // Your existing code...
     $selectedMonths = Helper::generateMonthRange($startDate, $endDate);
 
-    $data = [
-        'title' => 'Summary Report',
-        'date' => now(),
-        'monthlyData' => $monthlyData,
-        'selectedMonths' => $selectedMonths,
-        // Add any other necessary data
+    // ANother breakdown
+    $totalCollectable = $approvedLoans->sum(function ($loan) {
+        // Calculate the total loan amount including interest
+        return $loan->LoanAmount * (1 + ($loan->InterestRate / 100));
+    });
+$totalAmountCollected = $approvedLoans->flatMap(function ($loan) {
+    return $loan->transactionHistories->pluck('PaymentAmount');
+})->sum();
+$remainingCollections = $approvedLoans->flatMap(function ($loan) {
+    return $loan->transactionHistories->pluck('paymentInfo.Remaining_Balance');
+})->sum();
+
+
+     $anotherBreakdownData = [
+        'totalCollectable' => $totalCollectable,
+        'totalAmountCollected' => $totalAmountCollected,
+        'remainingCollections' => $remainingCollections,
     ];
+
+    // Individual breakdown
+$individualBreakdownData = $approvedLoans->map(function ($loan) {
+    return [
+        'Name' => $loan->borrowerinfo->borFname . ' ' . $loan->borrowerinfo->borLname,
+        'Loan Amount' => $loan->LoanAmount,
+        'Loan Pay' => $loan->transactionHistories->sum('PaymentAmount'),
+        'Remaining Balance' => $loan->transactionHistories->last()->paymentInfo->Remaining_Balance,
+    ];
+});
+
+  
+    
+   // Add breakdown data to the $data array
+$data = [
+    'title' => 'Summary Report',
+    'date' => now(),
+    'monthlyData' => $monthlyData,
+    'selectedMonths' => $selectedMonths,
+    'anotherBreakdownData' => $anotherBreakdownData,
+    'individualBreakdownData' => $individualBreakdownData,
+    // Add any other necessary data
+];
+
 
     $pdf = PDF::loadView('Reports.report', $data);
 

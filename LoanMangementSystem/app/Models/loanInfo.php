@@ -69,8 +69,17 @@ public function calculateBalance()
     return $this->LoanAmount - $this->payments->sum('Remaining_Balance');
 }
 
+// public function transactionHistories()
+// {
+//     return $this->hasMany(Transaction_History::class, 'loan_id', 'lid');
+// }
+
+
+// Define the relationship to TransactionHistory using the correct column names
 public function transactionHistories()
 {
-    return $this->hasMany(Transaction_History::class, 'loan_id', 'lid');
+    return $this->hasMany(Transaction_History::class, 'borrower_id', 'bno');
 }
+
+
 }

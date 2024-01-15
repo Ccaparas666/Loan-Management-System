@@ -25,4 +25,18 @@ class Transaction_History extends Model
     {
         return $this->belongsTo(BorrowerInfo::class, 'borrower_id', 'bno');
     }
+
+    public function paymentInfo()
+{
+    return $this->hasOneThrough(
+        PaymentInfo::class,
+        LoanInfo::class,
+        'lid', // Foreign key on loanInfo table
+        'loan_id', // Foreign key on paymentInfo table
+        'borrower_id', // Local key on borrowerinfo table
+        'bno' // Local key on loanInfo table
+    );
+}
+
+    
 }
