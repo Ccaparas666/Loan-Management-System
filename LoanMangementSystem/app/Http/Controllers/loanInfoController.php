@@ -37,6 +37,8 @@ class loanInfoController extends Controller
 
         $genId = Helper::LoanNumberGenerator(new loanInfo, 'loanNumber', 5, 'LNO');
 
+        // dd ( $genId);
+
         $loanInfo = loanInfo::join('borrowerinfo', 'loanInfo.bno', '=', 'borrowerinfo.bno')->get();
 
         $data = borrowerinfo::where('borAccount', 'Like', $search)->get();

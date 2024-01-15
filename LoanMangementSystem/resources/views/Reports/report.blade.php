@@ -118,38 +118,14 @@
     </thead>
     <tbody>
         <tr>
-            <td>Php {{ isset($anotherBreakdownData['totalCollectable']) ? number_format($anotherBreakdownData['totalCollectable'], 2) : 'N/A' }}</td>
+        <td>Php {{ isset($totalCollectable) ? number_format($totalCollectable, 2) : 'N/A' }}</td>
             <td>Php {{ isset($anotherBreakdownData['totalAmountCollected']) ? number_format($anotherBreakdownData['totalAmountCollected'], 2) : 'N/A' }}</td>
             <td>Php {{ isset($anotherBreakdownData['remainingCollections']) ? number_format($anotherBreakdownData['remainingCollections'], 2) : 'N/A' }}</td>
         </tr>
     </tbody>
 </table>
 
-<!-- Individual breakdown -->
-<h2 style="text-align: center; color: #3498db;">Individual Breakdown</h2>
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Loan Amount</th>
-            <th>Loan Pay</th>
-            <th>Remaining Balance</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($individualBreakdownData as $item)
-            <tr>
-                <td>{{ $item['Name'] }}</td>
-                <td>Php {{ number_format($item['Loan Amount'], 2) }}</td>
-                <td>Php {{ number_format($item['Loan Pay'], 2) }}</td>
-                <td>Php {{ number_format($item['Remaining Balance'], 2) }}</td>
-             
-            </tr>
-        @endforeach
-    </tbody>
-</table>
 
-<div style="page-break-before:always">&nbsp;</div> 
 <h1>Reports Breakdown Summary</h1>
 
 <table>
@@ -164,16 +140,19 @@
     </thead>
     <tbody>
     @foreach ($borrowers as $borrower)
-    @foreach ($borrower->loans as $loan)
-        <tr>
-            <td>{{ $loan->loanNumber }}</td>
-            <td>{{ $borrower->borFname }} {{ $borrower->borLname }}</td>
-            <td>{{ $loan->LoanAmount }}</td>
-            <td>{{ $borrower->calculateTotalPaymentAmount($loan->lid) }}</td>
-            <td>{{ $borrower->calculateBalance($loan->lid) }}</td>
-        </tr>
+        @foreach ($borrower->loans as $loan)
+            @if (in_array($loan->loanstatus, ['Loan Active', 'PAID']))
+                <tr>
+                    <td>{{ $loan->loanNumber }}</td>
+                    <td>{{ $borrower->borFname }} {{ $borrower->borLname }}</td>
+                    <td>Php {{ number_format($loan->LoanAmount, 2) }}</td>
+                    <td>Php {{ number_format($borrower->calculateTotalPaymentAmount($loan->lid), 2) }}</td>
+                    <td>Php {{ number_format($borrower->calculateBalance($loan->lid), 2) }}</td>
+
+                </tr>
+            @endif
+        @endforeach
     @endforeach
-@endforeach
     </tbody>
 </table>
 
