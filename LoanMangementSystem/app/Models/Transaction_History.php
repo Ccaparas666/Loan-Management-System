@@ -38,5 +38,10 @@ class Transaction_History extends Model
     );
 }
 
+public function loan()
+{
+    return $this->belongsTo(LoanInfo::class, 'loan_id', 'lid');
+}
+
     
 }

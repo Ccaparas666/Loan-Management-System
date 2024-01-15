@@ -75,10 +75,27 @@ public function calculateBalance()
 // }
 
 
+
+
 // Define the relationship to TransactionHistory using the correct column names
 public function transactionHistories()
 {
     return $this->hasMany(Transaction_History::class, 'borrower_id', 'bno');
+}
+
+
+public function latestRemainingBalance()
+{
+    return $this->payments()
+        ->latest('created_at')
+        ->value('Remaining_Balance');
+}
+
+public function latestTransactionHistory()
+{
+    return $this->transactionHistories()
+        ->latest('PaymentDate')
+        ->first();
 }
 
 

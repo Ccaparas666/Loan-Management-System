@@ -310,7 +310,8 @@ $individualBreakdownData = $approvedLoans->map(function ($loan) {
     ];
 });
 
-  
+$borrowers = BorrowerInfo::with(['loans', 'transactionHistories'])
+->get();    
     
    // Add breakdown data to the $data array
 $data = [
@@ -324,7 +325,7 @@ $data = [
 ];
 
 
-    $pdf = PDF::loadView('Reports.report', $data);
+    $pdf = PDF::loadView('Reports.report', $data, compact('borrowers'));
 
     return $pdf->stream('summary_report.pdf');
 }

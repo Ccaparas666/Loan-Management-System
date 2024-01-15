@@ -68,9 +68,32 @@ public function paymentInfos()
     return $this->hasMany(PaymentInfo::class);
 }
 
-public function calculateTotalPaymentAmount()
+public function calculateTotalPaymentAmount($loanId)
 {
-    return $this->loans->flatMap->payments->sum('PaymentAmount');
+    return $this->transactionHistories
+        ->where('loan_id', $loanId)
+        ->sum('PaymentAmount');
+}
+
+
+public function calculateBalance($loanId)
+{
+    $loan = $this->loans->find($loanId);
+
+    if (!$loan) {
+        return 0; // If loan not found, return 0
+    }
+
+    return $loan->latestRemainingBalance();
+}
+
+
+
+
+public function totalPayments()
+{
+    $totalPaymentAmount = $this->transactionHistories->sum('PaymentAmount');
+    return $totalPaymentAmount;
 }
 
     

@@ -627,7 +627,7 @@ public function RoutePayment(Request $request, $bno)
         
         $Transaction->ReferenceNumber =   $ReferenceNumber;
         $Transaction->borrower_id = $borrowerinfo->bno;
-
+        $Transaction->loan_id = $latestLoan->lid;
 
         if (!$Transaction->save()) {
             return redirect()->back()->with('error', 'Failed to record the transaction.');

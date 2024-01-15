@@ -149,6 +149,33 @@
     </tbody>
 </table>
 
+<div style="page-break-before:always">&nbsp;</div> 
+<h1>Reports Breakdown Summary</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Loan Number</th>
+            <th>Name</th>
+            <th>Loan Amount</th>
+            <th>Loan Pay</th>
+            <th>Remaining Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach ($borrowers as $borrower)
+    @foreach ($borrower->loans as $loan)
+        <tr>
+            <td>{{ $loan->loanNumber }}</td>
+            <td>{{ $borrower->borFname }} {{ $borrower->borLname }}</td>
+            <td>{{ $loan->LoanAmount }}</td>
+            <td>{{ $borrower->calculateTotalPaymentAmount($loan->lid) }}</td>
+            <td>{{ $borrower->calculateBalance($loan->lid) }}</td>
+        </tr>
+    @endforeach
+@endforeach
+    </tbody>
+</table>
 
 
 </body>

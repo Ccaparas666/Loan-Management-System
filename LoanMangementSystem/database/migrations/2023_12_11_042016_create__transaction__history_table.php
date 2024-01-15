@@ -18,8 +18,10 @@ return new class extends Migration
         $table->string('RemainingBalance')->nullable();
         $table->string('ReferenceNumber');
         $table->unsignedBigInteger('borrower_id')->nullable();
+        $table->unsignedBigInteger('loan_id')->nullable();
         $table->timestamps();
         $table->foreign('borrower_id')->references('bno')->on('borrowerinfo')->onDelete('set null');
+        $table->foreign('loan_id')->references('lid')->on('loanInfo')->onDelete('set null');
         });
     }
 

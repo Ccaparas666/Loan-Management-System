@@ -262,6 +262,7 @@
             </a>
          </li>
 <br><br><br>
+@if (auth()->user()->is_admin)
          <li>
             <a href="{{ route('activity') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {{ request()->routeIs('activity') ? 'bg-gradient-to-r from-cyan-800 to-blue-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-800 text-white' : '' }}">
             <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -270,6 +271,8 @@
                <span class="flex-1 ml-3 whitespace-nowrap">Activity Logs</span>
             </a>
          </li>
+
+         @endif
          
     </ul>
 
