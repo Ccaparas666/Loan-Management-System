@@ -32,9 +32,11 @@ class GeneratePayments extends Command
 
     public function handle()
     {
+        // condition 
 
-        // THIS IS FOR CHANGING DATE DEMO //
-    //     $testingDate = Carbon::create('2024-08-31');
+        // if ($testingDate->gte($latestDueDate)) {
+// this is for demos DATE SETTINGS
+    //     $testingDate = Carbon::create('2025-04-27');
 
         
     // $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
@@ -43,9 +45,6 @@ class GeneratePayments extends Command
     // ->select('loanInfo.*', 'paymentInfo.*', 'borrowerInfo.*')
     // ->get()
     // ->groupBy('lid', 'bno');
-
-// thHE CONDITION
-//     $testingDate->gt($latestDueDate)
 
        
         $dueLoans = LoanInfo::join('paymentInfo', 'loanInfo.lid', '=', 'paymentInfo.loan_id')
