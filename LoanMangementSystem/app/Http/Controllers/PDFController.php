@@ -344,11 +344,10 @@ public function generateReport1(Request $request)
     //     })
     //     ->get();
 
-    $borrowers = BorrowerInfo::with(['loans', 'loans.payments', 'loans.transactionHistories'])
+    $borrowers = BorrowerInfo::with(['loans', 'transactionHistories'])
     ->whereHas('loans', function ($query) use ($startDate, $endDate) {
-        $query->whereHas('payments', function ($subquery) use ($startDate, $endDate) {
-            $subquery->whereBetween('LoanApplication', [$startDate, $endDate]);
-        });
+        $query->whereIn('loanstatus', ['Loan Active', 'PAID'])
+            ->whereBetween('cash_release_date', [$startDate, $endDate]);
     })
     ->get();
 
