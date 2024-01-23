@@ -238,13 +238,9 @@ $payments = PaymentInfo::with('loan')
             ->where('PaymentDate', '<=', $date->endOfMonth())
             ->sum('PaymentAmount');
 
-        // Calculate total loan amount for the month
-        $monthlyData[$monthYear]['totalLoanAmount'] = $loans
-            ->where('cash_release_date', '>=', $date->startOfMonth())
-            ->where('cash_release_date', '<=', $date->endOfMonth())
-            ->sum(function ($loan) {
-                return $loan->LoanAmount + (($loan->InterestRate / 100) * $loan->LoanAmount);
-            });
+        
+// Calculate total loan amount for the month
+$monthlyData[$monthYear]['totalLoanAmount'] = $monthlyData[$monthYear]['totalBalance'] + $monthlyData[$monthYear]['totalPaid'];
 
 
         //      // Calculate total loan amount for the month
@@ -259,6 +255,11 @@ $payments = PaymentInfo::with('loan')
             ->where('cash_release_date', '>=', $date->startOfMonth())
             ->where('cash_release_date', '<=', $date->endOfMonth())
             ->count();
+
+            // $monthlyData[$monthYear]['loanRegistered'] = $approvedLoans
+            // ->where('cash_release_date', '>=', $date->startOfMonth())
+            // ->where('cash_release_date', '<=', $date->endOfMonth())
+            // ->count();
 
         
         // Calculate distinct borrowers for the month
