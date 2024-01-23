@@ -85,6 +85,7 @@
                 <td>Php {{ number_format($monthlyData[$month]['totalBalance'] ?? 0, 2) }}</td>
                 <td>Php {{ number_format($monthlyData[$month]['totalPaid'] ?? 0, 2) }}</td>
                 <td>Php {{ number_format($monthlyData[$month]['totalLoanAmount'] ?? 0, 2) }}</td>
+                
                 <td>{{ $monthlyData[$month]['loanRegistered'] ?? 0 }}</td>
                 <td>{{ $monthlyData[$month]['borrowers'] ?? 0 }}</td>
             </tr>
@@ -107,7 +108,7 @@
 
 
 <!-- Another breakdown -->
-<h2 style="text-align: center; color: #3498db;">Another Breakdown</h2>
+<h1 style="text-align: center; color: #3498db;">Total Breakdown</h1>
 <table>
     <thead>
         <tr>
