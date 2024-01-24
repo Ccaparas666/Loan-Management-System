@@ -703,14 +703,16 @@ public function RoutePayment(Request $request, $bno)
                 Rule::unique('borrowerinfo', 'borContact'),
                 Rule::unique('officerInfo', 'offContact'),
                 Rule::unique('loanInfo', 'cmContact')->where(function ($query) {
-                    return $query->where('loanstatus', '!=', 'PAID');
+                    return $query->where('loanstatus', '!=', 'PAID')
+                                 ->where('loanstatus', '!=', 'rejected');;
                 }),
             ],
             'xcEmail' => [
                 Rule::unique('borrowerinfo', 'borEmail'),
                 Rule::unique('users', 'email'),
                 Rule::unique('loanInfo', 'cmEmail')->where(function ($query) {
-                    return $query->where('loanstatus', '!=', 'PAID');
+                    return $query->where('loanstatus', '!=', 'PAID')
+                                 ->where('loanstatus', '!=', 'rejected');;
                 }),
             ],
             'xcAddress' => 'required',

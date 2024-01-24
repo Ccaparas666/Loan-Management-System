@@ -283,7 +283,7 @@
                 </tr>
                 <tr>
                     <td><strong>Loan Amount:</strong></td>
-                    <td>PHP {{ $mailData['loanAmount'] }}</td>
+                    <td>PHP {{ number_format($mailData['loanAmount'], 2) }}</td>
                 </tr>
                 <tr>
                     <td><strong>Interest Rate:</strong></td>
@@ -291,7 +291,7 @@
                 </tr>
                 <tr>
                     <td><strong>Loan Balance:</strong></td>
-                    <td>PHP {{ $mailData['LoanBalance'] }}</td>
+                    <td>PHP {{ number_format($mailData['LoanBalance'], 2) }}</td>
                 </tr>
                 <tr>
                     <td><strong>Loan Status:</strong></td>

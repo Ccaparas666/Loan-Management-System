@@ -138,8 +138,8 @@ class GeneratePayments extends Command
                             ];
                             try {
                                 // Attempt to send the email
-                                FacadesMail::to($coemail)->send(new CoMakerMail($sendCoMaker));
-                                 FacadesMail::to($email)->send(new MailDemo($sendMailData));
+                                // FacadesMail::to($coemail)->send(new CoMakerMail($sendCoMaker));
+                                //  FacadesMail::to($email)->send(new MailDemo($sendMailData));
                                 //  dd($sendMailData);
                                 activity()->log('payment due date.');
 
