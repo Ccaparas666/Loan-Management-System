@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('loanInfo', function (Blueprint $table) {
             $table->id('lid');
             $table->unsignedBigInteger('bno');
+            $table->unsignedBigInteger('off_ID')->nullable();
             $table->string('approved_by')->nullable();
             $table->string('rejected_by')->nullable();
             $table->string('created_by')->nullable();
@@ -31,6 +32,9 @@ return new class extends Migration
             $table->string('cmAddress', 100);
             $table->timestamps();
             $table->foreign('bno')->references('bno')->on('borrowerinfo');
+
+           
+            $table->foreign('off_ID')->references('ono')->on('officerinfo')->onDelete('set null');
         });
 
     }

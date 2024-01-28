@@ -19,6 +19,7 @@ class Transaction_History extends Model
         'RemainingBalance',
         'ReferenceNumber',
         'borrower_id',
+        'loan_id',
     ];
 
     public function borrower()
