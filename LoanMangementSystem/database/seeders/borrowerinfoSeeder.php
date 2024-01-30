@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\loanInfo;
 use App\Models\borrowerinfo;
 use App\Models\paymentInfo;
+use App\Models\Transaction_History;
 use App\Helpers\Helper;
 use Carbon\Carbon;
 
@@ -30,7 +31,7 @@ class borrowerinfoSeeder extends Seeder
                 'borContact' => 'Contact ' . ($i + 1),
                 'borEmail' => 'email' . ($i + 1) . '@example.com',
                 'borDob' => Carbon::createFromDate(rand(1964, 2006), rand(1, 12), rand(1, 28))->format('Y-m-d'),
-                'loanstatus' => 'Loan Active',
+                'loanstatus' => 'PAID',
                 'borAddress' => 'Address ' . ($i + 1),
                 'borGender' => 'Gender ' . ($i + 1),
                 'borPicture' => 'Picture ' . ($i + 1),
@@ -66,6 +67,25 @@ class borrowerinfoSeeder extends Seeder
 
         $loans = LoanInfo::all();
 
+// foreach ($loans as $loan) {
+//     $paymentCount = 1; // You want to create exactly 1 payment per loan
+
+//     for ($i = 0; $i < $paymentCount; $i++) {
+//         $dueDate = Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d');
+
+//         $remainingBalance = ($loan->InterestRate / 100) * $loan->LoanAmount + $loan->LoanAmount;
+
+//         PaymentInfo::create([
+//             'loan_id' => $loan->lid,
+//             'Remaining_Balance' => $remainingBalance,
+//             'due_date' => $dueDate,
+//             'created_at' => Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
+//             'updated_at' => now(),
+//         ]);
+//     }
+// }
+
+
 foreach ($loans as $loan) {
     $paymentCount = 1; // You want to create exactly 1 payment per loan
 
@@ -74,14 +94,32 @@ foreach ($loans as $loan) {
 
         $remainingBalance = ($loan->InterestRate / 100) * $loan->LoanAmount + $loan->LoanAmount;
 
-        PaymentInfo::create([
+        $payment = PaymentInfo::create([
             'loan_id' => $loan->lid,
             'Remaining_Balance' => $remainingBalance,
             'due_date' => $dueDate,
             'created_at' => Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
             'updated_at' => now(),
         ]);
+
+        // Record payment transaction in Transaction_History table
+        Transaction_History::create([
+            'PaymentDate' => $dueDate,
+            'PaymentAmount' => $payment->Remaining_Balance,
+            'RemainingBalance' => $payment->Remaining_Balance,
+            'ReferenceNumber' => 'Reference ' . ($i + 1),
+            'borrower_id' => $loan->borrowerinfo->bno,
+            'loan_id' => $loan->lid,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $payment->update(['Remaining_Balance' => 0]);
     }
+
+    
 }
+
+$loan->update(['loanstatus' => 'PAID']);
     }
 }
