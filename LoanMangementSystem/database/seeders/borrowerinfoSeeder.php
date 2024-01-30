@@ -39,9 +39,9 @@ class borrowerinfoSeeder extends Seeder
                 'updated_at' => now(),
             ]);
     
-            $loanApplicationDate = Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d');
+            $loanApplicationDate = Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d');
             $loanApprovalDate = $loanApplicationDate;
-            $cashReleaseDate = Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d');
+            $cashReleaseDate = Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d');
     
             LoanInfo::create([
                 'bno' => $borrower->bno,
@@ -60,37 +60,21 @@ class borrowerinfoSeeder extends Seeder
                 'cmContact' => 'CM Contact ' . ($i + 1),
                 'cmEmail' => 'cmemail' . ($i + 1) . '@example.com',
                 'cmAddress' => 'CM Address ' . ($i + 1),
-                'created_at' => Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
+                'created_at' => Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
                 'updated_at' => now(),
             ]);
         }
 
         $loans = LoanInfo::all();
 
-// foreach ($loans as $loan) {
-//     $paymentCount = 1; // You want to create exactly 1 payment per loan
 
-//     for ($i = 0; $i < $paymentCount; $i++) {
-//         $dueDate = Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d');
-
-//         $remainingBalance = ($loan->InterestRate / 100) * $loan->LoanAmount + $loan->LoanAmount;
-
-//         PaymentInfo::create([
-//             'loan_id' => $loan->lid,
-//             'Remaining_Balance' => $remainingBalance,
-//             'due_date' => $dueDate,
-//             'created_at' => Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
-//             'updated_at' => now(),
-//         ]);
-//     }
-// }
 
 
 foreach ($loans as $loan) {
     $paymentCount = 1; // You want to create exactly 1 payment per loan
 
     for ($i = 0; $i < $paymentCount; $i++) {
-        $dueDate = Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d');
+        $dueDate = Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d');
 
         $remainingBalance = ($loan->InterestRate / 100) * $loan->LoanAmount + $loan->LoanAmount;
 
@@ -98,7 +82,7 @@ foreach ($loans as $loan) {
             'loan_id' => $loan->lid,
             'Remaining_Balance' => $remainingBalance,
             'due_date' => $dueDate,
-            'created_at' => Carbon::createFromDate(rand(2024, 2026), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
             'updated_at' => now(),
         ]);
 
@@ -110,16 +94,16 @@ foreach ($loans as $loan) {
             'ReferenceNumber' => 'Reference ' . ($i + 1),
             'borrower_id' => $loan->borrowerinfo->bno,
             'loan_id' => $loan->lid,
-            'created_at' => now(),
+            'created_at' => Carbon::createFromDate(rand(2022, 2023), rand(1, 12), rand(1, 28))->format('Y-m-d H:i:s'),
             'updated_at' => now(),
         ]);
 
         $payment->update(['Remaining_Balance' => 0]);
     }
-
+    $loan->update(['loanstatus' => 'PAID']);
     
 }
 
-$loan->update(['loanstatus' => 'PAID']);
+
     }
 }
