@@ -19,10 +19,10 @@ RUN apt-get update && apt-get install -y \
     curl
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-install pdo pdo_pgsql gd
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer globally
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy application code
 COPY . .
@@ -64,7 +64,7 @@ ENV SESSION_DRIVER=file
 ENV SESSION_LIFETIME=120
 
 # Install PHP dependencies
-RUN composer install
+RUN composer install --no-dev --optimize-autoloader --no-plugins --no-scripts || { echo "Composer install failed"; exit 1; }
 
 # Generate application key
 RUN cp .env.example .env && php artisan key:generate
