@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-
+use Illuminate\Validation\Rules\Password;
 
 use App\Http\Requests\ProfileUpdateRequest;
 
@@ -84,7 +84,7 @@ class officerInfoController extends Controller
             'xgender' => ['required'],
             'xemail' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'Role' => ['required'],
-            'xpassword' => ['required', 'confirmed', Rules\Password::defaults()],
+            'xpassword' => ['required', 'confirmed', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ]);
 
 
@@ -156,7 +156,7 @@ activity()
             'xgender' => ['required'],
             'xemail' => [Rule::unique('officerInfo', 'offEmail')->ignore($id, 'ono')],
             'Role' => ['required'],
-            'xpassword' => ['required', 'confirmed', Rules\Password::defaults()],
+            'xpassword' => ['required', 'confirmed', Password::min(8)->letters()->numbers()->mixedCase()->symbols()],
         ]);
 
         $officerInfo = officerInfo::findOrFail($id);
