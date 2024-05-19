@@ -49,7 +49,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Generate application key
 RUN php artisan key:generate
 
-# Create nginx configuration directory if it doesn't exist
+# Create nginx configuration directory
 RUN mkdir -p /etc/nginx
 
 # Copy nginx configuration file
