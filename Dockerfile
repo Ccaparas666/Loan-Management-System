@@ -22,15 +22,26 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy application files
 COPY . .
 
-# Install PHP dependencies
-RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --no-plugins --no-scripts -vvv
+# Generate application key
+RUN cp .env.example .env && php artisan key:generate
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+# Install PHP dependencies
+RUN COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev --optimize-autoloader --no-plugins --no-scripts
+
+# Install Node.js and npm (assuming you need it for npm install)
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get install -y nodejs
+
+# Install npm dependencies
+RUN npm install
+
+# Run database migrations
+RUN php artisan migrate
+
+# Seed the database
+RUN php artisan db:seed --class=UsersTableSeeder
 
 # Expose port
-EXPOSE 9000
+EXPOSE 8000
 
-# Command to run PHP-FPM
-CMD ["php-fpm"]
+# Command to start the server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
