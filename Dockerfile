@@ -22,6 +22,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy project files to the container
 COPY . .
 
+# Change directory to Laravel project directory
+WORKDIR /var/www/html/LoanMangementSystem
+
 # Install PHP dependencies
 RUN composer clear-cache
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --verbose
