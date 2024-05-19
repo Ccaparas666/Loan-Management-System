@@ -29,6 +29,9 @@ WORKDIR /var/www/html/LoanMangementSystem
 RUN composer clear-cache
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader --verbose
 
+# Change directory to frontend directory
+WORKDIR /var/www/html/LoanMangementSystem/frontend
+
 # Install Node.js dependencies
 RUN npm install
 
@@ -37,6 +40,9 @@ RUN npm run dev
 
 # Change directory back to Laravel project directory
 WORKDIR /var/www/html/LoanMangementSystem
+
+# Generate application key
+RUN php artisan key:generate
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
