@@ -1,34 +1,8 @@
-# Exported from Render on 2024-05-19T14:56:26Z
 services:
-- type: web
-  name: Loan-Management-System
-  runtime: docker
-  repo: https://github.com/Ccaparas666/Loan-Management-System
-  plan: free
-  envVars:
-  - key: MAIL_FROM_NAME
-    sync: false
-  - key: MAIL_FROM_ADDRESS
-    sync: false
-  - key: MAIL_ENCRYPTION
-    sync: false
-  - key: MAIL_PASSWORD
-    sync: false
-  - key: MAIL_USERNAME
-    sync: false
-  - key: MAIL_PORT
-    sync: false
-  - key: MAIL_HOST
-    sync: false
-  - key: MAIL_MAILER
-    sync: false
-  - key: APP_KEY
-    sync: false
-  - key: DB_CONNECTION
-    sync: false
-  - key: DATABASE_URL
-    sync: false
-  region: singapore
-  dockerContext: .
-  dockerfilePath: ./Dockerfile
-version: "1"
+  - type: web
+    name: my-php-app
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: standard
+    buildCommand: ./build.sh
+    startCommand: ./start.sh

@@ -1,50 +1,29 @@
-# Use the official PHP 8.2 image with FPM
-FROM php:8.2-fpm
+# Use an official PHP runtime as a parent image
+FROM php:8.1-fpm
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zip \
+    unzip
+
+# Install the PHP GD extension
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install gd
+
+# Install other PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql zip
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libpq-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    curl \
-    nodejs \
-    npm
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql gd
-
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-# Copy application code
+# Copy application source code
 COPY . .
 
-# Copy the .env file and set up application key
-
-
-# Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader
-
-# Install NPM dependencies
-RUN npm install
-
-# Build assets using Vite
-RUN npm run build
-
-# Run migrations and seed database
-RUN php artisan migrate --force && php artisan db:seed --class=UsersTableSeeder --force
-
-# Expose port 9000 and start php-fpm server
+# Expose port 9000 and start PHP-FPM server
 EXPOSE 9000
 CMD ["php-fpm"]
