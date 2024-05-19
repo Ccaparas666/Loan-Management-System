@@ -64,7 +64,7 @@ ENV SESSION_DRIVER=file
 ENV SESSION_LIFETIME=120
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-plugins --no-scripts
+RUN composer install
 
 # Generate application key
 RUN cp .env.example .env && php artisan key:generate
