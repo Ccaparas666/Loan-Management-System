@@ -8,7 +8,11 @@ WORKDIR /var/www/html
 RUN apt-get update && apt-get install -y \
     
     npm \
- 
+
+
+# Copy project files to the container
+COPY . .
+
 # Change directory to Laravel project directory
 WORKDIR /var/www/html/LoanMangementSystem
 
