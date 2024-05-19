@@ -5,7 +5,7 @@ FROM php:8.2.4-fpm
 WORKDIR /var/www/html
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
+RUN  \
     
     npm \
 
