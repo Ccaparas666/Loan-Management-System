@@ -43,8 +43,8 @@ RUN npm install
 # Change directory back to Laravel project directory
 WORKDIR /var/www/html/LoanMangementSystem
 
-# Build assets for development
-RUN npm run dev
+# Build assets for development in background
+RUN npm run dev &
 
 # Generate application key
 RUN php artisan key:generate
