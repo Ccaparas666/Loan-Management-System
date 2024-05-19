@@ -1,29 +1,36 @@
-# Use an official PHP runtime as a parent image
-FROM php:8.1-fpm
-
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libwebp-dev \
-    libfreetype6-dev \
-    libzip-dev \
-    zip \
-    unzip
-
-# Install the PHP GD extension
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
-    && docker-php-ext-install gd
-
-# Install other PHP extensions
-RUN docker-php-ext-install pdo pdo_mysql zip
+# Use the official PHP image as the base image
+FROM php:8.0-fpm
 
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy application source code
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    zip \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql
+
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Copy project files to the container
 COPY . .
 
-# Expose port 9000 and start PHP-FPM server
+# Install PHP dependencies
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# Generate application key
+RUN php artisan key:generate
+
+# Run database migrations
+RUN php artisan migrate --force
+
+# Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
