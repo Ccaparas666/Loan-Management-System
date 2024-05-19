@@ -1,24 +1,8 @@
-# Stage 1: Build Stage
-FROM node:16 AS node_builder
-
-# Set working directory for frontend
-WORKDIR /app
-
-# Copy frontend files
-COPY LoanManagementSystem/package.json LoanManagementSystem/package-lock.json ./
-
-# Install Node.js dependencies
-RUN npm install
-
-# Copy rest of the frontend files and build assets
-COPY LoanManagementSystem .
-RUN npm run build
-
-# Stage 2: PHP Stage
+# Use the official PHP image as the base image
 FROM php:8.2.4-fpm
 
-# Set working directory for Laravel project
-WORKDIR /var/www/html/LoanManagementSystem
+# Set working directory
+WORKDIR /var/www/html
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -28,29 +12,45 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     zip \
-    unzip \
-    nginx
+    unzip
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+
+# Install npm compatible with the installed Node.js version
+RUN npm install -g npm@8
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy Laravel project files to the container
-COPY LoanManagementSystem .
+# Copy project files to the container
+COPY . .
+
+# Change directory to Laravel project directory
+WORKDIR /var/www/html/LoanMangementSystem
 
 # Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+RUN composer clear-cache
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --verbose
 
-# Set correct permissions for storage and cache
-RUN chown -R www-data:www-data storage bootstrap/cache
+# Change directory to frontend directory
+WORKDIR /var/www/html/LoanMangementSystem/frontend
+
+# Install Node.js dependencies
+RUN npm install
+
+# Change directory back to Laravel project directory
+WORKDIR /var/www/html/LoanMangementSystem
+
+# Build assets for development
+RUN npm run dev
 
 # Generate application key
 RUN php artisan key:generate
 
-# Copy nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
+# Expose port 8000 for Laravel development server
+EXPOSE 8000
 
-# Expose port 80 for nginx
-EXPOSE 80
-
-# Start nginx and php-fpm
-CMD service nginx start && php-fpm
+# Start Laravel development server
+CMD php artisan serve --host=0.0.0.0 --port=8000
