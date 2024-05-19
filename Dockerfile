@@ -1,5 +1,5 @@
 # Use the official PHP image as the base image
-FROM php:8.0-fpm
+FROM php:8.2.4-fpm
 
 # Set working directory
 WORKDIR /var/www/html
@@ -23,7 +23,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY . .
 
 # Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+RUN composer clear-cache
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader --verbose
 
 # Generate application key
 RUN php artisan key:generate
