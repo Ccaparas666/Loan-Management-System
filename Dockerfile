@@ -1,4 +1,4 @@
-# Use PHP 8.2 base image with necessary extensions
+# Use the official PHP 8.2 image with FPM
 FROM php:8.2-fpm
 
 # Set working directory
@@ -10,13 +10,16 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libpq-dev \
     locales \
     zip \
     jpegoptim optipng pngquant gifsicle \
     vim \
     unzip \
     git \
-    curl
+    curl \
+    nodejs \
+    npm
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo pdo_pgsql gd
@@ -27,48 +30,22 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy application code
 COPY . .
 
-# Set up environment variables
-ENV APP_NAME=Laravel
-ENV APP_ENV=local
-ENV APP_KEY=base64:E41AqXxYaos1AwXjjk2UDJd/YAxc5B1N1FcoN10rw2U=
-ENV APP_DEBUG=true
-ENV APP_URL=http://localhost
-ENV LOG_CHANNEL=stack
-ENV LOG_DEPRECATIONS_CHANNEL=null
-ENV LOG_LEVEL=debug
-
-# Database configuration
-ENV DB_CONNECTION=pgsql
-ENV DB_HOST=dpg-cp502d779t8c73emekvg-a
-ENV DB_PORT=5432
-ENV DB_DATABASE=loandb_m271
-ENV DB_USERNAME=loandb_m271_user
-ENV DB_PASSWORD=PGkYqjFov1NfYsk5PMZLlIOoMNaQWNkN
-
-# Mail configuration
-ENV MAIL_MAILER=smtp
-ENV MAIL_HOST=smtp.gmail.com
-ENV MAIL_PORT=587
-ENV MAIL_USERNAME=temporary1469@gmail.com
-ENV MAIL_PASSWORD=bqaljttxnhnzodbz
-ENV MAIL_ENCRYPTION=ssl
-ENV MAIL_FROM_ADDRESS="temporary1469@gmail.com"
-ENV MAIL_FROM_NAME="temporary1469@gmail.com"
-
-# Other Laravel environment variables
-ENV BROADCAST_DRIVER=log
-ENV CACHE_DRIVER=file
-ENV FILESYSTEM_DISK=local
-ENV QUEUE_CONNECTION=sync
-ENV SESSION_DRIVER=file
-ENV SESSION_LIFETIME=120
+# Copy the .env file and set up application key
+RUN cp .env.example .env
+RUN php artisan key:generate
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-plugins --no-scripts || { echo "Composer install failed"; exit 1; }
+RUN composer install --no-dev --optimize-autoloader
 
-# Generate application key
-RUN cp .env.example .env && php artisan key:generate
+# Install NPM dependencies
+RUN npm install
 
-# Expose port 8000 and start the application
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Build assets using Vite
+RUN npm run build
+
+# Run migrations and seed database
+RUN php artisan migrate --force && php artisan db:seed --class=UsersTableSeeder --force
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
