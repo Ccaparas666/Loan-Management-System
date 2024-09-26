@@ -27,21 +27,27 @@
                     <div class="container-xl px-4 mt-n4">
                             @if (session()->has('success'))
                             <script>
+                                // Success alert
                                 Swal.fire({
-                                icon: "success",
-                                title: "Success",
-                                text: "{{session('success')}}",
-
+                                    icon: "success",
+                                    title: "Success",
+                                    text: "{{session('success')}}",
+                                    confirmButtonText: "OK",           // Add custom text for the button
+                                    confirmButtonColor: '#28a745'      // Set a color for the success button (green)
                                 });
                             </script>
-                             @elseif (session()->has('error'))
+                                @elseif (session()->has('error'))
                             <script>
+                                // Error alert
                                 Swal.fire({
-                                icon: "error",
-                                title: "Borrower Registered in Loan",
-                                text: "{{session('error')}}",
+                                    icon: "error",
+                                    title: "Borrower Registered in Loan",
+                                    text: "{{session('error')}}",
+                                    confirmButtonText: "OK",           // Add custom text for the button
+                                    confirmButtonColor: '#d33'         // Set a color for the error button (red)
                                 });
                             </script>
+
                            
                             @endif
                     </div>

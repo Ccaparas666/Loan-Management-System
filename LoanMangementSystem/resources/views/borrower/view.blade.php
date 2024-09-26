@@ -22,10 +22,12 @@
                             @elseif (session()->has('paySuccess'))
                            <script>
                                 Swal.fire({
-                                icon: "success",
-                                title: "Payment Successful!",
-                                text: "{{session('paySuccess')}}",
-                                });                               
+                                    icon: "success",
+                                    title: "Payment Successful!",
+                                    text: "{{session('paySuccess')}}",
+                                    confirmButtonText: "OK",              // Add text for the button
+                                    confirmButtonColor: '#3085d6'         // Add custom color for the OK button
+                                });                              
                             </script>
                             @endif
                            

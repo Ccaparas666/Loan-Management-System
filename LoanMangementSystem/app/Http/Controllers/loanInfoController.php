@@ -565,7 +565,7 @@ public function RoutePayment(Request $request, $bno)
         if ($Remaining_Balance <= 0) {
             // Get the associated borrower information
             $borrowerInfo = $loanInfo->borrowerinfo;
-            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borFname;
+            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borLname;
 
             if ($borrowerInfo) {
                 // Set the loan status to 'PAID'
@@ -596,7 +596,7 @@ public function RoutePayment(Request $request, $bno)
         } else {
             // Send email notification for PARTIAL PAYMENT
             $borrowerInfo = $loanInfo->borrowerinfo;
-            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borFname;
+            $BorrowerName = $borrowerInfo->borFname . ' ' .  $borrowerInfo->borLname;
 
             $sendMailData = [
                 'emailType' => 'PaymentReceipt',

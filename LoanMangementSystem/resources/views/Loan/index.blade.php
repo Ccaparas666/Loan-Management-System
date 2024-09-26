@@ -46,40 +46,50 @@
                             <div class="container-xl px-4 mt-n4">
                             @if (session()->has('success'))
                             <script>
+                                // Success alert with a timer and no confirm button
                                 Swal.fire({
-                                icon: "success",
-                                title: "Success",
-                                text: "{{session('success')}}",
-                                showConfirmButton: false,
-                                timer: 1500
-
+                                    icon: "success",
+                                    title: "Success",
+                                    text: "{{session('success')}}",
+                                    showConfirmButton: false,
+                                    timer: 1500
                                 });
+                            </script>
 
-                           
-                            </script>
-                            @elseif (session()->has('error'))
-                           <script>
+                                @elseif (session()->has('error'))
+                            <script>
+                                // Error alert with an OK button with a custom color
                                 Swal.fire({
-                                icon: "error",
-                                title: "Borrower Not Found",
-                                text: "{{session('error')}}",
-                                });                               
+                                    icon: "error",
+                                    title: "Borrower Not Found",
+                                    text: "{{session('error')}}",
+                                    confirmButtonText: "OK",           // Add custom text for the button
+                                    confirmButtonColor: '#d33'         // Set a color for the error button (red)
+                                });
                             </script>
-                            @elseif (session()->has('CreateSuccess'))
-                           <script>
+
+                                @elseif (session()->has('CreateSuccess'))
+                            <script>
+                                // Another success alert with an OK button with a custom color
                                 Swal.fire({
-                                icon: "success",
-                                title: "Success",
-                                text: "{{session('CreateSuccess')}}",
-                                });                               
+                                    icon: "success",
+                                    title: "Success",
+                                    text: "{{session('CreateSuccess')}}",
+                                    confirmButtonText: "OK",           // Add custom text for the button
+                                    confirmButtonColor: '#28a745'      // Set a color for the success button (green)
+                                });
                             </script>
-                            @elseif (session()->has('errorFound'))
-                           <script>
+
+                                @elseif (session()->has('errorFound'))
+                            <script>
+                                // Another error alert with an OK button with a custom color
                                 Swal.fire({
-                                icon: "error",
-                                title: "Borrower Has Exist Loan",
-                                text: "{{session('errorFound')}}",
-                                });                               
+                                    icon: "error",
+                                    title: "Borrower Has Existing Loan",
+                                    text: "{{session('errorFound')}}",
+                                    confirmButtonText: "OK",           // Add custom text for the button
+                                    confirmButtonColor: '#d33'         // Set a color for the error button (red)
+                                });
                             </script>
                             @endif
 
