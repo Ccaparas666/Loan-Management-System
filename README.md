@@ -29,15 +29,15 @@ This project was built to solve a real workflow problem: loan records were track
 
 ### Loan Manager Dashboard
 
-![Loan Manager Dashboard](screenshot/manager-dashboard.png)
+![Loan Manager Dashboard](LoanMangementSystem/screenshot/manager-dashboard.png)
 
 ### Loan Officer Dashboard
 
-![Loan Officer Dashboard](screenshot/officer-dashboard.png)
+![Loan Officer Dashboard](LoanMangementSystem/screenshot/officer-dashboard.png)
 
 ### Borrower Records
 
-![Borrower Records](screenshot/borrower-list.png)
+![Borrower Records](LoanMangementSystem/screenshot/borrower-list.png)
 
 ## Setup
 
