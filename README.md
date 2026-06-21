@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 # Loan Management System
 
 A full-stack, role-based web application built to digitize a previously paper-based loan tracking process. Developed as my capstone project.
@@ -30,15 +28,12 @@ This project was built to solve a real workflow problem: loan records were track
 ## Screenshots
 
 ### Loan Manager Dashboard
-
 ![Loan Manager Dashboard](screenshot/manager-dashboard.png)
 
 ### Loan Officer Dashboard
-
 ![Loan Officer Dashboard](screenshot/officer-dashboard.png)
 
 ### Borrower Records
-
 ![Borrower Records](screenshot/borrower-list.png)
 
 ## Setup
@@ -59,4 +54,3 @@ php artisan serve
 
 Carmelo A. Caparas Jr.
 [LinkedIn](https://www.linkedin.com/in/carmelo-caparas-4399a9289/)
-=======
